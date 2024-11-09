@@ -1,0 +1,11 @@
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/bin/Debug/net6.0/ManufacturingManager.Database.deps.json
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/bin/Debug/net6.0/ManufacturingManager.Database.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/bin/Debug/net6.0/ManufacturingManager.Database.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ManufacturingManager.Database.GeneratedMSBuildEditorConfig.editorconfig
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ManufacturingManager.Database.AssemblyInfoInputs.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ManufacturingManager.Database.AssemblyInfo.cs
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ManufacturingManager.Database.csproj.CoreCompileInputs.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ManufacturingManager.Database.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/refint/ManufacturingManager.Database.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ManufacturingManager.Database.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/Debug/net6.0/ref/ManufacturingManager.Database.dll

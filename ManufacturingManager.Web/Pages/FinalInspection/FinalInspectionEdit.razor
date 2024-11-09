@@ -1,0 +1,28 @@
+﻿@page "/EditFinalInspection"
+@using ManufacturingManager.Core
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using ManufacturingManager.Web.Components
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<PageTitle>Edit Final Inspection</PageTitle>
+@if (FinalInspectionId != 0)
+{
+    <FinalInspectionForm FinalInspectionId="@FinalInspectionId"></FinalInspectionForm>
+}
+@code{
+    private int FinalInspectionId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var id  = await SessionStorage.GetAsync<int>("FinalInspectionId");
+        FinalInspectionId = id.Value;
+        if (FinalInspectionId==0)
+            NavigationManager.NavigateTo("/FinalInspectionsWorkload");
+        await SessionStorage.SetAsync("FinalInspectionId", 0);
+
+
+    }
+
+
+}

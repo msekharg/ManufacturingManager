@@ -1,0 +1,21 @@
+label.col-form-label[b-xpbj56hlua] {
+    margin-left: .625rem !important;
+    margin-right: .625rem !important;
+}
+div.input-group >input.form-control[b-xpbj56hlua] {
+   width: 4.0rem !important;
+}
+li.page-item > a.page-link[b-xpbj56hlua] {
+    margin-left: 0.0625rem !important;
+    margin-right: 0.0625rem !important;
+    border-radius: 50% !important;
+}
+a.dropdown-item[b-xpbj56hlua] {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+ 
+}
+div.dropdown-menu[b-xpbj56hlua] {
+    min-width: 4.625rem;
+}

@@ -1,0 +1,969 @@
+﻿@using System.Runtime.InteropServices.ComTypes
+@using System.Data
+@using ManufacturingManager.Components.UI.MessageBox
+@using ManufacturingManager.Core
+@using ManufacturingManager.Core.Helpers
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Core.Services
+
+@using ManufacturingManager.Web.Data
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@*@inject CaseAppSettings MyConfig*@
+@inject IDataEntryRepository DataEntryRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@*@inject UserLogged CurrentUser*@
+
+<div class="card border mx-2">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6" tabindex="0"><h2 class="text-primary" id="startContent">@_title</h2></div>
+            <div class="col-6" tabindex="0" @ref="_testFocus"><h2 class="text-primary">@_status</h2></div>
+
+        </div>
+
+    </div>
+    @* @if (_showActiveDirectorySearch)
+    {
+    <FindUserInActiveDirectory OnUserSelected="@MyUserSelected" @ref="_adId" UserReturned="@_userFromAdSearch"></FindUserInActiveDirectory>
+    }*@
+    <div class="form-group required">
+        <div class="control-label px-3" aria-label="Asterik indicates required" tabindex="0">Indicates required</div>
+
+    </div>
+    <EditForm EditContext="_editContext" OnSubmit="@CompleteCase">
+        <DataAnnotationsValidator />
+        @*  <ValidationSummary />*@
+        <div class="card-body">
+            @* @if (_case is {StatusId: (int)CaseStatusEnum.ReassignmentRequested })
+            {
+
+            var msg = (MarkupString)Functions.ReplaceNewLinesToHtmlBreak(_case.ReassignReason!);
+            <div  runat="server" class="card-header  text-justify bg-danger bg-opacity-10 text-black  border border-1 border-danger rounded-5 mb-2 py-3 mx-5 px-5" tabindex="0">
+            Reassignment requested by <span class="fw-bold"> @_reassignmentRequestedBy</span> on <span class="fw-bold">@_case.ReassignRequestedDate?.ToShortDateString()</span> for the following reason:<br>
+            <span class="fw-bold">
+            @msg
+            </span>
+
+            </div>
+
+            } *@
+            <div class="row">
+                <div class="col-12">
+
+                    <label class="form-check-label fw-bold pe-3">Inspector</label><br />
+                    <InputText @bind-Value="@_dimension!.InspectorName" class="form-control" id="inspectorName"
+                               @ref="_inputInspectorName"  />
+                    <ValidationMessage For="@(() => _dimension!.InspectorName)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row form-group ">
+                    <div class="col-6">
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="tubeThickness26">Tube - Thickness #26</label>
+                                <span style="color: red">(Min = 4.00 ; Max = 4.24)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.TubeThickness26String" class="form-control" id="tubeThickness26"
+                                       @ref="_inputTubeThickness26"  />
+                            <ValidationMessage For="@(() => _dimension!.TubeThickness26)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="clampThichness">Clamp Thickness</label>
+                                <span style="color: red">(Min = 2.40 ; Max = 2.60)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.ClampThicknessString" class="form-control" id="clampThichness"
+                                       @ref="_inputClampThickness" />
+                            <ValidationMessage For="@(() => _dimension!.ClampThickness)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="railTubeHeight22">Rail Tube Height #22</label>
+                                <span style="color: red">(Min = 29.5 ; Max = 30.5)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.RailTubeWidth22String" class="form-control" id="railTubeHeight22"
+                                       @ref="_inputRailTubeHeight22"  />
+                            <ValidationMessage For="@(() => _dimension!.RailTubeWidth22)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="railTubeHeight23">Rail Tube Height #23</label>
+                                <span style="color: red">(Min = 84.5 ; Max = 85.5)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.RailTubeHeight23String" class="form-control" id="railTubeHeight23"
+                                       @ref="_inputRailTubeHeight23" />
+                            <ValidationMessage For="@(() => _dimension!.RailTubeHeight23)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="tubeWeldSeamLocation24">Tube Weld seam Location #24</label>
+                                <span style="color: red">(Min = 37.50 ; Max = 47.50)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.TubeWeldSeamLocation24String" class="form-control" id="tubeWeldSeamLocation24"
+                                       @ref="_inputTubeWeldSeamLocation24" />
+                            <ValidationMessage For="@(() => _dimension!.TubeWeldSeamLocation24)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="tubeLength2">Tube Length #2</label>
+                                <span style="color: red">(Min = 2696.00 ; Max = 2704.00)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.TubeLength2String" class="form-control" id="tubeLength2"
+                                       @ref="_inputTubeLength2" />
+                            <ValidationMessage For="@(() => _dimension!.TubeLength2)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="endOfTubeToCLDistance">End of tube to CL Distance</label>
+                                <span style="color: red">(Min = 14.50 ; Max = 15.50)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.EndOfTubeToCLDistanceString" class="form-control" id="endOfTubeToCLDistance"
+                                       @ref="_inputEndoftubetoCLDistance"  />
+                            <ValidationMessage For="@(() => _dimension!.EndOfTubeToCLDistance)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="torquePerNote2">Torque per Note 2</label>
+                                <span style="color: red">(Min = 35.00 ; Max = 38.50)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.TorquePerNote2String" class="form-control" id="torquePerNote2"
+                                       @ref="_inputTorquePerNote2" />
+                            <ValidationMessage For="@(() => _dimension!.TorquePerNote2)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="torquePerNote3">Torque per Note 3</label>
+                                <span style="color: red">(Min = 25.00 ; Max = 27.50)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.TorquePerNote3String" class="form-control" id="torquePerNote3"
+                                       @ref="_inputTorquePerNote3" />
+                            <ValidationMessage For="@(() => _dimension!.TorquePerNote3)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="tubePreGalvCoatingThickness">Tube Pre Galv Coating Thickness</label>
+                                <span style="color: red">(Min = 19.30 ; Max = NA)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.TubePreGalvCoatingThicknessString" class="form-control" id="tubePreGalvCoatingThickness"
+                                       @ref="_inputTubePreGalvCoatingThickness"/>
+                            <ValidationMessage For="@(() => _dimension!.TubePreGalvCoatingThickness)"></ValidationMessage>
+                        </div>
+
+                        <div class="col-12 col-md-6  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="clampPreCoatingThickness">Clamp Pre Coating Thickness</label>
+                                <span style="color: red">(Min = 19.30 ; Max = NA)</span>
+                            </div>
+                            <InputText @bind-Value="@_dimension!.ClampPreCoatingThicknessString" class="form-control" id="clampPreCoatingThickness"
+                                       @ref="_inputClampPreCoatingThickness" />
+                            <ValidationMessage For="@(() => _dimension!.ClampPreCoatingThickness)"></ValidationMessage>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <label class="form-label fw-bold">Paint Identification</label>
+                            <InputSelect id="ddlPaintIdentification" class="form-select form-control"
+                                         @bind-Value="@_dimension!.PaintIdentificationString">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">Tube corner Radius@2'o clock #25</label>
+                                <span style="color: red">(Min = OK(&gt;7.75) NOK(&lt;7.75) ; Max = OK(&lt;8.25) NOK(&gt;8.25)</span>
+                            </div>
+                            <InputSelect id="ddlTubeCornerRadius_2_clock_25" class="form-select form-control"
+                                         @bind-Value="@_dimension!.TubeCornerRadius2Clock25String">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">Tube corner Radius@4'o clock #25</label>
+                                <span style="color: red">(Min = OK(&gt;7.75) NOK(&lt;7.75) ; Max = OK(&lt;8.25) NOK(&gt;8.25)</span>
+                            </div>
+                            <InputSelect id="ddlTubeCornerRadius_4_clock_25" class="form-select form-control"
+                                         @bind-Value="@_dimension!.TubeCornerRadius4Clock25String">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">Tube corner Radius@8'o clock #25</label>
+                                <span style="color: red">(Min = OK(&gt;7.75) NOK(&lt;7.75) ; Max = OK(&lt;8.25) NOK(&gt;8.25)</span>
+                            </div>
+                            <InputSelect id="ddlTubeCornerRadius_8_clock_25" class="form-select form-control"
+                                         @bind-Value="@_dimension!.TubeCornerRadius8Clock25String">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">Tube corner Radius@10'o clock #25</label>
+                                <span style="color: red">(Min = OK(&gt;7.75) NOK(&lt;7.75) ; Max = OK(&lt;8.25) NOK(&gt;8.25)</span>
+                            </div>
+                            <InputSelect id="ddlTubeCornerRadius_10_clock_25" class="form-select form-control"
+                                         @bind-Value="@_dimension!.TubeCornerRadius10Clock25String">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <label class="form-label fw-bold">Total No of Holes (Bottom), #3</label>
+                            <InputSelect id="ddlTotalNoOfHolesBottom3" class="form-select form-control"
+                                         @bind-Value="@_dimension!.TotalNoOfHolesBottom3String">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <label class="form-label fw-bold">Part Marking</label>
+                            <InputSelect id="ddlPartMarking" class="form-select form-control"
+                                         @bind-Value="@_dimension!.PartMarkingString">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <label class="form-label fw-bold">RivetPresence</label>
+                            <InputSelect id="ddlRivetPresence" class="form-select form-control"
+                                         @bind-Value="@_dimension!.RivetPresenceString">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div class="col-12 col-md-6 py-3 px-3 ">
+                            <label class="form-label fw-bold">Appearance</label>
+                            <InputSelect id="ddlAppearance" class="form-select form-control"
+                                         @bind-Value="@_dimension!.AppearanceString">
+                                @if (_okNokList != null)
+                                {
+                                    foreach (var item in _okNokList)
+                                    {
+                                        <option value="@item.DecisionId">@item.DecisionName</option>
+                                    }
+                                }
+                            </InputSelect>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            @* <div class="col-6">
+            <div class="row form-group ">
+            <div class="col-12 col-md-6  py-3 px-3">
+
+
+            <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="customerName">Tube - Thickness #26</label>
+            <span style="color:red">(Min = 4.00 ; Max = 4.24)</span>
+            </div>
+            <InputText @bind-Value="@_dimension!.TubeThickness26String" class="form-control" id="customerName"
+            @ref="_inputTubeThickness26" @onblur="UpdateUnknown" />
+            <ValidationMessage For="@(() => _dimension!.TubeThickness26)"></ValidationMessage>
+
+            </div>
+            <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Paint Identification</label>
+            <InputSelect id="ddlPaintIdentification" class="form-select form-control"
+            @bind-Value="@_dimension!.PaintIdentification">
+            @if (_okNokList != null)
+            {
+            foreach (var item in _okNokList)
+            {
+            <option value="@item.DecisionId">@item.DecisionName</option>
+            }
+            }
+            </InputSelect>
+
+
+            </div>
+            </div>
+            </div> *@
+
+
+            @* <div class="col-12 col-md-6 py-3  px-3">
+
+
+            <label class="form-label fw-bold">Customer Email address</label>
+            @if (EmailFromOutlookId != 0)
+            {
+            <label class="form-control bg-secondary bg-opacity-25">@_case.Email</label>
+            }
+            else
+            {
+            <InputCheckbox class="form-check-input ms-5 me-2" id="chkunknownEmail" @bind-value="@_case!.UnknownEmail" @onclick="UpdateCustomerEmail"
+            @ref="_inputCustomerEmailCheckBox"
+            aria-label="Check this box if customer email address is unknown"
+            ValueExpression="@(() => _case!.UnknownEmail)"/>
+            <label class="form-check-label fw-bold pe-3">Email Unknown</label>
+            <br/>
+            <InputText @bind-Value="@_case.Email" class="form-control" type="email" @onblur="UpdateUnknown"/>
+            <ValidationMessage For="@(() => _case!.Email)"></ValidationMessage>
+            }
+            </div>
+            <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Customer's Preferred Contact Type</label>
+            <InputSelect id="ddlContactType" class="form-select form-control"
+            @bind-Value="@_case!.ContactTypeId">
+            @if (_contactTypeList != null)
+            {
+            foreach (ContactType item in _contactTypeList)
+            {
+            <option value="@item.ContactTypeId">@item.Description</option>
+            }
+            }
+            </InputSelect>
+
+
+            </div>
+            <div class="col-12 col-md-6 py-3 px-3">
+
+            <label class="form-label fw-bold">Customer Phone Number</label>
+            <InputText class="form-control" @bind-Value="@_case.Phone"/>
+            <ValidationMessage For="@(() => _case!.Phone)"></ValidationMessage>
+            </div>
+            <div class="col-12 col-md-6 py-3 px-3 form-group required">
+
+            <label class="control-label fw-bold">Question Source</label>
+            @if (EmailFromOutlookId != 0 && _case.QuestionSourceId != 0)
+            {
+            if (_questionSourceList != null)
+            {
+            QuestionSource? qs = _questionSourceList.FirstOrDefault(x => x.QuestionSourceId == _case.QuestionSourceId);
+            <label class="form-control bg-secondary bg-opacity-25 ">@qs!.Description</label>
+            }
+            }
+            else
+            {
+
+            <InputSelect id="ddlQuestionSource" class="form-select form-control"
+            @ref="_inputQuestionSource" aria-label="Question source.Field required"
+            @bind-Value="@_case!.QuestionSourceId">
+            @if (_questionSourceList != null)
+            {
+            foreach (QuestionSource item in _questionSourceList)
+            {
+            <option value="@item.QuestionSourceId">@item.Description</option>
+            }
+            }
+            </InputSelect>
+            <ValidationMessage For="@(() => _case!.QuestionSourceId)"></ValidationMessage>
+            }
+            </div> *@
+            @*  <div class="col-12 col-md-6 py-3 px-3 form-group required ">
+
+            <label class="control-label fw-bold">Date and time that the question was received from the customer</label>
+            @if (_case!.CaseId != 0 || EmailFromOutlookId != 0)
+            {
+            <label class="form-control bg-secondary bg-opacity-25 ">@_case.DateRequested</label>
+            }
+            else
+            {
+            <InputDate Type="InputDateType.DateTimeLocal" @bind-Value="@_case.DateRequested" class="form-control"
+            @ref="_inputDateRequested"
+            aria-label="Date requested. Click tab + Enter to select current data and time.Field required" id="dateRequested"/>
+
+
+            <ValidationMessage For="@(() => _case.DateRequested)"></ValidationMessage>
+            }
+            </div>
+            <div class="col-12 col-md-6  py-3 ps-2 pe-2 form-group required ">
+            <label class="control-label fw-bold pe-3">Customer's Question/Issue</label><br/>
+            @if (_case.CaseId != 0 && _case.StatusId != (int)CaseStatusEnum.NewAwaitingAssignment)
+            {
+            var issue = Functions.ReplaceNewLinesToHtmlBreak(_case.IssueDescription.TrimStart().TrimEnd());
+            var msg = (MarkupString)issue;
+            <label class="form-control bg-secondary bg-opacity-25">@msg</label>
+            }
+            else
+            {
+            <InputTextArea @bind-Value="@_case.IssueDescription" class="form-control" id="IssueDescription" rows="@_numberOfRows"
+            @ref="_inputIssueDescription" aria-label="Issue description.Field required"/>
+            <ValidationMessage For="@(() => _case.IssueDescription)"></ValidationMessage>
+            }
+            </div>
+            <div class="col-12  col-md-6  py-3 ps-2 pe-2">
+            <label class="form-check-label fw-bold pe-3">Internal Comments</label>
+            @if (_case.CaseId != 0 && _case.InternalComments.Result.Count > 0)
+            {
+            var textPreviousMessages = "Click here to see ";
+            textPreviousMessages += _case.InternalComments.Result.Count.ToString() + " previous internal comment";
+            if (_case.InternalComments.Result.Count > 1)
+            textPreviousMessages += "s";
+            <input type="button" class="btn btn-sm btn-success mx-5 my-1" value="@textPreviousMessages" title="@textPreviousMessages" @onclick="@ShowPreviousComments"/>
+            }
+            <br/>
+            <InputTextArea @bind-Value="@_case.InternalComment" class="form-control" id="InternalComment" rows="@_numberOfRows"/>
+            <ValidationMessage For="@(() => _case.InternalComment)"></ValidationMessage>
+            </div>
+            <div class="col-12 col-md-6 py-3 px-3 form-group required   ">
+            <label class="control-label fw-bold">Priority</label>
+            @if (_case.StatusId >= (int)CaseStatusEnum.Assigned && CurrentUser.Role == "Specialist")
+            {
+            if (_priorityList != null)
+            {
+            var p = _priorityList.FirstOrDefault(x => x.PriorityId == _case.PriorityId);
+            var priorityDescription = p?.Description ?? "";
+            <label class="form-control bg-secondary bg-opacity-25">@priorityDescription</label>}
+
+            }
+            else
+            {
+            <InputSelect id="ddlPriority" class="form-select form-control"
+            aria-label="Priority.Field required" @ref="_inputPriority"
+            @bind-Value="@_case!.PriorityId">
+            @if (_priorityList != null)
+            {
+            foreach (Priority item in _priorityList)
+            {
+            <option value="@item.PriorityId">@item.Description</option>
+            }
+            }
+            </InputSelect>
+            <ValidationMessage For="@(() => _case.PriorityId)"></ValidationMessage>
+            }
+            </div>
+            <div class="col-12 col-md-6 py-3 px-3 form-group required ">
+            <label class="control-label fw-bold">Category</label>
+            <InputSelect id="ddlCategory" class="form-select form-control"
+            @ref="_inputCategory" aria-label="Category.Field required"
+            Value="@_case.CategoryId"
+            ValueExpression="@(() => _case.CategoryId)"
+            ValueChanged="@((int value) => OnCategoryChanged(value))">
+
+            @if (_categoryList != null)
+            {
+            foreach (Category item in _categoryList)
+            {
+            <option value="@item.CategoryId">@item.Description</option>
+            }
+            }
+            </InputSelect>
+            <ValidationMessage For="@(() => _case.CategoryId)"></ValidationMessage>
+            </div>
+            <div class="col-12 col-md-6  py-3 px-3">
+            @if (_case.CaseId == 0 || _case.StatusId == (int)CaseStatusEnum.NewAwaitingAssignment)
+            {
+            <label class="form-label fw-bold pe-3">Quick Case?</label>
+            <InputCheckbox class="form-check-input"
+            disabled="@_disableSelectQuickCase"
+            Value="@_case.QuickCase"
+            ValueChanged="@(CheckboxChanged)"
+            ValueExpression="@(() => _case.QuickCase)"/>
+            }
+            else
+            {
+            if (CurrentUser.Role != "Specialist" && (_case.StatusId == (int)CaseStatusEnum.Assigned || _case.StatusId == (int)CaseStatusEnum.Inprogress))
+            {
+            <label class="form-label fw-bold pe-3">Do you need to reassign this case to another CMS user? Yes</label>
+            <input type="checkbox" class="form-check-input" @oninput="RequestReassign"/>
+
+            }
+            }
+
+            </div>
+            *@
+
+        </div>
+
+        @* </div> *@
+
+        @* <div class="col-4">
+        <AttachFiles MaxFileSizeMb="40" MaxAllowedFilesPerUpload="2"
+        MaxAllowedFiles="0" AttachmentList="@AttachmentList"
+        Title="Attachment for this case"
+        FolderToSaveUploadedFiles="@FolderLocationForUpload"
+        CanDeleteAnySavedFile="true"
+        SaveFileInFilenet="false"
+        FilenetClass="dcPCSElectronicSignature"
+        OnFileDelete="@DeleteAttachment"
+        OnFilesLoaded="@RefreshAttachments" />
+
+        </div> *@
+        @* </div> *@
+        @* </div> *@
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-3 text-center">
+                    @{
+                        @*  var showBtnSave = !(_case!.AssignedToUserId > 0 && _case.StatusId == (int)CaseStatusEnum.ReassignmentRequested);
+                    @if (showBtnSave)
+                    { *@
+                        <input type="button" class="btn btn-primary" id="buttonsSave" value="@_btnSave" title="Submit" @onclick="@JustSave" />
+                        @* } *@
+                    }
+                </div>
+                @* @if (!_requestReassign)
+                {
+                <div class="col-3 text-center">
+                <input type="submit" class="btn btn-primary" value="@_btnComplete" title="Save case and forward to next step" />
+
+                </div>
+                }
+                <div class="col-3">
+                <input type="button" class="btn btn-default" value="@_backTo" @onclick="@BackToWorkload" />
+                </div>
+                @if (CurrentUser.Role == "Specialist" && (_case.StatusId == (int)CaseStatusEnum.Assigned || _case.StatusId == (int)CaseStatusEnum.Inprogress))
+                {
+                <div class="col-3">
+                <input type="button" class="btn btn-danger" value="Request Case Reassignment" @onclick="@SpecialistRequestReassign" />
+                </div>
+                } *@
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+
+
+@if (_showMessageBox)
+{
+
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}
+
+
+@*
+@if (_showMessageBox)
+{
+
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}
+
+
+@if (_showInternalComments && _case != null)
+{
+    <InternalCommentList CaseId="@_case.CaseId" CaseName="@_case.CaseName" OnClose="@InternalCommentsClose"></InternalCommentList>
+
+}
+@if (_specialistRequestReassign)
+{
+    <ModalRequestingDescription Title="Requesting Case Reassignment Reason" OnClose="@SubmitReassignmentRequest"></ModalRequestingDescription>
+} *@
+
+@code
+{
+     [Parameter] public int EmailFromOutlookId { get; set; } = 0;
+        [Parameter] public int DimensionId { get; set; } = 0;
+        private readonly MessageBoxParameters _messageBoxParameters = new();
+
+        private Dimension _dimension;
+        //TODO future story
+        //private FindUserInActiveDirectory  _adId;
+        //private Users _userFromAdSearch;
+
+        EditContext _editContext = default!;
+
+        //Dimension
+        private IList<Decision>? _okNokList;
+        private string? _title;
+        private string? _status;
+        public bool _showMessageBox;
+        public bool _showActiveDirectorySearch;
+        public bool _showInternalComments;
+        public bool _assignCounselorReadOnly = false;
+        public bool _requestReassign = false;
+        public bool _specialistRequestReassign = false;
+        private int? _userAssignedForThisCase;
+        public bool _disableSelectQuickCase;
+        public string _btnSave = "Save and Hold";
+        public string _btnComplete = "Complete";
+        public string? _reassignmentRequestedBy;
+
+        private int _numberOfRows = 3;
+        //Following properties are used to reference input elements in HTML and will be used in
+        //FocusFirstError() after validation fails. The idea is to set focus in the first invalid input element
+        private InputText _inputCustomerName = null!;
+        private InputCheckbox _inputCustomerEmailCheckBox = null!;
+        private InputDate<DateTime?> _inputDateRequested = null!;
+        private InputTextArea _inputIssueDescription = null!;
+        private InputSelect<int> _inputQuestionSource = null!;
+        private InputSelect<int> _inputCategory = null!;
+        private InputSelect<int> _inputPriority = null!;
+        private InputSelect<int?> _inputUserToAssign = null!;
+        private InputSelect<int?> _inputPendingResolutionReason = null!;
+        private InputSelect<int> _inputResolutionType = null!;
+        private InputTextArea _inputResolutionDescription = null!;
+        private InputTextArea _inputResolutionMessage = null!;
+        private bool _setFocusInUserToAssign = false;
+        private bool _setFocusInPendingResolutionReason = false;
+        private bool _setFocusInResolutionSection = false;
+        private string _backTo = "Back to Workload";
+        private ElementReference _testFocus;
+
+        //Dimension
+        private InputText _inputInspectorName = null!;
+        private InputText _inputTubeThickness26 = null!;
+        private InputText _inputClampThickness = null!;
+        private InputText _inputRailTubeHeight23 = null!;
+        private InputText _inputRailTubeHeight22 = null!;
+        private InputText _inputTubeWeldSeamLocation24 = null!;
+        private InputText _inputTubeLength2 = null!;
+        private InputSelect<int> _inputPaintIdentification = null!;
+        private InputSelect<int> _inputTubeCornerRadius_2_clock_25 = null!;
+        private InputSelect<int> _inputTubeCornerRadius_4_clock_25 = null!;
+        private InputSelect<int> _inputTubeCornerRadius_8_clock_25 = null!;
+        private InputSelect<int> _inputTubeCornerRadius_10_clock_25 = null!;
+        private InputText _inputEndoftubetoCLDistance = null!;
+        private InputText _inputTorquePerNote2 = null!;
+        private InputText _inputTorquePerNote3 = null!;
+        private InputSelect<int> _inputTorqueMarking = null!;
+        private InputText _inputTubePreGalvCoatingThickness = null!;
+        private InputText _inputClampPreCoatingThickness = null!;
+        private InputSelect<int> _inputTotalNoOfHolesBottom3 = null!;
+        private InputSelect<int> _inputPartMarking = null!;
+        private InputSelect<int> _inputRivetPresence = null!;
+        private InputSelect<int> _inputAppearance = null!;
+
+        //Attachments
+        //public List<Attachment> AttachmentList = new();
+        //public string FolderLocationForUpload => MyConfig.TempUploadFileFolderPath;
+
+        protected override async Task OnInitializedAsync()
+        {
+
+            FillDropdown();
+
+            if (DimensionId != 0)
+            {
+                _dimension = await DataEntryRepository.GetDimensionById(DimensionId);
+                _title = "Edit Dimension " + _dimension.DimensionId;
+
+                //Map dimension ints to text
+                _dimension.TubeCornerRadius2Clock25String = _okNokList
+                    .Where(x => x.DecisionId == _dimension.TubeCornerRadius2Clock25).Select(y => y.DecisionName)
+                    .ToString();
+
+                //_status = "Status: " + _case.CaseStatusDescription;
+                //_userAssignedForThisCase = _case.AssignedToUserId;
+                //_disableSelectQuickCase = !(_case.StatusId == (int)CaseStatusEnum.NewAwaitingAssignment ||
+                //                            (_case.StatusId == (int)CaseStatusEnum.Assigned &&
+                //                             CurrentUser.Role != "Specialist"));
+                //if (_case.StatusId == (int)CaseStatusEnum.ReassignmentRequested)
+                //{
+                //    _btnComplete = "Reassign Case";
+
+                //    if (_usersList != null)
+                //    {
+                //        var reassignmentUser = _usersList.FirstOrDefault(x => x.UserId == _case.ReassignRequestedBy);
+                //        _reassignmentRequestedBy = reassignmentUser?.FullName;
+                //    }
+                //}
+            }
+            else
+            {
+                _disableSelectQuickCase = false;
+                _dimension = new();
+                _title = "Create Case ";
+                _status = "Status: New";
+            }
+
+            //if (EmailFromOutlookId != 0)
+            //{
+            //    _title = "Create Case From Outlook ";
+            //    _backTo = "Back to Email from Outlook List";
+            //    _case.StatusId = 0;
+            //    //Set initial values from Outlook email
+            //    var outlookEmail = await EmailFromOutlookRepository.GetEmailByMailId(EmailFromOutlookId);
+            //    _case.DateRequested = outlookEmail.Received;
+            //    _case.Email = outlookEmail.SenderEmail;
+            //    string customer = outlookEmail.SenderEmail.Split('@').ElementAtOrDefault(0) ?? string.Empty;
+            //    if (!string.IsNullOrEmpty(customer))
+            //        customer = customer.Replace(".", " ");
+            //    _case.CustomerName = customer;
+            //    string cleanBody = outlookEmail.Body.Replace("<","");
+            //    cleanBody = cleanBody.Replace(">", "");
+            //    cleanBody = cleanBody.Replace("&", "");
+            //    _case.IssueDescription = cleanBody  ;
+            //    //Get Email Ids for Question Source and Preferred contact type
+            //    if (_questionSourceList != null)
+            //    {
+            //        QuestionSource? qs = _questionSourceList.FirstOrDefault(x => x.Description.ToLower() == "email");
+            //        if (qs != null)
+            //        {
+            //            _case.QuestionSourceId = qs.QuestionSourceId;
+
+            //        }
+            //    }
+
+            //    if (_contactTypeList != null)
+            //    {
+            //        ContactType? ct = _contactTypeList.FirstOrDefault(x => x.Description.ToLower() == "email");
+            //        if (ct != null)
+            //        {
+            //            _case.ContactTypeId = ct.ContactTypeId;
+            //        }
+            //    }
+
+
+            //}
+            //if (!string.IsNullOrEmpty(_case.IssueDescription) &&  _case.IssueDescription.Length > 1000  && _case.StatusId <=(int)CaseStatusEnum.NewAwaitingAssignment)
+            //{
+            //    _numberOfRows = 7;
+            //}
+            _editContext = new EditContext(_dimension);
+
+            _showMessageBox = false;
+            _showActiveDirectorySearch = false;
+            _showInternalComments = false;
+            //if (_case.CaseId != 0)
+            //{
+            //    if (_case.StatusId != (int)CaseStatusEnum.NewAwaitingAssignment && _case.StatusId != (int)CaseStatusEnum.ReassignmentRequested)
+            //        _assignCounselorReadOnly = true;
+            //}
+
+            //SetCompleteButton();
+
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await _testFocus.FocusAsync();
+                //await Task.Run(async () => await _testFocus.FocusAsync());
+            }
+        }
+
+        private void MessageBoxClose()
+        {
+            _showMessageBox = false;
+            if (_setFocusInUserToAssign)
+            {
+                _inputUserToAssign.Element!.Value.FocusAsync();
+                _setFocusInUserToAssign = false;
+            }
+            else if (_setFocusInPendingResolutionReason)
+            {
+                _inputPendingResolutionReason.Element!.Value.FocusAsync();
+                _setFocusInPendingResolutionReason = false;
+            }
+            else if (_setFocusInResolutionSection)
+            {
+                
+                _setFocusInResolutionSection = false;
+            }
+            StateHasChanged();
+        }
+
+        private void InternalCommentsClose()
+        {
+            _showInternalComments = false;
+            StateHasChanged();
+        }
+
+        protected async void FillDropdown()
+        {
+            _okNokList = DropDownCategories.GetDecisions();
+            
+        }
+
+       
+
+        protected async void JustSave()
+        {
+            string error = string.Empty;
+
+            if (_editContext.Validate())
+            {
+                await SaveCase(false);
+            }
+            else
+            {
+                await FocusFirstError();
+            }
+        }
+        protected async Task CompleteCase(EditContext editContext)
+        {
+            _showMessageBox = false;
+            _messageBoxParameters.PageToRedirect = "";
+            if (editContext.Validate())
+            {
+                string error = string.Empty;
+               
+
+                if (string.IsNullOrEmpty(error))
+                {
+                    await SaveCase(true);
+                }
+                else
+                {
+                    _showMessageBox = true;
+                    _messageBoxParameters.Title = "Error saving case";
+                    _messageBoxParameters.Message = "<b>Please fix following errors:</b><br>" + error;
+                    _messageBoxParameters.IsErrorMessage = true;
+
+                }
+
+            }
+            else
+            {
+                await FocusFirstError();
+            }
+
+
+        }
+        private async Task FocusFirstError()
+        {
+
+            // repeat for all inputs in order where elements are into the form
+
+        }
+        protected async Task SaveCase(bool complete)
+        {
+            if (DimensionId != 0)
+            {
+
+                if (await DataEntryRepository.UpdateDimension(_dimension))
+                {
+                    _messageBoxParameters.Title = "Data updated.";
+                    _messageBoxParameters.Message = "Dimension with " + _dimension.DimensionId + " updated.";
+                    _messageBoxParameters.IsErrorMessage = false;
+                    _messageBoxParameters.PageToRedirect = @"/DimensionWorkload";
+
+                }
+                else
+                {
+                    _messageBoxParameters.Title = "Error updating Dimension data.";
+                    _messageBoxParameters.Message = $"Unable to update case {_dimension.DimensionId}. Please contact system administrator.";
+                    _messageBoxParameters.IsErrorMessage = true;
+                    _messageBoxParameters.PageToRedirect = "";
+
+                }
+
+            }
+            else
+            {
+                int ret = await (DataEntryRepository.InsertDimension(_dimension));
+                if (!string.IsNullOrEmpty(ret.ToString()))
+                {
+                    _messageBoxParameters.Title = "New Dimension data added";
+                    _messageBoxParameters.Message = "Dimension number: " + ret;
+                    _messageBoxParameters.IsErrorMessage = false;
+                    _messageBoxParameters.PageToRedirect = @"/DimensionWorkload";
+                }
+                else
+                {
+                    _messageBoxParameters.Title = "Error adding Dimension data";
+                    _messageBoxParameters.Message = "Unable to add new Dimension data. Please contact system administrator.";
+                    _messageBoxParameters.IsErrorMessage = true;
+                    _messageBoxParameters.PageToRedirect = "";
+                }
+            }
+
+            _showMessageBox = true;
+        }
+
+
+        
+        private void ShowPreviousComments()
+        {
+
+            _showInternalComments = true;
+
+        }
+
+        private void SpecialistRequestReassign()
+        {
+            _specialistRequestReassign = true;
+            StateHasChanged();
+        }
+
+
+        //TODO further story
+        //private void ShowFindUserInAd()
+        //{
+        //    _showActiveDirectorySearch = true;
+        //    StateHasChanged();
+        //}
+
+        //private void MyUserSelected()
+        //{
+        //    _userFromAdSearch = _adId.UserReturned ;// .EmailReturned;
+        //    if (_userFromAdSearch!=null)
+        //    {
+        //        //Find rest of information from AD
+        //        _case.Email = _userFromAdSearch.Email ;
+        //        _case.CustomerName = _userFromAdSearch.FullName;
+        //        _case.Phone = _userFromAdSearch.PhoneNumber;
+        //    }
+
+        //    _showActiveDirectorySearch = false;
+
+        //}
+        private void RefreshAttachments()
+        {
+
+        }
+
+        private void DeleteAttachment(int id)
+        {
+
+        }
+}

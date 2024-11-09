@@ -1,0 +1,28 @@
+﻿@page "/AddNewFinalInspection"
+@using ManufacturingManager.Core
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using ManufacturingManager.Web.Components
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<PageTitle>Edit Solar Inspection</PageTitle>
+
+    <SolarInspectionFormNew FtcSolarAssemblyConfiguration="@AssemblyConfiguration"></SolarInspectionFormNew>
+
+@code{
+    private FTCSolarAssemblyConfiguration AssemblyConfiguration { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var assemblyConfig  = await SessionStorage.GetAsync<FTCSolarAssemblyConfiguration>("AssemblyConfiguration");
+
+        if(assemblyConfig.Success)
+            AssemblyConfiguration = assemblyConfig.Value;
+        else
+        {
+            AssemblyConfiguration = new FTCSolarAssemblyConfiguration();
+        }
+    }
+    
+
+
+}

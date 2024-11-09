@@ -1,0 +1,94 @@
+﻿@using Microsoft.JSInterop
+ 
+@inject IJSRuntime _jsRuntime
+ 
+<canvas id="@Id"></canvas>
+
+@code {
+    
+ 
+    [Parameter]
+    public string Id { get; set; }
+ 
+    [Parameter]
+    public string[] Data { get; set; }
+    [Parameter]
+    public string[] Data2 { get; set; }
+    [Parameter]
+    public string[] Data3 { get; set; }
+    //[Parameter]
+    //public string[] BackgroundColor { get; set; }
+ 
+    [Parameter]
+    public string[] Labels { get; set; }
+    [Parameter]
+    public string[] Labels2 { get; set; }
+    [Parameter]
+    public string[] Labels3 { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+    // Here we create an anonymous type with all the options
+    // that need to be sent to Chart.js
+        var config = new
+        {
+            Type = "line",
+           
+            Options = new
+            {
+                Responsive = true,
+                Plugins = new {
+                    Title = new
+                    {
+                    Display= true,
+                    Text="Open/Close by Date",
+                        Font = new 
+                        {
+                            size=20
+                        }
+                    }
+                },
+                Subtitle = new {
+                    Display= true,
+                Text= "Custom Chart Subtitle"
+                },
+                CustomCanvasBackgroundColor=new {
+                    BackgroundColor= "lightGreen",
+                },
+                //Animations= new {
+                //    Tension= new {
+                //    Duration= 1000,
+                //    Easing= "linear",
+                //    From= 1,
+                //    To= 0,
+                //    Loop= true
+
+                //    }
+                //},
+                Scales = new
+                {
+                    YAxes = new[]
+                    {
+                        new { Ticks = new {
+                            BeginAtZero=true
+                        } }
+                    }
+                }
+            },
+            Data = new
+            {
+                Datasets = new[]
+                {
+                    new { Data = Data, BackgroundColor = "blue", BorderColor="blue",Label="Created"},
+                    new {Data=Data2 , BackgroundColor = "red" , BorderColor="red",Label="Closed"},
+                     new {Data=Data3 , BackgroundColor = "green" , BorderColor="green",Label="Quick Case (Created and Closed)"}
+                },
+                Labels = Labels,
+            },
+            
+
+        };
+ 
+        await _jsRuntime.InvokeVoidAsync("Chartsetup", Id, config);
+    }
+
+}

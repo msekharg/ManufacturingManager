@@ -1,0 +1,271 @@
+﻿@page "/FTCSolarConfiguration"
+@using System.ComponentModel.DataAnnotations
+@using ManufacturingManager.Core
+@using ManufacturingManager.Core.Helpers
+@using ManufacturingManager.Core.Models
+@using ManufacturingManager.Core.Repositories
+
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage SessionStorage
+@inject IDataEntryRepository DataEntryRepository
+
+@inject NavigationManager navigationManager
+<PageTitle >ReceivingInspection</PageTitle>
+
+<h2>Welcome to the FTC Solar Inspection Configuration</h2>
+
+<br/>
+<br/>
+<EditForm EditContext="_editContext">
+    <DataAnnotationsValidator />
+
+    <div class="row">
+        <div class="col-12">
+            <label class="form-check-label fw-bold pe-3">Select Part Number</label><br/>
+            <select id="assemblyConfiguration" @onchange="OnPartNumberChanged" class="large-select">
+                <option value="">Select a Part Number</option>
+                @foreach (var partNumber in _partNumbers)
+                {
+                <option value="@partNumber">@partNumber</option>
+                }
+            </select>
+        </div>
+    </div>
+    <br/><br/>
+    @if (!string.IsNullOrEmpty(_ftcSolarConfiguration.PartNumber))
+    {
+    <div class="row">
+        <div class="col-12">
+            <label class="form-check-label fw-bold pe-3">Select Assembly Configuration</label><br/>
+            <select id="assemblyConfiguration" @onchange="OnAssemblyConfigurationChanged" class="large-select">
+                <option value="">Select a Configuration</option>
+                @foreach (var clamp in _cxpx)
+                {
+                <option value="@clamp">@clamp</option>
+                }
+            </select>
+        </div>
+    </div>
+    }
+    <br/><br/>
+    @if (!string.IsNullOrEmpty(_ftcSolarConfiguration.AssemblyConfiguration))
+    {
+    <div class="row">
+        <div class="col-12">
+            <label class="form-check-label fw-bold pe-3">Select Height</label><br/>
+            <select id="height" @onchange="OnHeightChanged" class="large-select">
+                <option value="">Select a Height</option>
+                @foreach (var height in _heights)
+                {
+                <option value="@height">@height</option>
+                }
+            </select>
+        </div>
+    </div>
+    }
+    <br/><br/>
+
+    @if (!string.IsNullOrEmpty(_ftcSolarConfiguration.Height))
+    {
+    <div class="row">
+        <div class="col-12">
+            <label class="form-check-label fw-bold pe-3">Select Length</label><br/>
+            <select id="height" @onchange="OnLengthChanged" class="large-select">
+                <option value="">Select a Length</option>
+                @foreach (var length in _lengths)
+                {
+                <option value="@length">@length</option>
+                }
+            </select>
+        </div>
+    </div>
+    }
+    <br/><br/>
+
+    @if (!string.IsNullOrEmpty(_ftcSolarConfiguration.Length))
+    {
+    <div class="row">
+        <div class="col-6">
+            <label class="form-check-label fw-bold pe-3">Select Thickness</label><br/>
+            <select id="thickness" @onchange="OnThicknessChanged" class="large-select">
+                <option value="">Select a Thickness</option>
+                @foreach (var thickness in _thicknesses)
+                {
+                    <option value="@thickness">@thickness</option>
+                }
+            </select>
+        </div>
+        <div class="col-2">
+            @if (_thickness_lt_2_2)
+            {
+                <img src="images/bolt_lt_2_2.png" asp-append-version="true" width="100px" />
+            }
+            else if (_thickness_gt_2_2)
+            {
+                <img src="images/bolt_gt_2_2.png" asp-append-version="true" width="100px" />
+            }
+        </div>
+    </div>
+    }
+    <br/><br/>
+
+    @if (!string.IsNullOrEmpty(_ftcSolarConfiguration.Thickness))
+    {
+        <div class="col-8" tabindex="0">
+            <button class="btn btn-primary mx-4 large-button" @onclick="() => AddFinalInspectionRecord()" title="Add Final Inspection Record"
+                    role="button" aria-pressed="false">
+                Add Final Inspection Record <span class="oi oi-plus"></span>
+            </button>
+        </div>
+    }
+    
+    <style>
+        .large-select {
+            font-size: 4.25rem; /* Increase font size */
+            padding: 3.5rem 4rem; /* Increase padding for a larger appearance */
+            width: 100%; /* Make the select element full-width */
+            max-width: 500px; /* Optional: limit max width if needed */
+        }
+
+        .large-button {
+            font-size: 3.25rem; /* Increase font size */
+            padding: 0.75rem 1.5rem; /* Increase padding */
+        }
+
+        /* Optional: Style for button focus */
+        .btn:focus {
+            background-color: #ff6e40;
+        }
+    </style>
+</EditForm>
+@code{
+
+    private EditContext _editContext;
+    private ValidationMessageStore _messageStore;
+    
+    private FTCSolarSettings _ftcSolarSettings;
+    private FTCSolarAssemblyConfiguration _ftcSolarConfiguration;
+    private string BackGroundColortt4 { get; set; }
+    private string BackGroundColortt25 { get; set; }
+    private SolarConfiguration _solarConfiguration = new SolarConfiguration();
+
+    private IEnumerable<MidRailConfiguration> _midRailConfigurations = new List<MidRailConfiguration>();
+    private IEnumerable<ClampsPositioning> _assemblyConfigurations = new List<ClampsPositioning>();
+    private IEnumerable<string> _partNumbers = new List<string>();
+    private IEnumerable<string> _cxpx = new List<string>();
+    private List<int> _lengths = new List<int>();
+    private List<int> _heights = new List<int>();
+    private List<decimal> _thicknesses = new List<decimal>();
+
+    private bool showCXPXDropDown = false;
+    private bool showHeightDropdown = false;
+    private bool showLengthDropdown = false;
+    private bool showThicknessDropdown = false;
+    private string SelectedValue { get; set; }
+    private bool _thickness_lt_2_2 = false;
+    private bool _thickness_gt_2_2 = false;
+    protected override async Task OnInitializedAsync()
+    {
+        _editContext = new EditContext(this);
+        
+        //_editContext.OnFieldChanged += HandleFieldChanged;
+        _messageStore = new ValidationMessageStore(_editContext);
+        if (_ftcSolarSettings == null)
+        {
+            _ftcSolarSettings = new FTCSolarSettings();
+        }
+
+        if (_ftcSolarConfiguration == null)
+        {
+            _ftcSolarConfiguration = new FTCSolarAssemblyConfiguration();
+        }
+
+        _midRailConfigurations = DataEntryRepository.GetMidRailConfiguration();
+        _assemblyConfigurations = DataEntryRepository.GetClampsPositioning();
+        _partNumbers = _midRailConfigurations.Select(x => x.PartNumber).Distinct();
+    }
+
+    private void OnPartNumberChanged(ChangeEventArgs e)
+    {
+        _ftcSolarConfiguration.Length = null;
+        _ftcSolarConfiguration.Height = null;
+        _ftcSolarConfiguration.Thickness = null;
+
+        _ftcSolarConfiguration.PartNumber = e.Value?.ToString();
+        
+        _cxpx = _assemblyConfigurations
+            .Select(y => y.CXPX).Distinct().ToList();
+
+        showCXPXDropDown = true;
+        showHeightDropdown = false;// !string.IsNullOrEmpty(_ftcSolarConfiguration.AssemblyConfiguration);
+        showLengthDropdown = false;
+        showThicknessDropdown = false;
+    }
+    
+    private void OnAssemblyConfigurationChanged(ChangeEventArgs e)
+    {
+        _ftcSolarConfiguration.Length = null;
+        _ftcSolarConfiguration.Height = null;
+        _ftcSolarConfiguration.Thickness = null;
+
+        _ftcSolarConfiguration.AssemblyConfiguration = e.Value?.ToString();
+        _heights = _midRailConfigurations
+            .Where(x => x.PartNumber.Equals(_ftcSolarConfiguration.PartNumber))
+            .Select(y => y.Height).Distinct().ToList();
+        
+        showHeightDropdown = true;// !string.IsNullOrEmpty(_ftcSolarConfiguration.AssemblyConfiguration);
+        showLengthDropdown = false;
+        showThicknessDropdown = false;
+    }
+    
+    private void OnHeightChanged(ChangeEventArgs e)
+    {
+        _ftcSolarConfiguration.Length = null;
+        _ftcSolarConfiguration.Thickness = null;
+        _ftcSolarConfiguration.Height = e.Value?.ToString();
+        _lengths = _midRailConfigurations
+            .Where(x => x.PartNumber.Equals(_ftcSolarConfiguration.PartNumber))
+            .Select(y => y.Length).Distinct().ToList();
+                
+        showLengthDropdown = !string.IsNullOrEmpty(_ftcSolarConfiguration.Height);
+        showThicknessDropdown = false;
+    }
+    
+    private void OnLengthChanged(ChangeEventArgs e)
+    {
+        _ftcSolarConfiguration.Thickness = null;
+        _ftcSolarConfiguration.Length = e.Value?.ToString();
+        
+        _thicknesses = _midRailConfigurations
+            .Where(x => x.PartNumber.Equals(_ftcSolarConfiguration.PartNumber))
+            .Select(y => y.Thickness).Distinct().ToList();
+                
+        showLengthDropdown = !string.IsNullOrEmpty(_ftcSolarConfiguration.Height);
+        showThicknessDropdown = true;
+    }
+
+    private void OnThicknessChanged(ChangeEventArgs e)
+    {
+        _ftcSolarConfiguration.Thickness = e.Value?.ToString();
+
+        _thickness_gt_2_2 = false;
+        _thickness_lt_2_2 = false;
+        if (Convert.ToDouble(_ftcSolarConfiguration.Thickness) <= 2.2)
+            _thickness_lt_2_2 = true;
+        else
+            _thickness_gt_2_2 = true;
+    }
+    
+    protected void AddFinalInspectionRecord()
+    {
+        var val = _ftcSolarConfiguration;
+        
+        //if (_editContext.Validate())
+        //{
+            SessionStorage.SetAsync("FTCSolarAssemblyConfiguration", _ftcSolarConfiguration);
+            navigationManager.NavigateTo("/AddFinalInspection");
+        //}
+    }
+    
+}

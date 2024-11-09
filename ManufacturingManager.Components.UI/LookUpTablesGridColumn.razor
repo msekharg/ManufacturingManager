@@ -1,0 +1,33 @@
+﻿
+@typeparam TItem
+
+@if (Item == null)
+{
+    <th class="@CssClass">@Label </th>
+}
+else if (ChildContent ==null)
+{
+    var property = typeof(TItem).GetProperty(Name);
+    <td class="@CssClass">@property?.GetValue(Item)?.ToString() </td>
+}
+else
+{
+    <td>@ChildContent</td>
+}
+
+@code {
+    [Parameter]
+    public string Name { get; set; } = null!;
+
+    [Parameter]
+    public string Label { get; set; } = null!;
+
+    [Parameter]
+    public string CssClass { get; set; } = null!;
+
+    [CascadingParameter]
+    public TItem Item { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set;  }
+}

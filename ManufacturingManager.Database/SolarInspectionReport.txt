@@ -1,0 +1,87 @@
+
+
+/****** Object:  Table [dbo].[SolarInspectionReport]    Script Date: 6/18/2024 7:01:08 PM ******/
+
+/*SET ANSI_NULLS ON
+
+GO
+
+ 
+
+SET QUOTED_IDENTIFIER ON
+
+GO;
+
+
+*/
+CREATE TABLE [dbo].[SolarInspectionReport](
+
+    [SolarInspectionReportId] [int] IDENTITY(1,1) NOT NULL,
+
+    [InspectorName] [varchar](255) NOT NULL,
+
+    [TubeThickness26] [float] NULL,
+
+    [ClampThickness] [float] NULL,
+
+    [RailTubeHeight23] [float] NULL,
+
+    [RailTubeWidth22] [float] NULL,
+
+    [TubeWeldSeamLocation24] [float] NULL,
+
+    [TubeLength2_Red] [float] NULL,
+
+    [PaintIdentification_2900Red] [int] NULL,
+
+    [TubeLength2_Yellow] [float] NULL,
+
+    [PaintIdentification_2700Yellow] [int] NULL,
+
+    [TubeCornerRadius4Places25] [int] NULL,
+
+    [EndOfTubeCLDistance] [float] NULL,
+
+    [TorqueEndHangerPlateVoyager_1_4_2PlacesNote2"] [float] NULL,
+
+    [TorqueEndHangerPlateVoyager_2_3_2PlacesNote3"] [float] NULL,
+
+    [TorqueMarking] [int] NULL,
+
+    [TubePreGalvCoatingThickness] [float] NULL,
+
+    [ClampPreCoatingThickness] [float] NULL,
+
+    [TotalNoOfHolesBottom3] [int] NULL,
+
+    [PartMarking] [int] NULL,
+
+    [RivetPresence] [int] NULL,
+
+    [Appearance] [int] NULL,
+
+    [CreatedBy] [varchar](255) NOT NULL,
+
+    [CreatedDate] [datetime] NOT NULL,
+
+    [UpdatedBy] [varchar](255) NULL,
+
+    [UpdatedDate] [datetime] NULL,
+    
+    PRIMARY KEY NONCLUSTERED
+
+(
+
+[SolarInspectionReportId] ASC
+
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+    ) ON [PRIMARY]
+
+    GO;
+
+
+
+ALTER TABLE [dbo].[SolarInspectionReport] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+
+    GO

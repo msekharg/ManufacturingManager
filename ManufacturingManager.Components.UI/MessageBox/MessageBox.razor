@@ -1,0 +1,29 @@
+﻿@using ManufacturingManager.Core.Helpers
+@*@using System.Reflection.Metadata.Ecma335*@
+
+<div class="modal fade show bg-opacity-75 display-modal" id="myModal" aria-modal="true" role="dialog" @onkeydown="@QuitOnEscape">
+    <div class="modal-dialog modal-xl border @BorderCss  border-2  rounded-3">
+        <div class="modal-content">
+            <div class="modal-header  @ModalCss bg-opacity-10">
+                <h5 class="modal-title fw-bold" tabindex="0" @ref="_focusFirstElementFor508">@MessageBoxParameters?.Title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="@ClickOk"
+                        role="button" aria-pressed ="false">&times;</button>
+            </div>
+            <div class="modal-body" >
+                <p tabindex="0">
+                @{
+                    var str = Functions.ReplaceNewLinesToHtmlBreak(MessageBoxParameters?.Message!);
+                    var msg = (MarkupString)str;
+                    @msg
+                }
+                </p>
+            </div>
+            <div class="modal-footer @ModalCss bg-opacity-10">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @onclick="@ClickOk" 
+                        @onkeydown="@KeyPress"
+                        role="button" aria-pressed ="false">Ok</button>
+
+            </div>
+        </div>
+    </div>
+</div>

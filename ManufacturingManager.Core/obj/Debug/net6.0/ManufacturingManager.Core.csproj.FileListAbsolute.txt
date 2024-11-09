@@ -1,0 +1,15 @@
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/bin/Debug/net6.0/ManufacturingManager.Core.deps.json
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/bin/Debug/net6.0/ManufacturingManager.Core.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/bin/Debug/net6.0/ManufacturingManager.Core.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/bin/Debug/net6.0/ManufacturingManager.ADO.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/bin/Debug/net6.0/ManufacturingManager.ADO.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.csproj.AssemblyReference.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.AssemblyInfoInputs.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.AssemblyInfo.cs
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.csproj.CoreCompileInputs.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.csproj.CopyComplete
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/refint/ManufacturingManager.Core.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ManufacturingManager.Core.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/Debug/net6.0/ref/ManufacturingManager.Core.dll

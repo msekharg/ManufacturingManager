@@ -1,0 +1,37 @@
+﻿@page "/FTCSolar"
+
+@inject NavigationManager navigationManager
+<PageTitle>ReceivingInspection</PageTitle>
+
+<h1>Please click below Clients for the specific forms</h1>
+
+Welcome to the Receiving Inspection
+
+<div class="row">
+    <div class="col-15">
+        <button class="btn btn-primary btn_large" tabindex="0" @onclick="() => FTCSolar2700()" title="FTC Solar 2700">
+            FTC Solar 2700
+        </button>
+
+        @*
+       <button class="btn btn-primary btn_large" tabindex="1" @onclick="() => FTCSolar2900()" title="FTC Solar 2900">
+            FTC Solar 2900
+        </button>*@
+        
+    </div>
+</div>
+
+
+
+@code{
+
+    private void FTCSolar2700()
+    {
+        navigationManager.NavigateTo("/FTCSolarConfiguration");
+    }
+    
+    private void FTCSolar2900()
+    {
+        navigationManager.NavigateTo("/FTCSolarConfiguration");
+    }
+}

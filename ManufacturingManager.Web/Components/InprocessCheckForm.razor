@@ -1,0 +1,664 @@
+﻿@using System.Runtime.InteropServices.ComTypes
+@using System.Data
+@using ManufacturingManager.Components.UI.MessageBox
+@using ManufacturingManager.Core
+@using ManufacturingManager.Core.Helpers
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Core.Services
+
+@using ManufacturingManager.Web.Data
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@*@inject CaseAppSettings MyConfig*@
+@inject IDataEntryRepository DataEntryRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@*@inject UserLogged CurrentUser*@
+
+<div class="card border mx-2">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6" tabindex="0"><h2 class="text-primary" id="startContent">@_title</h2></div>
+            <div class="col-6" tabindex="0" @ref="_testFocus"><h2 class="text-primary">@_status</h2></div>
+
+        </div>
+
+    </div>
+    @* @if (_showActiveDirectorySearch)
+    {
+    <FindUserInActiveDirectory OnUserSelected="@MyUserSelected" @ref="_adId" UserReturned="@_userFromAdSearch"></FindUserInActiveDirectory>
+    }*@
+    <div class="form-group required">
+        <div class="control-label px-3" aria-label="Asterik indicates required" tabindex="0">Indicates required</div>
+
+    </div>
+    <EditForm EditContext="_editContext" OnSubmit="@CompleteCase">
+        <DataAnnotationsValidator />
+        @*  <ValidationSummary />*@
+        <div class="card-body">
+            @* @if (_case is {StatusId: (int)CaseStatusEnum.ReassignmentRequested })
+            {
+
+            var msg = (MarkupString)Functions.ReplaceNewLinesToHtmlBreak(_case.ReassignReason!);
+            <div  runat="server" class="card-header  text-justify bg-danger bg-opacity-10 text-black  border border-1 border-danger rounded-5 mb-2 py-3 mx-5 px-5" tabindex="0">
+            Reassignment requested by <span class="fw-bold"> @_reassignmentRequestedBy</span> on <span class="fw-bold">@_case.ReassignRequestedDate?.ToShortDateString()</span> for the following reason:<br>
+            <span class="fw-bold">
+            @msg
+            </span>
+
+            </div>
+
+            } *@
+            
+            <div class="row">
+                <div class="col-5">
+
+                    <label class="form-check-label fw-bold pe-3">Inspector</label><br/>
+                    <InputText @bind-Value="@_inProcessCheck!.InspectorName" class="form-control" id="inspectorName"
+                               @ref="_inputInspectorName"/>
+                    <ValidationMessage For="@(() => _inProcessCheck!.InspectorName)"></ValidationMessage>
+                </div>
+                
+            </div>
+            
+            <br/>
+            <div class="row">
+                <div style="background-color: rgb(150, 161, 255); display:inline-block; text-align: center; background-size: auto">
+                    <label >Primary Saw</label>
+                </div>
+                @*<div class="col-15">*@
+                <div class="row form-group ">
+                    <div class="col-2">
+                        <div class="col-3 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="primarySawLength">Length</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="PrimarySawLengthNominal">Nominal</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.PrimarySawLengthNominalString" class="form-control" id="primarySawLengthNominal"
+                                       @ref="_inputPrimarySawLengthNominal"/>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="PrimarySawLengthTolPlus">Tol+</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.PrimarySawLengthTolPlusString" class="form-control" id="PrimarySawLengthTolPlus"
+                                       @ref="_inputPrimarySawLengthTolPlus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="PrimarySawLengthTolMinus">Tol-</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.PrimarySawLengthTolMinusString" class="form-control" id="PrimarySawLengthTolMinus"
+                                       @ref="_inputPrimarySawLengthTolMinus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="PrimarySawLengthValue">Value</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.PrimarySawLengthValueString" class="form-control" id="PrimarySawLengthValue"
+                                       @ref="_inputPrimarySawLengthValue"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            @*Start the Bending*@
+            <div class="row">
+                <div style="background-color: rgb(150, 161, 255); display:inline-block; text-align: center; background-size: auto">
+                    <label >Bending</label>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="row form-group ">
+                    <div class="col-2">
+                        <div class="col-3 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingLength">Length</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingLengthNominal">Nominal</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingLengthNominalString" class="form-control" id="BendingLengthNominal"
+                                       @ref="_inputBendingLengthNominal"/>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingLengthTolPlus">Tol+</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingLengthTolPlusString" class="form-control" id="BendingLengthTolPlus"
+                                       @ref="_inputBendingLengthTolPlus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingLengthTolMinus">Tol-</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingLengthTolMinusString" class="form-control" id="BendingLengthTolMinus"
+                                       @ref="_inputBendingLengthTolMinus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingLengthValue">Value</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingLengthValueString" class="form-control" id="BendingLengthValue"
+                                       @ref="_inputBendingLengthValue"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="row form-group ">
+                    <div class="col-2">
+                        <div class="col-3 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingOD">OD</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingODNominal">Nominal</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingODNominalString" class="form-control" id="BendingODNominal"
+                                       @ref="_inputBendingODNominal"/>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingODTolPlus">Tol+</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingODTolPlusString" class="form-control" id="BendingODTolPlus"
+                                       @ref="_inputBendingODTolPlus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingODTolMinus">Tol-</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingODTolMinusString" class="form-control" id="BendingODTolMinus"
+                                       @ref="_inputBendingODTolMinus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingODValue">Value</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingODValueString" class="form-control" id="BendingODValue"
+                                       @ref="_inputBendingODValue"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="row form-group ">
+                    <div class="col-2">
+                        <div class="col-3 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingWallThickness">Wall Thickness</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingWallThicknessNominal">Nominal</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingWallThicknessNominalString" class="form-control" id="BendingWallThicknessNominal"
+                                       @ref="_inputBendingWallThicknessNominal"/>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingWallThicknessTolPlus">Tol+</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingWallThicknessTolPlusString" class="form-control" id="BendingWallThicknessTolPlus"
+                                       @ref="_inputBendingWallThicknessTolPlus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingWallThicknessTolMinus">Tol-</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingWallThicknessTolMinusString" class="form-control" id="BendingWallThicknessTolMinus"
+                                       @ref="_inputBendingWallThicknessTolMinus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="BendingWallThicknessValue">Value</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.BendingWallThicknessValueString" class="form-control" id="BendingWallThicknessValue"
+                                       @ref="_inputBendingWallThicknessValue"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div style="background-color: rgb(150, 161, 255); display:inline-block; text-align: center; background-size: auto">
+                    <label >Secondary Saw</label>
+                </div>
+                @*<div class="col-15">*@
+                <div class="row form-group ">
+                    <div class="col-2">
+                        <div class="col-3 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="SecondarySawLength">Length</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="SecondarySawLengthNominal">Nominal</label>
+                                @*<span style="color: red">(Min = 4.00 ; Max = 4.24)</span>*@
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.SecondarySawLengthNominalString" class="form-control" id="SecondarySawLengthNominal"
+                                       @ref="_inputSecondarySawLengthNominal"/>
+                        </div>
+
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="SecondarySawLengthTolPlus">Tol+</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.SecondarySawLengthTolPlusString" class="form-control" id="SecondarySawLengthTolPlus"
+                                       @ref="_inputSecondarySawLengthTolPlus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="SecondarySawLengthTolMinus">Tol-</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.SecondarySawLengthTolMinusString" class="form-control" id="SecondarySawLengthTolMinus"
+                                       @ref="_inputSecondarySawLengthTolMinus"/>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="col-5 col-md-15  py-3 px-3">
+                            <div class="form-group">
+                                <label class="form-label fw-bold pe-3" for="SecondarySawLengthValue">Value</label>
+                            </div>
+                            <InputText @bind-Value="@_inProcessCheck!.SecondarySawLengthValueString" class="form-control" id="SecondarySawLengthValue"
+                                       @ref="_inputSecondarySawLengthValue"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-3 text-center">
+                    @{
+                        @*  var showBtnSave = !(_case!.AssignedToUserId > 0 && _case.StatusId == (int)CaseStatusEnum.ReassignmentRequested);
+                    @if (showBtnSave)
+                    { *@
+                        <input type="button" class="btn btn-primary" id="buttonsSave" value="@_btnSave" title="Submit" @onclick="@JustSave" />
+                        @* } *@
+                    }
+                </div>
+                @* @if (!_requestReassign)
+                {
+                <div class="col-3 text-center">
+                <input type="submit" class="btn btn-primary" value="@_btnComplete" title="Save case and forward to next step" />
+
+                </div>
+                }
+                <div class="col-3">
+                <input type="button" class="btn btn-default" value="@_backTo" @onclick="@BackToWorkload" />
+                </div>
+                @if (CurrentUser.Role == "Specialist" && (_case.StatusId == (int)CaseStatusEnum.Assigned || _case.StatusId == (int)CaseStatusEnum.Inprogress))
+                {
+                <div class="col-3">
+                <input type="button" class="btn btn-danger" value="Request Case Reassignment" @onclick="@SpecialistRequestReassign" />
+                </div>
+                } *@
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+
+
+@if (_showMessageBox)
+{
+
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}
+
+
+@*
+@if (_showMessageBox)
+{
+
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}
+
+
+@if (_showInternalComments && _case != null)
+{
+    <InternalCommentList CaseId="@_case.CaseId" CaseName="@_case.CaseName" OnClose="@InternalCommentsClose"></InternalCommentList>
+
+}
+@if (_specialistRequestReassign)
+{
+    <ModalRequestingDescription Title="Requesting Case Reassignment Reason" OnClose="@SubmitReassignmentRequest"></ModalRequestingDescription>
+} *@
+
+@code
+{
+     [Parameter] public int EmailFromOutlookId { get; set; } = 0;
+        [Parameter] public int InProcessCheckId { get; set; } = 0;
+        private readonly MessageBoxParameters _messageBoxParameters = new();
+
+        private InProcessCheck _inProcessCheck;
+        //TODO future story
+        //private FindUserInActiveDirectory  _adId;
+        //private Users _userFromAdSearch;
+
+        EditContext _editContext = default!;
+
+        //Dimension
+        private IList<Decision>? _okNokList;
+       
+        private int _numberOfRows = 3;
+        //Following properties are used to reference input elements in HTML and will be used in
+        //FocusFirstError() after validation fails. The idea is to set focus in the first invalid input element
+        
+        private string _backTo = "Back to Workload";
+        private ElementReference _testFocus;
+        public bool _showMessageBox;
+        public string _btnSave = "Save and Hold";
+        private string? _title;
+        private string? _status;
+        //Dimension
+        private InputText _inputInspectorName = null!;
+        
+        private InputText _inputPrimarySawLengthNominal = null;
+        private InputText _inputPrimarySawLengthTolPlus = null;
+        private InputText _inputPrimarySawLengthTolMinus = null;
+        private InputText _inputPrimarySawLengthValue = null;
+        
+        private InputText _inputBendingLengthNominal = null;
+        private InputText _inputBendingLengthTolPlus = null;
+        private InputText _inputBendingLengthTolMinus = null;
+        private InputText _inputBendingLengthValue = null;
+        
+        private InputText _inputBendingODNominal = null;
+        private InputText _inputBendingODTolPlus = null;
+        private InputText _inputBendingODTolMinus = null;
+        private InputText _inputBendingODValue = null;
+        
+        private InputText _inputBendingWallThicknessNominal = null;
+        private InputText _inputBendingWallThicknessTolPlus = null;
+        private InputText _inputBendingWallThicknessTolMinus = null;
+        private InputText _inputBendingWallThicknessValue = null;
+        
+        
+        private InputText _inputSecondarySawLengthNominal = null;
+        private InputText _inputSecondarySawLengthTolPlus = null;
+        private InputText _inputSecondarySawLengthTolMinus = null;
+        private InputText _inputSecondarySawLengthValue = null;
+
+        //Attachments
+        //public List<Attachment> AttachmentList = new();
+        //public string FolderLocationForUpload => MyConfig.TempUploadFileFolderPath;
+
+        protected override async Task OnInitializedAsync()
+        {
+
+            FillDropdown();
+
+            if (InProcessCheckId != 0)
+            {
+                _inProcessCheck = await DataEntryRepository.GetInProcessCheckById(InProcessCheckId);
+                _title = "Edit InProcess Check " + _inProcessCheck.InProcessCheckId;
+
+                //Map dimension ints to text
+               
+                //_status = "Status: " + _case.CaseStatusDescription;
+                //_userAssignedForThisCase = _case.AssignedToUserId;
+                //_disableSelectQuickCase = !(_case.StatusId == (int)CaseStatusEnum.NewAwaitingAssignment ||
+                //                            (_case.StatusId == (int)CaseStatusEnum.Assigned &&
+                //                             CurrentUser.Role != "Specialist"));
+                //if (_case.StatusId == (int)CaseStatusEnum.ReassignmentRequested)
+                //{
+                //    _btnComplete = "Reassign Case";
+
+                //    if (_usersList != null)
+                //    {
+                //        var reassignmentUser = _usersList.FirstOrDefault(x => x.UserId == _case.ReassignRequestedBy);
+                //        _reassignmentRequestedBy = reassignmentUser?.FullName;
+                //    }
+                //}
+            }
+            else
+            {
+                _inProcessCheck = new();
+                _title = "Create Case ";
+                _status = "Status: New";
+            }
+
+            //if (EmailFromOutlookId != 0)
+            //{
+            //    _title = "Create Case From Outlook ";
+            //    _backTo = "Back to Email from Outlook List";
+            //    _case.StatusId = 0;
+            //    //Set initial values from Outlook email
+            //    var outlookEmail = await EmailFromOutlookRepository.GetEmailByMailId(EmailFromOutlookId);
+            //    _case.DateRequested = outlookEmail.Received;
+            //    _case.Email = outlookEmail.SenderEmail;
+            //    string customer = outlookEmail.SenderEmail.Split('@').ElementAtOrDefault(0) ?? string.Empty;
+            //    if (!string.IsNullOrEmpty(customer))
+            //        customer = customer.Replace(".", " ");
+            //    _case.CustomerName = customer;
+            //    string cleanBody = outlookEmail.Body.Replace("<","");
+            //    cleanBody = cleanBody.Replace(">", "");
+            //    cleanBody = cleanBody.Replace("&", "");
+            //    _case.IssueDescription = cleanBody  ;
+            //    //Get Email Ids for Question Source and Preferred contact type
+            //    if (_questionSourceList != null)
+            //    {
+            //        QuestionSource? qs = _questionSourceList.FirstOrDefault(x => x.Description.ToLower() == "email");
+            //        if (qs != null)
+            //        {
+            //            _case.QuestionSourceId = qs.QuestionSourceId;
+
+            //        }
+            //    }
+
+            //    if (_contactTypeList != null)
+            //    {
+            //        ContactType? ct = _contactTypeList.FirstOrDefault(x => x.Description.ToLower() == "email");
+            //        if (ct != null)
+            //        {
+            //            _case.ContactTypeId = ct.ContactTypeId;
+            //        }
+            //    }
+
+
+            //}
+            //if (!string.IsNullOrEmpty(_case.IssueDescription) &&  _case.IssueDescription.Length > 1000  && _case.StatusId <=(int)CaseStatusEnum.NewAwaitingAssignment)
+            //{
+            //    _numberOfRows = 7;
+            //}
+            _editContext = new EditContext(_inProcessCheck);
+
+            _showMessageBox = false;
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                await _testFocus.FocusAsync();
+                //await Task.Run(async () => await _testFocus.FocusAsync());
+            }
+        }
+
+        private void MessageBoxClose()
+        {
+            _showMessageBox = false;
+           
+            StateHasChanged();
+        }
+
+        protected async void FillDropdown()
+        {
+            _okNokList = DropDownCategories.GetDecisions();
+        }
+
+        protected async void JustSave()
+        {
+            string error = string.Empty;
+
+            if (_editContext.Validate())
+            {
+                await SaveCase(false);
+            }
+            else
+            {
+                await FocusFirstError();
+            }
+        }
+        
+        protected async Task CompleteCase(EditContext editContext)
+        {
+            _showMessageBox = false;
+            _messageBoxParameters.PageToRedirect = "";
+            if (editContext.Validate())
+            {
+                string error = string.Empty;
+               
+
+                if (string.IsNullOrEmpty(error))
+                {
+                    await SaveCase(true);
+                }
+                else
+                {
+                    _showMessageBox = true;
+                    _messageBoxParameters.Title = "Error saving case";
+                    _messageBoxParameters.Message = "<b>Please fix following errors:</b><br>" + error;
+                    _messageBoxParameters.IsErrorMessage = true;
+                }
+            }
+            else
+            {
+                await FocusFirstError();
+            }
+        }
+        private async Task FocusFirstError()
+        {
+
+            // repeat for all inputs in order where elements are into the form
+
+        }
+        
+        protected async Task SaveCase(bool complete)
+        {
+            if (InProcessCheckId != 0)
+            {
+                if (await DataEntryRepository.UpdateInProcessCheck(_inProcessCheck))
+                {
+                    _messageBoxParameters.Title = "Data updated.";
+                    _messageBoxParameters.Message = "Dimension with " + _inProcessCheck.InProcessCheckId + " updated.";
+                    _messageBoxParameters.IsErrorMessage = false;
+                    _messageBoxParameters.PageToRedirect = @"/InProcessCheckWorkload";
+                }
+                else
+                {
+                    _messageBoxParameters.Title = "Error updating Dimension data.";
+                    _messageBoxParameters.Message = $"Unable to update case {_inProcessCheck.InProcessCheckId}. Please contact system administrator.";
+                    _messageBoxParameters.IsErrorMessage = true;
+                    _messageBoxParameters.PageToRedirect = "";
+
+                }
+
+            }
+            else
+            {
+                int ret = await (DataEntryRepository.InsertInProcessCheck(_inProcessCheck));
+                if (!string.IsNullOrEmpty(ret.ToString()))
+                {
+                    _messageBoxParameters.Title = "New InProcessCheck data added";
+                    _messageBoxParameters.Message = "InProcessCheck number: " + ret;
+                    _messageBoxParameters.IsErrorMessage = false;
+                    _messageBoxParameters.PageToRedirect = @"/InProcessCheckWorkload";
+                }
+                else
+                {
+                    _messageBoxParameters.Title = "Error adding InProcessCheck data";
+                    _messageBoxParameters.Message = "Unable to add new InProcessCheck data. Please contact system administrator.";
+                    _messageBoxParameters.IsErrorMessage = true;
+                    _messageBoxParameters.PageToRedirect = "";
+                }
+            }
+
+            _showMessageBox = true;
+        }
+
+        private void EditContext_OnFieldChanged(object sender, 
+            FieldChangedEventArgs e)
+        {
+            // Each time a field changes this code is executed. \EditContext.Validate() returns true if
+            // validation succeeded; that is, all fields pass validation
+            if (_editContext.Validate())
+            {
+                Console.WriteLine("Validation succeeded");
+            }
+            else
+            {
+                // This is the culprit
+                Console.WriteLine(e.FieldIdentifier.FieldName);
+            }
+        }
+}

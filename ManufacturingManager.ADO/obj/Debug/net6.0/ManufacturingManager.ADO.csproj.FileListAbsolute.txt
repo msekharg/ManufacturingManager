@@ -1,0 +1,12 @@
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/bin/Debug/net6.0/ManufacturingManager.ADO.deps.json
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/bin/Debug/net6.0/ManufacturingManager.ADO.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/bin/Debug/net6.0/ManufacturingManager.ADO.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.csproj.AssemblyReference.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.GeneratedMSBuildEditorConfig.editorconfig
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.AssemblyInfoInputs.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.AssemblyInfo.cs
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.csproj.CoreCompileInputs.cache
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/refint/ManufacturingManager.ADO.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ManufacturingManager.ADO.pdb
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/Debug/net6.0/ref/ManufacturingManager.ADO.dll

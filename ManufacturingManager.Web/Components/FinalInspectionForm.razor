@@ -1,0 +1,706 @@
+﻿@using System.Runtime.InteropServices.ComTypes
+@using System.Data
+@using ManufacturingManager.Components.UI.MessageBox
+@using ManufacturingManager.Core
+@using ManufacturingManager.Core.Helpers
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Core.Services
+
+@using ManufacturingManager.Web.Data
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@*@inject CaseAppSettings MyConfig*@
+@inject IDataEntryRepository DataEntryRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@inject IHttpContextAccessor HttpContextAccessor
+@*@inject UserLogged CurrentUser*@
+
+<div class="card border mx-2">
+<div class="card-header">
+    <div class="row">
+        <div class="col-6" tabindex="0">
+            <h2 class="text-primary" id="startContent">Inspector: @_finalInspection.InspectorName</h2>
+        </div>
+        <div class="col-6" tabindex="0" @ref="_testFocus">
+            <h2 class="text-primary">PartName: @_partInformation</h2>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="form-group required">
+    <div class="control-label px-3" aria-label="Asterik indicates required" tabindex="0">* Indicates required</div>
+
+</div>
+<EditForm EditContext="_editContext" OnSubmit="@CompleteCase">
+<DataAnnotationsValidator/>
+@*  <ValidationSummary />*@
+<div class="card-body">
+
+@* <div class="row"> *@
+@*     <div class="col-12"> *@
+@* *@
+@*         <label class="form-check-label fw-bold pe-3">Inspector</label><br/> *@
+@*         <InputText @bind-Value="@_finalInspection!.InspectorName" class="form-control" id="inspectorName" *@
+@*                    @ref="_inputInspectorName"/> *@
+@*         <ValidationMessage For="@(() => _finalInspection!.InspectorName)"></ValidationMessage> *@
+@*     </div> *@
+@* </div> *@
+@* <div class="col-6"> *@
+<div class="row form-group ">
+<div class="col-6">
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="tubeThickness">Tube - Thickness</label>
+            <span style="color: red">(Min = 3.00 ; Max = 3.18)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TubeThicknessString" class="form-control" id="tubeThickness"
+                   @ref="_inputTubeThickness"/>
+        <ValidationMessage For="@(() => _finalInspection!.TubeThickness)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="midHangerClampThicknessString">Clamp Thickness</label>
+            <span style="color: red">(Min = 2.40 ; Max = 2.60)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.MidHangerClampThicknessString" class="form-control" id="midHangerClampThicknessString"
+                   @ref="_inputClampThickness"/>
+        <ValidationMessage For="@(() => _finalInspection!.MidHangerClampThickness)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="railTubeHeight">Rail Tube Height</label>
+            <span style="color: red">(Min = 84.5 ; Max = 85.5)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.RailTubeHeightString" class="form-control" id="railTubeHeight"
+                   @ref="_inputRailTubeHeight"/>
+        <ValidationMessage For="@(() => _finalInspection!.RailTubeHeight)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="railTubeWidth">Rail Tube Width</label>
+            <span style="color: red">(Min = 29.5 ; Max = 30.5)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.RailTubeWidthString" class="form-control" id="railTubeWidth"
+                   @ref="_inputRailTubeWidth"/>
+        <ValidationMessage For="@(() => _finalInspection!.RailTubeWidth)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="tubeWeldSeamLocation">Tube Weld seam Location</label>
+            <span style="color: red">(Min = 37.5 ; Max = 47.5)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TubeWeldSeamLocationString" class="form-control" id="tubeWeldSeamLocation"
+                   @ref="_inputTubeWeldSeamLocation"/>
+        <ValidationMessage For="@(() => _finalInspection!.TubeWeldSeamLocation)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="tubeLength">Tube Length</label>
+            <span style="color: red">(Min = 2896 ; Max = 2904)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TubeLengthString" class="form-control" id="tubeLength"
+                   @ref="_inputTubeLength"/>
+        <ValidationMessage For="@(() => _finalInspection!.TubeLength)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="tubeCornerRadius4Places">Tube Corner Radius 4 Places </label>
+            <span style="color: red">(Min = 5.75 ; Max = 6.25)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TubeCornerRadius4PlacesString" class="form-control" id="tubeCornerRadius4Places"
+                   @ref="_inputTubeCornerRadius4Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.TubeCornerRadius4Places)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="endOfTubeToCLDistance">End of tube to CL Distance</label>
+            <span style="color: red">(Min = 1449 ; Max = 1451)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.EndOfTubeToCLDistanceString" class="form-control" id="endOfTubeToCLDistance"
+                   @ref="_inputEndOfTubeToCLDistance"/>
+        <ValidationMessage For="@(() => _finalInspection!.EndOfTubeToCLDistance)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="endOfTubeToClamp1Bolt_2Places">
+                End of Tube to Clamp 1 Bolt @@ 2 Places
+            </label>
+            <span style="color: red">(Min = 64 ; Max = 66)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.EndOfTubeToClamp1Bolt_2PlacesString" class="form-control" id="endOfTubeToClamp1Bolt_2Places"
+                   @ref="_inputEndOfTubeToClamp1Bolt_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.EndOfTubeToClamp1Bolt_2Places)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="clamp1BoltToClamp2BoltDistance_2Places">
+                Clamp 1 Bolt to Clamp 2 Bolt Distance @@ 2 Places
+            </label>
+            <span style="color: red">(Min = 74.5 ; Max = 75.5)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.Clamp1BoltToClamp2BoltDistance_2PlacesString" class="form-control" id="clamp1BoltToClamp2BoltDistance_2Places"
+                   @ref="_inputClamp1BoltToClamp2BoltDistance_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.Clamp1BoltToClamp2BoltDistance_2Places)"></ValidationMessage>
+    </div>
+
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="endOfTubeToClamp3Bolt_2Places">
+                End of Tube to Clamp 3 Bolt @@ 2 Places
+            </label>
+            <span style="color: red">(Min = 839 ; Max = 841)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.EndOfTubeToClamp3Bolt_2PlacesString" class="form-control" id="endOfTubeToClamp3Bolt_2Places"
+                   @ref="_inputEndOfTubeToClamp1Bolt_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.EndOfTubeToClamp3Bolt_2Places)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="clamp3BoltToClamp4BoltDistance_2Places">
+                Clamp 3 Bolt to Clamp 4 Bolt Distance @@ 2 Places
+            </label>
+            <span style="color: red">(Min = 114 ; Max = 116)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.Clamp3BoltToClamp4BoltDistance_2PlacesString" class="form-control" id="clamp3BoltToClamp4BoltDistance_2Places"
+                   @ref="_inputClamp3BoltToClamp4BoltDistance_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.Clamp3BoltToClamp4BoltDistance_2Places)"></ValidationMessage>
+    </div>
+
+
+</div>
+<div class="col-6">
+    @* <div class="row form-group "> *@
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="torqueClamp1_2Places">Torque(Clamp 1) @@ 2 Places</label>
+            <span style="color: red">(Min = 47.5 ; Max = 52.3)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TorqueClamp1_2PlacesString" class="form-control" id="torqueClamp1_2Places"
+                   @ref="_inputTorqueClamp1_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.TorqueClamp1_2Places)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="torqueClamp2_2Places">Torque(Clamp 2) @@ 2 Places</label>
+            <span style="color: red">(Min = 33.9 ; Max = 37.3)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TorqueClamp2_2PlacesString" class="form-control" id="torqueClamp2_2Places"
+                   @ref="_inputTorqueClamp2_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.TorqueClamp2_2Places)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="torqueClamp3_2Places">Torque(Clamp 3) @@ 2 Places</label>
+            <span style="color: red">(Min = 33.9 ; Max = 37.3)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TorqueClamp3_2PlacesString" class="form-control" id="torqueClamp3_2Places"
+                   @ref="_inputTorqueClamp3_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.TorqueClamp3_2Places)"></ValidationMessage>
+    </div>
+
+    <div class="col-12 col-md-6  py-3 px-3">
+        <div class="form-group">
+            <label class="form-label fw-bold pe-3" for="torqueClamp4_2Places">Torque(Clamp 4) @@ 2 Places</label>
+            <span style="color: red">(Min = 33.9 ; Max = 37.3)</span>
+        </div>
+        <InputText @bind-Value="@_finalInspection!.TorqueClamp4_2PlacesString" class="form-control" id="torqueClamp4_2Places"
+                   @ref="_inputTorqueClamp4_2Places"/>
+        <ValidationMessage For="@(() => _finalInspection!.TorqueClamp4_2Places)"></ValidationMessage>
+    </div>
+
+    
+    <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Torque Marking</label>
+            <InputSelect id="ddlTorqueMarking" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.TorqueMarkingString">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Part Marking</label>
+            <InputSelect id="ddlPartMarking" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.PartMarkingString">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">RivetPresence Qty=2</label>
+            <InputSelect id="ddlRivetPresence" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.RivetPresenceString">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Mid Hanger Holes Align</label>
+            <InputSelect id="ddlMidHangerHolesAlign" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.MidHangerHolesAlignString">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">
+                Washer plate presence 6 locations
+            </label>
+            <InputSelect id="ddlWasherPlatePresence6Locations" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.WasherPlatePresence6LocationsString">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Color Code</label>
+            <InputSelect id="ddlColorCode" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.ColorCodeString">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+
+        <div class="col-12 col-md-6 py-3 px-3 ">
+            <label class="form-label fw-bold">Appearance</label>
+            <InputSelect id="ddlAppearance" class="form-select form-control"
+                         @bind-Value="@_finalInspection!.Appearance">
+                @if (_okNokList != null)
+                {
+                    foreach (var item in _okNokList)
+                    {
+                        <option value="@item.DecisionId">@item.DecisionName</option>
+                    }
+                }
+            </InputSelect>
+        </div>
+    @* </div> *@
+</div>
+</div>
+
+</div>
+<div class="card-footer">
+    <div class="row">
+        <div class="col-3 text-center">
+            @{
+                @*  var showBtnSave = !(_case!.AssignedToUserId > 0 && _case.StatusId == (int)CaseStatusEnum.ReassignmentRequested);
+                    @if (showBtnSave)
+                    { *@
+                <input type="button" class="btn btn-primary" id="buttonsSave" value="@_btnSave" title="Submit" @onclick="@JustSave"/>
+                <input type="button" class="btn btn-primary" id="buttonsCancel" value="Cancel" title="Submit" @onclick="@Cancel"/>
+            }
+        </div>
+
+    </div>
+</div>
+</EditForm>
+</div>
+
+@if (_showMessageBox)
+{
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose"/>
+}
+
+
+@code
+{
+    /*[Parameter] public FTCSolarSettings FTCSolarSettings { get; set; }*/
+    [Parameter] public int FinalInspectionId { get; set; } = 0;
+    [Parameter] public FTCSolarAssemblyConfiguration SolarAssemblyConfiguration { get; set; }
+    private readonly MessageBoxParameters _messageBoxParameters = new();
+
+    private FinalInspection _finalInspection;
+    //TODO future story
+    //private FindUserInActiveDirectory  _adId;
+    //private Users _userFromAdSearch;
+
+    EditContext _editContext = default!;
+
+    //Dimension
+    private IList<Decision>? _okNokList;
+    private string? _title;
+    private string? _status;
+    public bool _showMessageBox;
+    public bool _showInternalComments;
+    public bool _assignCounselorReadOnly = false;
+    public bool _requestReassign = false;
+    public bool _specialistRequestReassign = false;
+    private int? _userAssignedForThisCase;
+    public bool _disableSelectQuickCase;
+    public string _btnSave = "Save";
+    public string _btnComplete = "Complete";
+    public string? _reassignmentRequestedBy;
+
+    private int _numberOfRows = 3;
+
+    //Following properties are used to reference input elements in HTML and will be used in
+    //FocusFirstError() after validation fails. The idea is to set focus in the first invalid input element
+    private InputText _inputCustomerName = null!;
+    private InputCheckbox _inputCustomerEmailCheckBox = null!;
+    private InputDate<DateTime?> _inputDateRequested = null!;
+    private InputTextArea _inputIssueDescription = null!;
+    private InputSelect<int> _inputQuestionSource = null!;
+    private InputSelect<int> _inputCategory = null!;
+    private InputSelect<int> _inputPriority = null!;
+    private InputSelect<int?> _inputUserToAssign = null!;
+    private InputSelect<int?> _inputPendingResolutionReason = null!;
+    private InputSelect<int> _inputResolutionType = null!;
+    private InputTextArea _inputResolutionDescription = null!;
+    private InputTextArea _inputResolutionMessage = null!;
+    private bool _setFocusInUserToAssign = false;
+    private bool _setFocusInPendingResolutionReason = false;
+    private bool _setFocusInResolutionSection = false;
+    private string _backTo = "Back to Workload";
+    private ElementReference _testFocus;
+
+    //Dimension
+    private InputText _inputInspectorName = null!;
+    private InputText _inputTubeThickness = null!;
+    private InputText _inputClampThickness = null!;
+    private InputText _inputRailTubeHeight = null!;
+    private InputText _inputTubeWeldSeamLocation = null!;
+    private InputText _inputTubeLength = null!;
+    private InputSelect<int> _inputPaintIdentification = null!;
+    private InputText _inputEndOfTubeToCLDistance = null!;
+    private InputText _inputTorquePerNote2 = null!;
+    private InputText _inputTorquePerNote3 = null!;
+    private InputSelect<int> _inputTorqueMarking = null!;
+    private InputText _inputTubePreGalvCoatingThickness = null!;
+    private InputText _inputClampPreCoatingThickness = null!;
+    private InputSelect<int> _inputTotalNoOfHolesBottom3 = null!;
+    private InputSelect<int> _inputPartMarking = null!;
+    private InputSelect<int> _inputRivetPresence = null!;
+    private InputSelect<int> _inputAppearance = null!;
+    private InputText _inputRailTubeWidth;
+    private InputText _inputTubeCornerRadius4Places;
+    private InputText _inputEndOfTubeToClamp1Bolt_2Places;
+    private InputText _inputTorqueClamp4_2Places;
+    private InputText _inputTorqueClamp3_2Places;
+    private InputText _inputClamp1BoltToClamp2BoltDistance_2Places;
+    private InputText _inputClamp3BoltToClamp4BoltDistance_2Places;
+    private InputText _inputTorqueClamp1_2Places;
+    private InputText _inputTorqueClamp2_2Places;
+
+    private string _partInformation;
+    //Attachments
+    //public List<Attachment> AttachmentList = new();
+    //public string FolderLocationForUpload => MyConfig.TempUploadFileFolderPath;
+
+    protected override async Task OnInitializedAsync()
+    {
+        FillDropdown();
+       
+        if (FinalInspectionId != 0)
+        {
+            _finalInspection = await DataEntryRepository.GetFinalInspectionRecordById(FinalInspectionId);
+            _title = "Edit Final Inspection " + _finalInspection.FinalInspectionId;
+
+            //Map dimension ints to text
+            _finalInspection.TorqueMarkingString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.TorqueMarking).Select(y => y.DecisionName)
+                .ToString();
+
+            _finalInspection.PartMarkingString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.PartMarking).Select(y => y.DecisionName)
+                .ToString();
+
+            _finalInspection.RivetPresenceString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.RivetPresence).Select(y => y.DecisionName)
+                .ToString();
+
+            _finalInspection.MidHangerHolesAlignString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.MidHangerHolesAlign).Select(y => y.DecisionName)
+                .ToString();
+
+            _finalInspection.WasherPlatePresence6LocationsString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.WasherPlatePresence6Locations).Select(y => y.DecisionName)
+                .ToString();
+
+            _finalInspection.ColorCodeString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.ColorCode).Select(y => y.DecisionName)
+                .ToString();
+
+            _finalInspection.AppearanceString = _okNokList
+                .Where(x => x.DecisionId == _finalInspection.Appearance).Select(y => y.DecisionName)
+                .ToString();
+
+            _partInformation = $"{_finalInspection.PartName}";
+        }
+        else
+        {
+            _disableSelectQuickCase = false;
+            _finalInspection = new();
+            _finalInspection.InspectorName = HttpContextAccessor.HttpContext?.User?.Identity?.Name;
+            _title = "Create Case ";
+            _status = "Status: New";
+            _finalInspection.TubeLength = Convert.ToDouble(SolarAssemblyConfiguration.Length);
+            _finalInspection.TubeThickness = Convert.ToDouble(SolarAssemblyConfiguration.Thickness);
+            _finalInspection.RailTubeHeight = Convert.ToDouble(SolarAssemblyConfiguration.Height);
+            
+            _partInformation = _finalInspection.PartName = $"{SolarAssemblyConfiguration.PartNumber}-{SolarAssemblyConfiguration.Height}-{SolarAssemblyConfiguration.Thickness}" +
+                               $"-{SolarAssemblyConfiguration.Length}-80-1-{SolarAssemblyConfiguration.AssemblyConfiguration}" +
+                               $"-A-{DateTime.Now.ToString("yyyy-MM-dd")}";
+        }
+
+        
+        
+        _editContext = new EditContext(_finalInspection);
+
+        _showMessageBox = false;
+        _showInternalComments = false;
+        //if (_case.CaseId != 0)
+        //{
+        //    if (_case.StatusId != (int)CaseStatusEnum.NewAwaitingAssignment && _case.StatusId != (int)CaseStatusEnum.ReassignmentRequested)
+        //        _assignCounselorReadOnly = true;
+        //}
+
+        //SetCompleteButton();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await _testFocus.FocusAsync();
+            //await Task.Run(async () => await _testFocus.FocusAsync());
+        }
+    }
+
+    private void MessageBoxClose()
+    {
+        _showMessageBox = false;
+        if (_setFocusInUserToAssign)
+        {
+            _inputUserToAssign.Element!.Value.FocusAsync();
+            _setFocusInUserToAssign = false;
+        }
+        else if (_setFocusInPendingResolutionReason)
+        {
+            _inputPendingResolutionReason.Element!.Value.FocusAsync();
+            _setFocusInPendingResolutionReason = false;
+        }
+        else if (_setFocusInResolutionSection)
+        {
+            _setFocusInResolutionSection = false;
+        }
+
+        StateHasChanged();
+    }
+
+    private void InternalCommentsClose()
+    {
+        _showInternalComments = false;
+        StateHasChanged();
+    }
+
+    protected async void FillDropdown()
+    {
+        _okNokList = DropDownCategories.GetDecisions();
+    }
+    
+    protected async Task JustSave()
+    {
+        string error = string.Empty;
+
+        if (_editContext.Validate())
+        {
+            await SaveCase(false);
+        }
+        else
+        {
+            await FocusFirstError();
+        }
+    }
+    
+    protected async void Cancel()
+    {
+        string error = string.Empty;
+        NavigationManager.NavigateTo("/FinalInspectionsWorkload");
+    }
+
+    protected async Task CompleteCase(EditContext editContext)
+    {
+        _showMessageBox = false;
+        _messageBoxParameters.PageToRedirect = "";
+        if (editContext.Validate())
+        {
+            string error = string.Empty;
+
+
+            if (string.IsNullOrEmpty(error))
+            {
+                await SaveCase(true);
+            }
+            else
+            {
+                ShowErrorMessage("Error saving case", $"<b>Please fix following errors:</b><br>{error}");
+            }
+        }
+        else
+        {
+            await FocusFirstError();
+        }
+    }
+
+    // Utility method to show error messages
+    private void ShowErrorMessage(string title, string message)
+    {
+        _showMessageBox = true;
+        _messageBoxParameters.Title = title;
+        _messageBoxParameters.Message = message;
+        _messageBoxParameters.IsErrorMessage = true;
+        StateHasChanged();
+    }
+    
+    private async Task FocusFirstError()
+    {
+        // repeat for all inputs in order where elements are into the form
+    }
+
+    protected async Task SaveCase(bool complete)
+    {
+        if (FinalInspectionId != 0)
+        {
+            bool updateSuccess = await DataEntryRepository.UpdateFinalInspection(_finalInspection);
+
+            if (updateSuccess)
+            {
+                _messageBoxParameters.Title = "Data updated.";
+                _messageBoxParameters.Message = "Dimension with " + _finalInspection.FinalInspectionId + " updated.";
+                _messageBoxParameters.IsErrorMessage = false;
+                _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
+            }
+            else
+            {
+                ShowErrorMessage("Error updating Dimension data.", $"Unable to update case {_finalInspection.FinalInspectionId}. Please contact system administrator.");
+            }
+        }
+        else
+        {
+            int ret = await (DataEntryRepository.InsertFinalInspection(_finalInspection));
+            if (!string.IsNullOrEmpty(ret.ToString()))
+            {
+                _messageBoxParameters.Title = "New Final Inspection data added";
+                _messageBoxParameters.Message = "Final Inspection number: " + ret;
+                _messageBoxParameters.IsErrorMessage = false;
+                _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
+            }
+            else
+            {
+                _messageBoxParameters.Title = "Error adding Final Inspection data";
+                _messageBoxParameters.Message = "Unable to add new Final Inspection data. Please contact system administrator.";
+                _messageBoxParameters.IsErrorMessage = true;
+                _messageBoxParameters.PageToRedirect = "";
+            }
+        }
+
+        _showMessageBox = true;
+    }
+
+    private void EditContext_OnFieldChanged(object sender,
+        FieldChangedEventArgs e)
+    {
+        // Each time a field changes this code is executed. \EditContext.Validate() returns true if
+        // validation succeeded; that is, all fields pass validation
+        if (_editContext.Validate())
+        {
+            Console.WriteLine("Validation succeeded");
+        }
+        else
+        {
+            // This is the culprit
+            Console.WriteLine(e.FieldIdentifier.FieldName);
+        }
+    }
+
+    private void ShowPreviousComments()
+    {
+        _showInternalComments = true;
+    }
+
+    private void SpecialistRequestReassign()
+    {
+        _specialistRequestReassign = true;
+        StateHasChanged();
+    }
+
+
+    //TODO further story
+    //private void ShowFindUserInAd()
+    //{
+    //    _showActiveDirectorySearch = true;
+    //    StateHasChanged();
+    //}
+
+    //private void MyUserSelected()
+    //{
+    //    _userFromAdSearch = _adId.UserReturned ;// .EmailReturned;
+    //    if (_userFromAdSearch!=null)
+    //    {
+    //        //Find rest of information from AD
+    //        _case.Email = _userFromAdSearch.Email ;
+    //        _case.CustomerName = _userFromAdSearch.FullName;
+    //        _case.Phone = _userFromAdSearch.PhoneNumber;
+    //    }
+
+    //    _showActiveDirectorySearch = false;
+
+    //}
+    private void RefreshAttachments()
+    {
+    }
+
+    private void DeleteAttachment(int id)
+    {
+    }
+}

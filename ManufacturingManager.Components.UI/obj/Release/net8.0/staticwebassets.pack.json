@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net8.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css",
+      "PackagePath": "staticwebassets/ManufacturingManager.Components.UI.bundle.scp.css"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.ManufacturingManager.Components.UI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.build.ManufacturingManager.Components.UI.props",
+      "PackagePath": "build\\ManufacturingManager.Components.UI.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildMultiTargeting.ManufacturingManager.Components.UI.props",
+      "PackagePath": "buildMultiTargeting\\ManufacturingManager.Components.UI.props"
+    },
+    {
+      "Id": "obj/Release/net8.0/staticwebassets/msbuild.buildTransitive.ManufacturingManager.Components.UI.props",
+      "PackagePath": "buildTransitive\\ManufacturingManager.Components.UI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

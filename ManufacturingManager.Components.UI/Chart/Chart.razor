@@ -1,0 +1,114 @@
+﻿@using Microsoft.JSInterop
+ 
+@inject IJSRuntime _jsRuntime
+ 
+<canvas id="@Id" width="100px" height ="100px"></canvas>
+
+@code {
+    public enum ChartType
+    {
+        Pie,
+        Bar,
+        Doughnut,
+        Line
+    }
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Parameter]
+    public ChartType Type { get; set; }
+
+    [Parameter]
+    public string[] Data { get; set; }
+
+    [Parameter]
+    public string[] Data2 { get; set; }
+    [Parameter]
+    public string[] BackgroundColor { get; set; }
+    [Parameter]
+    public string[] BackgroundColor2 { get; set; }
+    [Parameter]
+    public string[] Labels { get; set; }
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string DataSetLabel { get; set; }
+    [Parameter]
+    public string DataSetLabel2 { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        // Here we create an anonymous type with all the options
+        // that need to be sent to Chart.js
+        object myDataSets;
+        if (Data2 !=null)
+        {
+            myDataSets = new[]
+            {
+                new { Data = Data, BackgroundColor = BackgroundColor, Label=DataSetLabel  },
+                new { Data = Data2, BackgroundColor = BackgroundColor2, Label=DataSetLabel2  }
+            };
+        }
+        else
+        {
+            myDataSets = new[]
+            {
+                new { Data = Data, BackgroundColor = BackgroundColor }
+                
+            };
+        }
+        var config = new
+        {
+            Type = Type.ToString().ToLower(),
+            Options = new
+            {
+                Responsive = true,
+               
+                Plugins = new
+                {
+                    Title = new
+                    {
+                        Display = true,
+                        Text = Title,
+                        Font = new
+                        {
+                            size = 20
+                        }
+                    },
+                    DataLabels = new
+                    {
+                        Color = "Blue",
+                        Anchor = "End",
+                        Align = "Top"
+                    },
+                },
+                
+                Scales = new
+                {
+                    YAxes = new[]
+                    {
+                        new
+                        {
+                            Ticks = new
+                            {
+                                BeginAtZero = true
+                            }
+                        }
+                    }
+                }
+            },
+            Data = new
+            {
+                Datasets = myDataSets,
+                Labels = Labels
+            }
+        };
+        
+         
+
+        await _jsRuntime.InvokeVoidAsync("Chartsetup", Id, config);
+    }
+
+}

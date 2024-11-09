@@ -1,0 +1,27 @@
+﻿@page "/EditDimension"
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using ManufacturingManager.Web.Components
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<PageTitle>Edit Dimension</PageTitle>
+@if (DimensionId != 0)
+{
+    <DimensionForm DimensionId="@DimensionId"></DimensionForm>
+}
+@code{
+    private int DimensionId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var id  = await SessionStorage.GetAsync<int>("DimensionId");
+        DimensionId = id.Value;
+        if (DimensionId==0)
+            NavigationManager.NavigateTo("/DimensionWorkload");
+        await SessionStorage.SetAsync("DimensionId", 0);
+
+
+    }
+
+
+}

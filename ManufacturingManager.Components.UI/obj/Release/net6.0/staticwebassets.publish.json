@@ -1,0 +1,46 @@
+{
+  "Version": 1,
+  "Hash": "K2b058ZcjZC4Ys91lTOYJ2LESiPRN7cQsQY3YaHcp2k=",
+  "Source": "ManufacturingManager.Components.UI",
+  "BasePath": "_content/ManufacturingManager.Components.UI",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [
+    {
+      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net6.0/scopedcss/bundle/ManufacturingManager.Components.UI.styles.css",
+      "SourceId": "ManufacturingManager.Components.UI",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net6.0/scopedcss/bundle/",
+      "BasePath": "_content/ManufacturingManager.Components.UI",
+      "RelativePath": "ManufacturingManager.Components.UI.styles.css",
+      "AssetKind": "All",
+      "AssetMode": "CurrentProject",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ApplicationBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net6.0/scopedcss/bundle/ManufacturingManager.Components.UI.styles.css"
+    },
+    {
+      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net6.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css",
+      "SourceId": "ManufacturingManager.Components.UI",
+      "SourceType": "Computed",
+      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net6.0/scopedcss/projectbundle/",
+      "BasePath": "_content/ManufacturingManager.Components.UI",
+      "RelativePath": "ManufacturingManager.Components.UI.bundle.scp.css",
+      "AssetKind": "All",
+      "AssetMode": "Reference",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "ScopedCss",
+      "AssetTraitValue": "ProjectBundle",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Release/net6.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css"
+    }
+  ]
+}

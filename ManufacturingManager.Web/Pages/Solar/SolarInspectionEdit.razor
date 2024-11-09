@@ -1,0 +1,28 @@
+﻿@page "/EditSolarInspection"
+@using ManufacturingManager.Core
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using ManufacturingManager.Web.Components
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<PageTitle>Edit Solar Inspection</PageTitle>
+@if (SolarInspectionId != 0)
+{
+    <SolarInspectionForm SolarInspectionId="@SolarInspectionId"></SolarInspectionForm>
+}
+@code{
+    private int SolarInspectionId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var id  = await SessionStorage.GetAsync<int>("SolarInspectionId");
+        SolarInspectionId = id.Value;
+        if (SolarInspectionId==0)
+            NavigationManager.NavigateTo("/SolarInspectionsWorkload");
+        await SessionStorage.SetAsync("SolarInspectionId", 0);
+
+
+    }
+
+
+}

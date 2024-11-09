@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/ManufacturingManager.Components.UI.props" />
+</Project>

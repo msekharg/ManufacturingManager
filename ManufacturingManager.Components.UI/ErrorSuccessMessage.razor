@@ -1,0 +1,38 @@
+﻿@* Do not use this component
+    You can use MessageBox
+*@
+
+@if (!string.IsNullOrWhiteSpace(Message))
+{
+    <div class="alert @Css bg-opacity-75">
+        <h4>@Title</h4>
+        <p>
+            @Message
+        </p>
+    </div>
+}
+
+@code {
+
+    [Parameter] public string? Message { get; set; }
+    
+    [Parameter] public bool IsErrorMessage { get; set; }
+
+    public string? Title { get; set; }
+    public string? Css { get; set; }
+    
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (IsErrorMessage)
+        {
+            Css = "alert-danger";
+            Title = "Error!";
+        }
+        else
+        {
+            Css = "alert-success";
+            Title = "Success!";
+        }
+        return Task.CompletedTask;
+    }
+}

@@ -1,0 +1,27 @@
+﻿@page "/EditInprocessCheck"
+@using ManufacturingManager.Core
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using ManufacturingManager.Web.Components
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@attribute [Authorize]
+<PageTitle>Edit InProcessCheck</PageTitle>
+@if (InProcessCheckId != 0)
+{
+    <InprocessCheckForm InprocessCheckId="@InProcessCheckId"></InprocessCheckForm>
+}
+@code{
+    private int InProcessCheckId { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var id  = await SessionStorage.GetAsync<int>("InProcessCheckId");
+        InProcessCheckId = id.Value;
+        if (InProcessCheckId==0)
+            NavigationManager.NavigateTo("/InProcessCheckWorkload");
+        await SessionStorage.SetAsync("InProcessCheckId", 0);
+
+
+    }
+
+
+}

@@ -1,0 +1,192 @@
+﻿@page "/InProcessCheckWorkload"
+
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Core
+@using ManufacturingManager.Components.UI
+@using ManufacturingManager.Core.Services
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager navigationManager
+@inject IDataEntryRepository DataEntryRepository
+
+@* @inject UserLogged CurrentUser *@
+@* @attribute [Authorize(Roles = "Administrator,Coordinator,Specialist")] *@
+
+<PageTitle>In Process Check Viewer</PageTitle>
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6" tabindex="0">
+                <h2 class="text-primary" id="startContent">InProcessCheck Workload</h2>
+            </div>
+            <div class="col-6 text-right">
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="col-8" tabindex="0">
+        <button class="btn btn-success mx-4" @onclick="() => AddNewRecord()" title="Add InProcess Record"
+                role="button" aria-pressed="false">
+            Add Record
+            @*<i class="bi-pencil"></i>*@
+        </button>
+    </div>
+    <div class="card-body">
+        <LookUpTablesGrid Items="_listOfInProcessChecks" TItem="InProcessCheck" JqueryFileName="DatatableSolarInspectionWorkload" Args="@Args" SpinningNoRecords="false" Caption="InProcessCheckWorkload">
+            <Columns>
+                <LookUpTablesGridColumn Name="InProcessCheckId" Label="InProcessCheck Id">
+                    <div tabindex="0">
+                        @context.InProcessCheckId
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="InspectorName" Label="Inspector Name">
+                    <div tabindex="1">
+                        @context.InspectorName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="PrimarySawLengthValue" Label="Primary Saw Length">
+                    <div class="row">
+                        <div class="child_div_1">
+                            <label class="form-label fw-bold pe-3" for="PrimarySawLengthNominal">Nominal: </label>
+                            @context.PrimarySawLengthNominal
+                        </div>
+
+                        <div class="child_div_1">
+                            <label class="form-label fw-bold pe-3" for="PrimarySawLengthTolPlus">Tol+: </label>
+                            @context.PrimarySawLengthTolPlus
+                        </div>
+                        <div class="child_div_1">
+                            <label class="form-label fw-bold pe-3" for="PrimarySawLengthTolMinus">Tol-: </label>
+                            @context.PrimarySawLengthTolMinus
+                        </div>
+
+                        <div class="child_div_1" tabindex="2">
+                            <label class="form-label fw-bold pe-3" for="PrimarySawLengthValue">Length Value: </label>
+                            @context.PrimarySawLengthValue
+                        </div>
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="BendingLengthValue" Label="Binding Length">
+                    <div tabindex="3">
+                        @context.BendingLengthValue
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="BendingODValue" Label="Binding OD">
+                    <div tabindex="4">
+                        @context.BendingODValue
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="BendingWallThicknessValue" Label="Binding Wall Thickness">
+                    <div tabindex="5">
+                        @context.BendingWallThicknessValue
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="SecondarySawLengthValue" Label="Secondary Saw Length">
+                    <div tabindex="6">
+                        @context.SecondarySawLengthValue
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="CreatedDate" Label="Created Date">
+                    <div tabindex="7">
+                        @context.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss")
+                    </div>
+                </LookUpTablesGridColumn>
+                @*  <LookUpTablesGridColumn Name="QuickCase" Label="Quick Case">
+                    <div class="text-center" tabindex="0">
+                        @if (context.QuickCase)
+                        {
+                            <i class="bi bi-check-circle-fill" role="img" aria-label="Quick case" Title="Quick case" style="font-size: 1.5rem; color: green;"></i>
+                        }
+                    </div>
+                </LookUpTablesGridColumn> *@
+                @*  <LookUpTablesGridColumn Name="CaseStatusDescription" Label="Status">
+                    <div tabindex="0">
+                    @if (context.StatusId == 500)
+                    {
+                            <span class="text-danger-508 p-2 fw-bold">@context.CaseStatusDescription</span>
+                    }
+                    else
+                    {
+                        @context.CaseStatusDescription
+                    }
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="CategoryDescription" Label="Question Category">
+                    <div tabindex="0">
+                        @context.CategoryDescription 
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="PriorityDescription" Label="Priority">
+                    <div tabindex="0">
+                        @context.PriorityDescription  
+                    </div>
+                </LookUpTablesGridColumn>
+ *@
+                <LookUpTablesGridColumn Name="" Label="Action">
+                    @{
+                        var id = context.InProcessCheckId;
+
+                        <button class="btn btn-success mx-4" @onclick="() => GetSelectedRecords(id)" title="Edit InProcessCheck @context.InProcessCheckId"
+                                role="button" aria-pressed="false">
+                            <i class="bi-pencil"></i>
+                        </button>
+
+                        // <button class="btn btn-secondary text-white" value="" @onclick="() => ViewLog(id, context.InspectorName)" title=" View log information for Case  @context.DimensionId"
+                        //         role="button" aria-pressed="false">
+                        //     <i class="bi-binoculars"></i>
+                        // </button>
+                    }
+
+                </LookUpTablesGridColumn>
+            </Columns>
+        </LookUpTablesGrid>
+
+        @if (ShowDialogOpen)
+        {
+            <ViewCaseLogs Title="@LogTitle" RecordId="@RecordId" OnClose="@OnDeleteDialogClose" Args="@ArgsView"></ViewCaseLogs>
+        }
+    </div>
+</div>
+
+@code{
+
+    public IList<InProcessCheck> _listOfInProcessChecks = new List<InProcessCheck>();
+    public string? LogTitle { get; set; }
+    public int RecordId { get; set; }
+    private bool ShowDialogOpen { get; set; }
+    private LookUpTableArgs Args { get; set; }
+    public LookUpTableArgs ArgsView { get; set; }
+    private IList<Decision>? _okNokList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Args = new LookUpTableArgs
+        {
+            TableName = "InProcessCheckTable",
+            FilenameToExportExcel = "InProcessCheckWorkload" //,
+            //TitleInExcelFile = "Workload for user "
+        };
+
+        _okNokList = DropDownCategories.GetDecisions();
+
+        _listOfInProcessChecks = (IList<InProcessCheck>)await DataEntryRepository.GetInProcessCheckDataView();
+    }
+
+    protected void GetSelectedRecords(int inProcessCheckId)
+    {
+        SessionStorage.SetAsync("InProcessCheckId", inProcessCheckId);
+        navigationManager.NavigateTo("/EditInprocessCheck");
+    }
+
+    protected void AddNewRecord()
+    {
+        navigationManager.NavigateTo("/AddInprocessCheck");
+    }
+
+    private async void OnDeleteDialogClose()
+    {
+        ShowDialogOpen = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

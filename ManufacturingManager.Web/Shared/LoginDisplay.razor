@@ -1,0 +1,6 @@
+﻿@using System.Security.Claims
+<AuthorizeView>
+    @*Hello, @context.User.Identity?.Name!*@
+    Hello, <span style="color:blue;"> @context.User?.FindFirstValue("name")!</span>
+</AuthorizeView>
+    

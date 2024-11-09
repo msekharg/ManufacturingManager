@@ -1,0 +1,92 @@
+﻿@inject IJSRuntime _jsRuntime
+@attribute [CascadingTypeParameter( nameof(TItem))]
+@using Microsoft.JSInterop
+@typeparam TItem
+@if (SpinningNoRecords && Items.Count == 0)
+{
+    <div class="row m-2">
+      <div class="spinner"></div>
+    </div>
+    <h1>Loading........</h1>
+}
+else
+{
+   <div class="table-responsive">
+       <table class="table table-bordered table-striped " id="@Args.TableName" role="grid" aria-describedby="lookUpTable_info">
+           @*I don't show the caption because it is the same as the page title, but it is needed for 508*@
+           <caption class="caption-top text-center text-white">@Caption</caption>
+           <thead class="table-primary">
+           <tr>
+               @Columns?.Invoke(default(TItem)!)
+           </tr>
+           </thead>
+           <tbody>
+           @foreach (var item in Items)
+           {
+               <CascadingValue Value="item">
+                   <tr>
+                       @Columns?.Invoke(item)
+                   </tr>
+               </CascadingValue>
+           }
+           </tbody>
+       </table>
+   @* <Pagination></Pagination>*@
+    </div>
+}
+@code {
+
+    [Parameter]
+    public string TableName { get; set; } = null!;
+
+    [Parameter]
+    public IList<TItem> Items { get; set; } = null!;
+
+    [Parameter]
+    public string JqueryFileName { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment<TItem>? Columns { get; set; }
+
+    [Parameter]
+    public bool SpinningNoRecords { get; set; } = true;
+
+    [Parameter]
+    public bool ReloadTable { get; set; } = false;
+    
+    [Parameter] 
+    public LookUpTableArgs  Args { get; set; }
+
+    [Parameter]
+    public string Caption { get; set; } = "";
+
+    [Parameter] public bool IsVisible { get; set; } = true;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            //ReloadTable is used to refresh Jquery datatable. We need to remove the datatable and reload it when we refresh data
+            //from server. For example when the customer is able to make different queries. 
+            //Add a method from the Original page (see )
+            if (ReloadTable)
+            {
+
+               await RemoveDataTable();
+                await _jsRuntime.InvokeAsync<object>(JqueryFileName, Args);
+                ReloadTable = false;
+            }
+
+        }
+        else
+        {
+            await _jsRuntime.InvokeAsync<object>(JqueryFileName,  Args);
+
+        }
+    }
+
+    protected async Task RemoveDataTable()
+    {
+        await _jsRuntime.InvokeAsync<object>("DataTableRemove", "#" + Args.TableName);
+    }
+}
