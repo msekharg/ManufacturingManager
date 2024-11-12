@@ -1,0 +1,113 @@
+﻿@page "/UserList"
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Web.Data
+@using ManufacturingManager.Components.UI
+@using ManufacturingManager.Core
+@inject IUsersRepository UserRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@inject UserLogged CurrentUser
+@rendermode InteractiveServer
+
+<PageTitle>List of users</PageTitle>
+
+@attribute [Authorize(Roles = "Administrator")]
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6" tabindex="0">
+                <h2 class="text-primary" id="startContent">List of Users</h2>
+            </div>
+            <div class="col-6 text-right align-middle">
+                <AuthorizeView Roles="Administrator">
+                    <Authorized>
+                        <button class="btn btn-primary  btn-lg" @onclick="() => ReditectToEditPage(0)" title="Add user">
+                            <i class="bi-plus-circle-fill me-2"></i>Add User
+                        </button>
+                    </Authorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <LookUpTablesGrid Items="_users" TItem="User" JqueryFileName="UsersTableLookup" Args="@Args" Caption="List of Users">
+            <Columns>
+                <LookUpTablesGridColumn Name="FirstName" Label="First Name">
+                    <div tabindex="0">
+                        @context.FirstName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="MInitial" Label="Middle Initial">
+                    <div tabindex="0">
+                        @context.MiddleName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="LastName" Label="Last Name">
+                    <div tabindex="0">
+                        @context.LastName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="Email" Label="Email">
+                    <div tabindex="0">
+                        @context.Email
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="VaLogon" Label="VA Login">
+                    <div tabindex="0">
+                        @context.LoginName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="ProfileDescription" Label="Profile">
+                    <div tabindex="0">
+                        @context.UserRoleDescription
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="LastAccess" Label="Last Access">
+                    <div tabindex="0">
+                        @if (context.LastAccess != null)
+                        {
+                            @context.LastAccess.Value.ToString("yyyy/MM/dd HH:mm:ss")
+                        }
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="Active" Label="Active">
+                    <div class="text-center" tabindex="0">
+                        @if (context.IsActive)
+                        {
+                            <i class="bi bi-check-circle-fill" role="img" aria-label="Active" Title="Active" style="font-size: 1.5rem; color: green;"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-x-circle-fill" role="img" aria-label="Inactive" Title="Inactive" style="font-size: 1.5rem; color: red;"></i>
+                        }
+                    </div>
+                </LookUpTablesGridColumn>
+                @* <LookUpTablesGridColumn Name="TimesUsed" Label="# Times Used"></LookUpTablesGridColumn>*@
+                <LookUpTablesGridColumn Name="" Label="Action">
+                    @{
+                        var id = context.UserId;
+                        var desc = context.FullName;
+                        if (CurrentUser.Role == "Administrator")
+                        {
+                            <button class="btn btn-success mx-4" value="" @onclick="() => ReditectToEditPage(id)" title=" Edit user @desc" role="button" aria-pressed="false">
+                                <i class="bi-pencil"></i>
+                            </button>
+                        }
+                        <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, desc)" title=" View log information for user @desc" role="button" aria-pressed="false">
+                            <i class="bi-binoculars"></i>
+                        </button>
+                    }
+
+                </LookUpTablesGridColumn>
+
+            </Columns>
+
+        </LookUpTablesGrid>
+        @if (ShowDialogOpen)
+        {
+            <ViewModalLogs Title="@LogTitle" TableName="UsersLog" RecordId="@RecordId" OnClose="@OnDeleteDialogClose" Args="@ArgsView"></ViewModalLogs>
+        }
+    </div>
+</div>
+
+

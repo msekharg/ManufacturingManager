@@ -1,0 +1,39 @@
+﻿@page "/"
+@layout EmptyLayout
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Web.Components.Layout
+@using ManufacturingManager.Web.Configuration
+@using ManufacturingManager.Web.Services
+@inject IdentityInformation Identity
+@inject IUsersRepository  UsersRepository
+@inject NavigationManager NavigationManager
+@inject ProtectedSessionStorage ProtectedSessionStorage 
+@inject AppSettings MyAppSettings
+@inject IHttpContextAccessor  HttpContextAccessor  
+@rendermode  InteractiveServer
+<PageTitle>Quality Assurance Manager</PageTitle>
+<div class="mx-4">
+<EditForm OnSubmit="@Login" EditContext="_editContext">
+    <div class="row" >
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bottom-spacing-10">
+                    @* <img src="images/fsc-alert-icon-danger.png" alt="Alert!"/> *@
+                    <h2 class="panel-title panel-default" tabindex ="0">
+                        Authorized Use Only
+                    </h2>
+
+                </div>
+                <div class="card-body" tabindex ="0">
+                    You are logging in to the site.
+                    <hr/>
+                    <p class="top-spacing-20">
+                        
+                        <input type="submit" value="I agree" class="btn btn-primary m-4" title="I agree to the authorization criteria"/>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+</div>

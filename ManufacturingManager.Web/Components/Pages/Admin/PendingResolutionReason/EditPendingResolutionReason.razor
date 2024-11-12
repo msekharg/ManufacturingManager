@@ -1,0 +1,28 @@
+﻿@page "/EditPendingResolutionReason"
+@using PCSCaseManagement.Web.Data
+@inject IPendingResolutionReasonRepository    Repository 
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@inject UserLogged  CurrentUser 
+@rendermode InteractiveServer
+<PageTitle>Edit pending resolution reason</PageTitle>
+@attribute [Authorize(Roles = "Administrator")]
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col" tabindex="0">
+                <h2 class="text-primary" id="startContent">@_addEditTitle</h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <FormLookUpTables LookUpTable="_pendingResolutionReasons" OnValidSubmit="Save" OnReturnToList="ReturnToList"/>
+    </div>
+</div>
+
+@if (_showMessageBox)
+{
+ 
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}

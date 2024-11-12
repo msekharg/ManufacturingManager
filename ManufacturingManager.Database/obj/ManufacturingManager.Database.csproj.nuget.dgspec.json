@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/ManufacturingManager.Database.csproj": {}
+    "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Database/ManufacturingManager.Database.csproj": {}
   },
   "projects": {
-    "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/ManufacturingManager.Database.csproj": {
+    "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Database/ManufacturingManager.Database.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/ManufacturingManager.Database.csproj",
+        "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Database/ManufacturingManager.Database.csproj",
         "projectName": "ManufacturingManager.Database",
-        "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/ManufacturingManager.Database.csproj",
+        "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Database/ManufacturingManager.Database.csproj",
         "packagesPath": "/Users/manisekharganti/.nuget/packages/",
-        "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/obj/",
+        "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Database/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/manisekharganti/.nuget/NuGet/NuGet.Config"

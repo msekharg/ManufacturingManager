@@ -1,0 +1,30 @@
+﻿@*@{
+    ViewBag.Title = "Timeout Warning";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title panel-authorization">
+            <span class="glyphicon glyphicon-alert authorize-alert"> </span> Goodbye!
+        </h2>
+    </div>
+    <div class="card-body">
+        You have exceeded PCS Case Management Timeout limit with no activity.
+        Your session has been abandoned.
+        Please click continue to return to the splash page and login again.
+    </div>
+    <div class="card-footer">
+        @using (Html.BeginForm("KeepAlive", "Timeout", FormMethod.Post, new { id = "frmLogin" }))
+        {
+            <div class="clearfix">
+
+                @Html.AntiForgeryToken()
+                <button name="loginAction" value="goodbye" type="submit" class="btn btn-primary pull-right">Continue</button>
+
+            </div>
+        }
+    </div>
+</div>*@

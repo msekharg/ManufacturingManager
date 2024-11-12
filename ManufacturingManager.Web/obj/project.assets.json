@@ -3757,11 +3757,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/ManufacturingManager.Web.csproj",
+      "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/ManufacturingManager.Web.csproj",
       "projectName": "ManufacturingManager.Web",
-      "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/ManufacturingManager.Web.csproj",
+      "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/ManufacturingManager.Web.csproj",
       "packagesPath": "/Users/manisekharganti/.nuget/packages/",
-      "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/obj/",
+      "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/manisekharganti/.nuget/NuGet/NuGet.Config"
@@ -3776,14 +3776,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj": {
-              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj"
+            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj": {
+              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj"
             },
-            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/ManufacturingManager.Components.UI.csproj": {
-              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/ManufacturingManager.Components.UI.csproj"
+            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/ManufacturingManager.Components.UI.csproj": {
+              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/ManufacturingManager.Components.UI.csproj"
             },
-            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/ManufacturingManager.Core.csproj": {
-              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/ManufacturingManager.Core.csproj"
+            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Core/ManufacturingManager.Core.csproj": {
+              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Core/ManufacturingManager.Core.csproj"
             }
           }
         }

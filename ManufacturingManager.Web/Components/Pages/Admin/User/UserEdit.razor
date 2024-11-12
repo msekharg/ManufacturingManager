@@ -1,0 +1,144 @@
+﻿ @page "/EditUser"
+@using ManufacturingManager.Core
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Web.Data
+@inject IUsersRepository Repository
+@inject IUserRoleRepository UserRoleRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@inject UserLogged CurrentUser
+@inject IJSRuntime JsRuntime
+@rendermode InteractiveServer
+<PageTitle>Edit user</PageTitle>
+@attribute [Authorize(Roles = "Administrator")]
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col" tabindex="0">
+                <h2 class="text-primary " id="startContent">@_addEditTitle</h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-1"></div>
+            <div class="col-10">
+                <div class="mt-4  form-group required">
+                    <div class="control-label" aria-label="Asterik indicates required" tabindex="0">Indicates required</div>
+                </div>
+            </div>
+        </div>
+
+        <EditForm EditContext="_editContext" OnValidSubmit="@Save" OnInvalidSubmit="@FocusFirstError">
+            @if (!_showActiveDirectorySearch)
+            {
+                <DataAnnotationsValidator />
+            }
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <div class="form-group required top-spacing-10 row ">
+                        <div class="col-5 ">
+                            <label class="fw-bold me-3 control-label" for="Email">Email</label>
+                            @if (_user.UserId == 0)
+                            {
+                                <button class="btn btn-success me-4" value="Search User" @onclick="ShowFindUserInAd" title="Search User in Active Directory">
+                                    Search User
+                                    <i class="bi-search pe-2"></i>
+                                </button>
+
+                            }
+                            <InputText class="form-control" id="Email" @bind-Value="_user.Email" type="text" data-val="true"
+                                       aria-label="Email Address.Field required" @ref="_inputEmail" />
+                            <div>
+                                <ValidationMessage For="@(() => _user.Email)"></ValidationMessage>
+                            </div>
+                        </div>
+                        <div class="col-2"></div>
+                        <div class="col-5">
+                            <label class="fw-bold me-3 control-label" for="VaLogon">VA Login</label>
+                            <InputText class="form-control" id="VaLogon" @bind-Value="_user.LoginName" type="text" data-val="true"
+                                       aria-label="VA Logon.Field required" @ref="_inputVaLogon" />
+                            <div>
+                                <ValidationMessage For="@(() => _user.LoginName)"></ValidationMessage>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required row top-spacing-10">
+                        <div class="col-5">
+                            <label class="fw-bold me-3 control-label" for="FirstName">First Name</label>
+                            <InputText class="form-control" id="FirstName" @bind-Value="_user.FirstName" type="text" data-val="true"
+                                       aria-label="First Name.Field required" @ref="_inputFirstName" />
+                            <div>
+                                <ValidationMessage For="@(() => _user.FirstName)"></ValidationMessage>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <label class="fw-bold me-3" for="MInitial">Middle initial</label>
+                            <InputText class="form-control w-25 " id="MInitial" @bind-Value="_user.MiddleName" maxlength="1" type="text" data-val="true" />
+
+                        </div>
+                        <div class="col-5">
+                            <label class="fw-bold me-3 control-label" for="LastName">Last Name</label>
+                            <InputText class="form-control" id="LastName" @bind-Value="_user.LastName" type="text" data-val="true"
+                                       aria-label="Last Name.Field required" @ref="_inputLastName" />
+                            <div>
+                                <ValidationMessage For="@(() => _user.LastName)"></ValidationMessage>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group required row top-spacing-10">
+                        <div class="col-5">
+                            <label class="form-label fw-bold control-label">Profile</label>
+                            <InputSelect id="ddlContactType" class="form-select form-control"
+                                         aria-label="Profile.Field required" @ref="_inputProfile"
+                                         @bind-Value="@_user.UserRoleId">
+                                @if (_profileList != null)
+                                {
+                                    foreach (UserRole item in _profileList)
+                                    {
+                                        <option value="@item.UserRoleId">@item.UserRoleName</option>
+                                    }
+                                }
+                            </InputSelect>
+                            <ValidationMessage For="@(() => _user.UserRoleId)"></ValidationMessage>
+
+                        </div>
+                        <div class="col-7">
+                        </div>
+
+                    </div>
+                    <div class="input-group top-spacing-10">
+                        <div class="col-12">
+                            <div class="form-check input-group">
+                                <label class="fw-bold form-label me-4" for="Active">Active</label>
+                                <InputCheckbox class="form-check " @bind-Value="_user.IsActive" id="Active"></InputCheckbox>
+                                <label class="form-check-label fst-italic ms-2" for="Active">Check/uncheck box to grant or deny access to this user.</label><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-1"></div>
+            </div>
+            <div class="form-group row mt-5 w-50">
+                <div class="col-2"></div>
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-primary me-5" value="Save" />
+                    <input type="button" class="btn btn-default" value="Back to List" @onclick="@ReturnToList" />
+                </div>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+@if (_showMessageBox)
+{
+
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}
+@* @if (_showActiveDirectorySearch) *@
+@* { *@
+@*     <FindUserInActiveDirectory OnUserSelected="@MyUserSelected" @ref="_adId" UserReturned="@_userFromAdSearch"></FindUserInActiveDirectory> *@
+@* }   *@

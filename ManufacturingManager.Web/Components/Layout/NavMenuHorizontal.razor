@@ -1,0 +1,129 @@
+﻿@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Http
+@using System.Security.Claims;
+@using ManufacturingManager.Web.Data
+@using Microsoft.AspNetCore.Components.Server.Circuits
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject IJSRuntime Js
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserLogged CurrentUser
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+
+
+<AuthorizeView>
+    <NotAuthorized>
+        @{
+            NavigationManager.NavigateTo(_userName.Value != null ? "/ErrorPage" : "/");
+        }
+
+    </NotAuthorized>
+
+</AuthorizeView>
+<div class="fsc-brand horizontal-nav">
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header main-nav">
+                    <div class="brand-container">
+                        <a class="navbar-brand va-logo-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="/images/1_-VA-PRIMARY-HORIZONTAL-White_260.png" class="va-logo" alt="Veterans Affairs Logo" /></a>
+                        <a class="navbar-brand fsc-logo-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="/images/FSC-Logo-White-SVG.svg" class="fsc-logo" alt="FSC Logo" /> </a>
+                    </div>
+                    <AuthorizeView>
+                        <Authorized>
+                            @*<ul class="nav navbar-nav utility">*@
+                            <ul class="nav utility">
+                                <!--- user account -->
+                                <li class="dropdown account">
+                                    <a href="#" class="dropdown-toggle  " data-bs-toggle="dropdown" id="accountDropdown" role="button" aria-haspopup="false" aria-expanded="false" title="User account">
+                                        <span class="bi-person-fill" aria-hidden="true"></span>
+                                        Welcome,@context.User.Identity?.Name
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li class="dropdown-item">
+                                            <span id="ulProfiles" runat="server" class="">
+                                                @context.User.Claims.FirstOrDefault(x => x.Type.ToString().Contains("role"))?.Value
+                                            </span>
+
+                                        </li>
+
+                                        <li role="separator" class="divider"></li>
+                                        <NavLink class="dropdown-item  " href="#" @onclick="(Logout)">Logout</NavLink>
+
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </Authorized>
+                    </AuthorizeView>
+                    <div class="title-container">
+                        <div class="title-skew">
+                            <div class="title-left-skew">
+                                <div class="title-text">
+                                    Quality Assurance Manager
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Skip navigation link -->
+            @{
+                if (string.IsNullOrEmpty(CurrentLocation))
+                    CurrentLocation = @"/" + NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+                <div class="skip-link">
+                    <a class="nav-link" href="@CurrentLocation" @onclick="SkipToContent"> Skip to page content</a>
+                </div>
+            }
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="stacked-nav fsc-pills">
+                <div class="container-fluid stacked-nav-container">
+                    <!-- FSC Pills with dropdowns-->
+
+                    <ul class="nav nav-pills fsc-pills-nav">
+                        <NavLink class="nav-link" href="/FinalInspectionsWorkload" Match="NavLinkMatch.Prefix">Final Inspection Workload</NavLink>
+
+                        @* <AuthorizeView Roles="Administrator, User"> *@
+                        @*     <Authorized> *@
+                        @*         <NavLink class="nav-link  " href="/CasesFromOutlook" Match="NavLinkMatch.Prefix">Cases from Outlook</NavLink> *@
+                        @*         <NavLink class="nav-link  " href="/AddCase" Match="NavLinkMatch.Prefix">Create Case</NavLink> *@
+                        @*         <NavLink class="nav-link " href="/ListCases" Match="NavLinkMatch.Prefix">Select Case</NavLink> *@
+                        @*     @* *@
+                        @*         <NavLink class="nav-link " href="/TestAdSearch" Match="NavLinkMatch.Prefix">Test Ad Search</NavLink> *@
+                        @*          <NavLink class="nav-link " href="/TestGraph" Match="NavLinkMatch.Prefix">TestGraph</NavLink> *@
+                        @*          <NavLink class="nav-link" href="/TestAttachments" Match="NavLinkMatch.Prefix">Test Attachments</NavLink> *@
+                        @*          <NavLink class="nav-link" href="/TestErrorBoundary" Match="NavLinkMatch.Prefix">Test Error Boundary</NavLink>  *@
+                        @*     *@ 
+                        @*     </Authorized> *@
+                        @* </AuthorizeView> *@
+
+                        <AuthorizeView Roles="Administrator, User">
+                            <Authorized>
+                                <div class="nav-link dropdown  " role="presentation">
+                                    <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button">
+                                        Admin<span class="caret"></span>
+                                    </a>
+
+                                    <div class="dropdown-menu">
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Users" href="/UserList" Match="NavLinkMatch.Prefix">Users</NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Categories" href="/CategoryList" Match="NavLinkMatch.Prefix">Categories</NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Priorities" href="/PriorityList" Match="NavLinkMatch.Prefix">Priorities</NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Type of Contact with customer" href="/ContactTypeList" Match="NavLinkMatch.Prefix">Contact Types </NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Source of Questions" href="/QuestionSourceList" Match="NavLinkMatch.Prefix">Question Sources</NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Reasons for Pending Resolution of a case" href="/PendingResolutionReasonList" Match="NavLinkMatch.Prefix">Pending Resolution Reasons</NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Type of Resolutions" href="/ResolutionTypeList" Match="NavLinkMatch.Prefix">Resolution Types</NavLink>
+                                    </div>
+                                </div>
+                            </Authorized>
+                        </AuthorizeView>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- END WRAPPER -->
+    </div>
+</div>
+

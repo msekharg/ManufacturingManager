@@ -7,6 +7,9 @@ namespace ManufacturingManager.Core.Repositories
         //Lookups
         IEnumerable<ClampsPositioning> GetClampsPositioning();
         IEnumerable<ColorCodeMatrix> GetColorCodeMatrix();
+        ColorCodeMatrix GetColorCodeMatrixById(int colorCodeMatrixId);
+        Task<bool> UpdateColorCode(ColorCodeMatrix colorCodeMatrix);
+        Task<int> InsertColorCode(ColorCodeMatrix colorCodeMatrix);
         IEnumerable<MidRailConfiguration> GetMidRailConfiguration();
         
         Task<IEnumerable<Dimension>> GetDimensionsDataView();

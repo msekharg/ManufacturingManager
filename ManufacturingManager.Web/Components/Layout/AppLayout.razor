@@ -1,0 +1,94 @@
+﻿
+@using ManufacturingManager.Web.Configuration
+@using ManufacturingManager.Web.Services
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Hosting
+@inject IWebHostEnvironment Env
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject AppSettings AppSettings
+
+<PageTitle>Quality Assurance Manager</PageTitle>
+<div class="fsc-brand horizontal-nav ">
+    <NavMenuHorizontal/>
+    <CustomErrorBoundary @ref="_errorBoundary">
+        <ChildContent>
+            <div class="container-fluid main-container" id="pageContent">
+                @Body
+            </div>
+        </ChildContent>
+        <ErrorContent Context="exception"> 
+            <div class="alert bg-danger bg-opacity-25 my-3">
+                @if (Env.IsDevelopment())
+                {
+                 
+                    <h3>@exception.GetType() </h3>
+                    <h3>@exception.Message </h3>
+                    <h3>@exception.StackTrace </h3>
+                 
+                } 
+                <h1>Unexpected Error. Please contact System Administrator</h1>
+                <button class="btn btn-danger" @onclick="() => _errorBoundary.Recover()">Clear</button>
+            </div>
+        </ErrorContent>
+    </CustomErrorBoundary>
+
+    <FscFooter></FscFooter>
+</div>
+
+@code {
+
+
+    [CascadingParameter] protected Task<AuthenticationState>? AuthenticationStateTask { get; set; }
+    public int _userId;
+    private Lazy<Task<IJSObjectReference>>? _moduleTask;
+    private CustomErrorBoundary _errorBoundary = null!;
+    protected override async Task OnInitializedAsync()
+    {
+        _errorBoundary = new CustomErrorBoundary();
+        /*
+            We need to load the timeout script to start the timeout process.
+            This is the master page for the application and it is loaded when the user
+            is authenticated.
+            Include the following scripts in AppLayout.razor page:
+            <script src="~/js/store.js"></script>
+            <script src="~/js/fsc-idleTimeout.js"></script>
+
+            To run this script define moduleTask variable above, then load the timeout scrip
+        */
+        _moduleTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/timeout.js").AsTask());
+        var module = await _moduleTask.Value;
+        await module.InvokeAsync<string>("startTimeOut", AppSettings.SessionTimeoutInMinutes * 60, AppSettings.SessionWarningMinutes * 60);
+
+        if (AuthenticationStateTask != null)
+        {
+            var authState = await AuthenticationStateTask;
+            var user = authState.User;// (await AuthStat).User;
+            if (user.Identity is { IsAuthenticated: false })
+            {
+                NavigationManager.NavigateTo("/");
+            }
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var dotNetReference = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("window.blazor_setExitEvent", dotNetReference);
+        }
+        /*Fixing layout with fsc footer*/
+        _moduleTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
+            "import", "./js/fsc-footer.js").AsTask());
+        var module = await _moduleTask.Value;
+        await module.InvokeAsync<string>("footerAffix");
+    }
+    
+    [JSInvokable("SPASessionClosed")]
+    public void SPASessionClosed()
+    {
+        NavigationManager.NavigateTo("logout", true);
+    }
+}

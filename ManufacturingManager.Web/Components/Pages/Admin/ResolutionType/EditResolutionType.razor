@@ -1,0 +1,64 @@
+﻿ @page "/EditResolutionType"
+@using PCSCaseManagement.Web.Data
+@inject IResolutionTypeRepository Repository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@inject UserLogged CurrentUser
+@rendermode InteractiveServer
+<PageTitle>Edit resolution type</PageTitle>
+@attribute [Authorize(Roles = "Administrator")]
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col" tabindex="0">
+                <h2 class="text-primary " id="startContent">@_addEditTitle</h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="my-4 ms-5 w-50 form-group required">
+        <div class="control-label" aria-label="Asterik indicates required" tabindex="0">Indicates required</div>
+
+    </div>
+    <div class="card-body">
+        <EditForm EditContext="_editContext" OnValidSubmit="Save" OnInvalidSubmit="@FocusFirstError">
+            <DataAnnotationsValidator />
+            <div class="ms-5 w-50 form-group required">
+                <label class="fw-bold me-3 control-label" for="Description">Description</label>
+                <InputText class="form-control" id="Description" @bind-Value="_resolutionTypes.Description" type="text" data-val="true"
+                           aria-label="Description.Field required" @ref="_inputDescription"
+                           data-val-length="The field Description must be a string with a maximum length of 30 characters." />
+                <div>
+                    <ValidationMessage For="@(() => _resolutionTypes.Description)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="my-4 ms-5 w-50">
+                <label class="fw-bold me-3" for="Resolution">Default text for Question/Issue Resolution field</label>
+                <InputText class="form-control" id="Resolution" @bind-Value="_resolutionTypes.DefaultResolution" type="text" />
+                <div>
+                    <ValidationMessage For="@(() => _resolutionTypes.DefaultResolution)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="input-group ms-5 w-50">
+                <label class="fw-bold me-4" for="Active">Active</label>
+                <InputCheckbox class="form-check " @bind-Value="_resolutionTypes.Active" id="Active"></InputCheckbox>
+                <label class="form-check-label fst-italic ms-2" for="Active">Check/uncheck this box to make this option active or inactive.</label><br />
+            </div>
+
+            <div class="form-group row mt-5 w-50">
+                <div class="col-2"></div>
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-primary me-5" value="Save" />
+                    <input type="button" class="btn btn-default" value="Back to List" @onclick="@ReturnToList" />
+                </div>
+            </div>
+
+        </EditForm>
+    </div>
+</div>
+
+@if (_showMessageBox)
+{
+
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}

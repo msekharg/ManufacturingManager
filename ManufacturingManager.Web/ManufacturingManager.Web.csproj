@@ -2015,8 +2015,8 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap-icons\icons\zoom-in.svg" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap-icons\icons\zoom-out.svg" />
       <_ContentIncludedByDefault Remove="wwwroot\.DS_Store" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+<!--      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />-->
+<!--      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />-->
       <_ContentIncludedByDefault Remove="wwwroot\css\buttons.bootstrap.min.css" />
       <_ContentIncludedByDefault Remove="wwwroot\css\buttons.bootstrap5.css" />
       <_ContentIncludedByDefault Remove="wwwroot\css\buttons.dataTables.min.css" />
@@ -2199,33 +2199,139 @@
       <_ContentIncludedByDefault Remove="wwwroot\lib\Chart.js\chart.min.js" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\Chart.js\helpers.esm.js" />
       <_ContentIncludedByDefault Remove="wwwroot\lib\Chart.js\helpers.esm.min.js" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\ContactType\ContactTypeEdit.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\ContactType\ContactTypeList.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\PendingResolutionReason\EditPendingResolutionReason.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\PendingResolutionReason\PendingResolutionReasonList.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\Priority\PriorityEdit.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\Priority\PriorityList.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\QuestionSource\EditQuestionSource.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\QuestionSource\QuestionSourceList.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\ResolutionType\EditResolutionType.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\ResolutionType\ResolutionTypeList.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\User\UserEdit.razor" />
+      <_ContentIncludedByDefault Remove="Pages\Admin\User\UserList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\ContactType\ContactTypeEdit.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\ContactType\ContactTypeList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\PendingResolutionReason\EditPendingResolutionReason.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\PendingResolutionReason\PendingResolutionReasonList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\Priority\PriorityEdit.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\Priority\PriorityList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\QuestionSource\EditQuestionSource.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\QuestionSource\QuestionSourceList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\ResolutionType\EditResolutionType.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\ResolutionType\ResolutionTypeList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\User\UserEdit.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Admin\User\UserList.razor" />
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Include="Components\Layout\NavMenuHorizontal.razor.cs" />
+      <Compile Include="Components\Pages\Admin\ColorCodeMatrix\ColorCodeMatrixEdit.razor.cs" />
+      <Compile Include="Components\Pages\Admin\ColorCodeMatrix\ColorCodeMatrixList.razor.cs" />
+      <Compile Include="Components\Pages\Admin\User\UserEdit.razor.cs" />
+      <Compile Include="Components\Pages\Admin\User\UserList.razor.cs" />
+      <Compile Include="Components\Pages\Error.cshtml.cs" />
+      <Compile Include="Components\Pages\Index.razor.cs" />
+      <Compile Include="Configuration\CaseAppSettings.cs" />
       <Compile Include="Data\LookUpTable.cs" />
+      <Compile Include="Data\UserLogged.cs" />
       <Compile Include="Data\WeatherForecast.cs" />
       <Compile Include="Data\WeatherForecastService.cs" />
-      <Compile Include="Pages\Error.cshtml.cs" />
+      <Compile Include="InitialApplicationState.cs" />
       <Compile Include="Program.cs" />
+      <Compile Include="Services\AuthProvider.cs" />
+      <Compile Include="Services\CircuitHandlerService.cs" />
+      <Compile Include="Services\CircuitUser.cs" />
+      <Compile Include="Services\CircuitUserService.cs" />
+      <Compile Include="Services\CurrentUser.cs" />
+      <Compile Include="Services\CustomAuthenticationStateProvider.cs" />
+      <Compile Include="Services\CustomErrorBoundary.cs" />
+      <Compile Include="Services\ExtensionMethods.cs" />
+      <Compile Include="Services\GraphHelper.cs" />
+      <Compile Include="Services\ICircuitUserService.cs" />
+      <Compile Include="Services\IdentityInformation.cs" />
+      <Compile Include="Services\IdentityValidationProvider.cs" />
+      <Compile Include="Services\ISoapXmlSerialization.cs" />
+      <Compile Include="Services\SecurityHeadersMiddleWare.cs" />
+      <Compile Include="Services\SignOut.cs" />
+      <Compile Include="Services\SOAException.cs" />
+      <Compile Include="UserRemovedEventArgs.cs" />
+      <Compile Include="UserRemovedEventHandler.cs" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="wwwroot\lib\bootstrap\css\**" />
+      <EmbeddedResource Remove="Pages\Admin\ContactType\**" />
+      <EmbeddedResource Remove="Pages\Admin\PendingResolutionReason\**" />
+      <EmbeddedResource Remove="Pages\Admin\Priority\**" />
+      <EmbeddedResource Remove="Pages\Admin\QuestionSource\**" />
+      <EmbeddedResource Remove="Pages\Admin\ResolutionType\**" />
+      <EmbeddedResource Remove="Pages\Admin\User\**" />
+      <EmbeddedResource Remove="Components\Pages\Admin\ContactType\**" />
+      <EmbeddedResource Remove="Components\Pages\Admin\PendingResolutionReason\**" />
+      <EmbeddedResource Remove="Components\Pages\Admin\Priority\**" />
+      <EmbeddedResource Remove="Components\Pages\Admin\QuestionSource\**" />
+      <EmbeddedResource Remove="Components\Pages\Admin\ResolutionType\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="wwwroot\lib\bootstrap\css\**" />
+      <Content Remove="Pages\Admin\ContactType\**" />
+      <Content Remove="Pages\Admin\PendingResolutionReason\**" />
+      <Content Remove="Pages\Admin\Priority\**" />
+      <Content Remove="Pages\Admin\QuestionSource\**" />
+      <Content Remove="Pages\Admin\ResolutionType\**" />
+      <Content Remove="Pages\Admin\User\**" />
+      <Content Remove="Components\Pages\Admin\ContactType\**" />
+      <Content Remove="Components\Pages\Admin\PendingResolutionReason\**" />
+      <Content Remove="Components\Pages\Admin\Priority\**" />
+      <Content Remove="Components\Pages\Admin\QuestionSource\**" />
+      <Content Remove="Components\Pages\Admin\ResolutionType\**" />
+      <Content Remove="_Imports.razor" />
+      <Content Remove="App1.razor" />
+      <Content Remove="Shared\LoginDisplay.razor" />
+<!--      <Content Remove="Shared\MainLayout.razor" />-->
+<!--      <Content Remove="Shared\NavMenu.razor" />-->
+      <Content Remove="Shared\SurveyPrompt.razor" />
+      <Content Remove="Components\_Host.cshtml" />
+      <Content Remove="Components\_Layout.cshtml" />
+      <Content Include="wwwroot\lib\.DS_Store" />
+<!--      <Content Include="wwwroot\lib\bootstrap\css\bootstrap.min.css" />-->
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="wwwroot\lib\bootstrap\css\**" />
+      <None Remove="Pages\Admin\ContactType\**" />
+      <None Remove="Pages\Admin\PendingResolutionReason\**" />
+      <None Remove="Pages\Admin\Priority\**" />
+      <None Remove="Pages\Admin\QuestionSource\**" />
+      <None Remove="Pages\Admin\ResolutionType\**" />
+      <None Remove="Pages\Admin\User\**" />
+      <None Remove="Components\Pages\Admin\ContactType\**" />
+      <None Remove="Components\Pages\Admin\PendingResolutionReason\**" />
+      <None Remove="Components\Pages\Admin\Priority\**" />
+      <None Remove="Components\Pages\Admin\QuestionSource\**" />
+      <None Remove="Components\Pages\Admin\ResolutionType\**" />
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Pages\FinalInspection\AddNewSolarInspection.razor" />
-      <AdditionalFiles Include="Pages\FinalInspection\FinalInspectionInspectionAdd.razor" />
-      <AdditionalFiles Include="Pages\FinalInspection\FinalInspectionInspectionEdit.razor" />
-      <AdditionalFiles Include="Pages\FinalInspection\FinalInspectionInspectionWorkload.razor" />
+      <AdditionalFiles Include="Components\Pages\Dimensions\DimensionAdd.razor" />
+      <AdditionalFiles Include="Components\Pages\Dimensions\DimensionEdit.razor" />
+      <AdditionalFiles Include="Components\Pages\Dimensions\DimensionWorkload.razor" />
+      <AdditionalFiles Include="Components\Pages\Error.cshtml" />
+      <AdditionalFiles Include="Components\Pages\FinalInspection\AddNewFinalInspection.razor" />
+      <AdditionalFiles Include="Components\Pages\FinalInspection\FinalInspectionAdd.razor" />
+      <AdditionalFiles Include="Components\Pages\FinalInspection\FinalInspectionEdit.razor" />
+      <AdditionalFiles Include="Components\Pages\FinalInspection\FinalInspectionWorkload.razor" />
+      <AdditionalFiles Include="Components\Pages\InprocessCheck\InprocessCheckAdd.razor" />
+      <AdditionalFiles Include="Components\Pages\InprocessCheck\InprocessCheckEdit.razor" />
+      <AdditionalFiles Include="Components\Pages\InprocessCheck\InprocessCheckWorkload.razor" />
+      <AdditionalFiles Include="Components\Pages\Solar\AddNewSolarInspection.razor" />
+      <AdditionalFiles Include="Components\Pages\Solar\SolarInspectionAdd.razor" />
+      <AdditionalFiles Include="Components\Pages\Solar\SolarInspectionEdit.razor" />
+      <AdditionalFiles Include="Components\Pages\Solar\SolarInspectionWorkload.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Shared\" />
     </ItemGroup>
 
 </Project>

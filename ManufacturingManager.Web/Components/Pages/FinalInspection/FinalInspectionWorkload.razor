@@ -1,0 +1,141 @@
+﻿@page "/FinalInspectionsWorkload"
+
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Core
+@using ManufacturingManager.Components.UI
+@using ManufacturingManager.Core.Services
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager navigationManager
+@inject IDataEntryRepository DataEntryRepository
+
+@* @inject UserLogged CurrentUser *@
+ @attribute [Authorize(Roles = "Administrator,User")]
+
+<PageTitle>Final Inspection Report Viewer</PageTitle>
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6" tabindex="0">
+                <h2 class="text-primary" id="startContent">Final Inspection Report Workload</h2>
+            </div>
+            <div class="col-6 text-right">
+            </div>
+        </div>
+
+    </div>
+    <br/>
+    <div class="col-8" tabindex="0">
+        <button class="btn btn-success mx-4" @onclick="() => AddNewRecord()" title="Add Final Inspection Record"
+                role="button" aria-pressed="false">
+            Add Record
+            @*<i class="bi-pencil"></i>*@
+        </button>
+    </div>
+    
+    <div class="card-body">
+        <LookUpTablesGrid Items="_listofFinalInspections" TItem="FinalInspection" JqueryFileName="DatatableSolarInspectionWorkload" Args="@Args" SpinningNoRecords="false" Caption="FinalInspectionWorkload">
+            <Columns>
+                <LookUpTablesGridColumn Name="FinalInspectionId" Label="FinalInspection Id">
+                    <div tabindex="0">
+                        @context.FinalInspectionId
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="InspectorName" Label="Inspector Name">
+                    <div tabindex="0">
+                        @context.InspectorName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="MidHangerClampThickness" Label="Mid Hanger Clamp Thickness">
+                    <div tabindex="0">
+                        @context.MidHangerClampThickness
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="Appearance" Label="Appearance">
+                    <div tabindex="0">
+                        @context.AppearanceString
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="CreatedDate" Label="Created Date">
+                    <div tabindex="0">
+                        @context.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss")
+                    </div>
+                </LookUpTablesGridColumn>
+               
+                <LookUpTablesGridColumn Name="" Label="Action">
+                    @{
+
+                        var id = context.FinalInspectionId;
+
+                        <button class="btn btn-success mx-4" @onclick="() => GetSelectedRecords(id)" title="Edit Final Inspection @context.FinalInspectionId"
+                                role="button" aria-pressed="false">
+                            <i class="bi-pencil"></i>
+                        </button>
+                       
+                        // <button class="btn btn-secondary text-white" value="" @onclick="() => ViewLog(id, context.InspectorName)" title=" View log information for Case  @context.DimensionId"
+                        //         role="button" aria-pressed="false">
+                        //     <i class="bi-binoculars"></i>
+                        // </button>
+                    }
+
+                </LookUpTablesGridColumn>
+            </Columns>
+        </LookUpTablesGrid>
+
+        @if (ShowDialogOpen)
+        {
+            <ViewCaseLogs Title="@LogTitle" RecordId="@RecordId" OnClose="@OnDeleteDialogClose" Args="@ArgsView"></ViewCaseLogs>
+        }
+    </div>
+</div>
+
+@code{
+
+    public IList<FinalInspection> _listofFinalInspections = new List<FinalInspection>();
+    public string? LogTitle { get; set; }
+    public int RecordId { get; set; }
+    private bool ShowDialogOpen { get; set; }
+    private LookUpTableArgs Args { get; set; }
+    public LookUpTableArgs ArgsView { get; set; }
+    private IList<Decision>? _okNokList;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        Args = new LookUpTableArgs
+        {
+            TableName = "FinalInspectionTable",
+            FilenameToExportExcel = "FinalInspectionWorkload"//,
+            //TitleInExcelFile = "Workload for user "
+        };
+        
+        _okNokList = DropDownCategories.GetDecisions();
+        
+        _listofFinalInspections = (IList<FinalInspection>)await DataEntryRepository.GetFinalInspectionsDataView();
+        foreach (var finalInspection in _listofFinalInspections)
+        {
+            var decisionname = _okNokList
+                .Where(x => x.DecisionId == finalInspection.Appearance).FirstOrDefault().DecisionName;
+            finalInspection.AppearanceString = decisionname;
+        }
+       
+
+    }
+     
+    protected void GetSelectedRecords(int finalInspectionId)
+    {
+        SessionStorage.SetAsync("FinalInspectionId", finalInspectionId);
+        navigationManager.NavigateTo("/EditFinalInspection");
+    }
+    
+    protected void AddNewRecord()
+    {
+        navigationManager.NavigateTo("/FTCSolarConfiguration");
+    }
+
+    private async void OnDeleteDialogClose()
+    {
+        ShowDialogOpen = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

@@ -1,0 +1,51 @@
+﻿@using System.Data.SqlClient
+@using ManufacturingManager.Core.Helpers
+@using ManufacturingManager.Web.Configuration
+@using ManufacturingManager.Web.Data
+@using Microsoft.Data.SqlClient
+
+@inject AppSettings _appSettings
+@inject UserLogged _currentUser
+<!--Start footer-->
+<footer class="footer">
+    <div class="footer-shadow-bar"></div>
+    <div class="footer-shadow-section"></div>
+    <div class="container-fluid footer-inner ">
+        <ul class="footer-links">
+            <li>
+                <ul>
+                   <li class="app-versions">
+                        <ul>
+                            <li><span>Management Version @System.Reflection.Assembly.GetAssembly(typeof(App))?.GetName().Version</span></li >
+                            <li><span>DB version:@_versionDb</span></li>
+                            <li><span class="text-danger bg-white rounded-pill">@_typeOfSite</span></li>
+                        </ul>
+                    </li>
+                   
+                </ul>
+            </li>
+        </ul>
+        </div>
+</footer>
+<!--End footer-->
+@code
+{
+    
+    public string? _versionDb;
+    public string? _typeOfSite;
+    protected override Task OnInitializedAsync()
+    {
+        _typeOfSite = _appSettings.TypeOfSite + " site ";
+        try
+        {
+            _versionDb = "1.0"; //Functions.GetDatabaseVersion();
+        }
+        catch (SqlException  exception)
+        {
+            
+            // Logging.WriteToLog($"Exception in FscFooter.OnInitializedAsync() GetDatabase version Error  {exception.Message}.", LoggingCategoryEnum.Error, exception );
+        }
+        return Task.CompletedTask;
+    }
+
+}

@@ -1,0 +1,47 @@
+﻿@using ManufacturingManager.Web.Components.Layout
+@using ManufacturingManager.Web.Services
+
+@inject IdentityInformation _identity
+ 
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(AppLayout)">
+                <Authorizing></Authorizing>
+                <NotAuthorized>
+                    <RedirectToLogin ErrorType ="NotAuthorized"></RedirectToLogin>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h2" />
+            
+        </Found>
+        <NotFound>
+            <CascadingAuthenticationState>
+                <RedirectToLogin ErrorType="NotFound"></RedirectToLogin>
+                @*<PageTitle>Not found</PageTitle>
+                <LayoutView Layout="@typeof(AppLayout)">
+                    <p role="alert">Sorry, there's nothing at this address.</p>
+                </LayoutView>*@
+            </CascadingAuthenticationState>
+           
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+@code {
+
+//I am reading these parameters from _host (see host file to read notes).
+//and I put them in a session variable
+    [Parameter] public InitialApplicationState? InitialApplicationState { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+//This happens 1 InitialState
+        if (InitialApplicationState != null)
+        {
+            _identity.UserName = InitialApplicationState.UserName;
+            _identity.IsAuthenticated = InitialApplicationState.IsAuthenticated;
+        }
+    }
+
+}

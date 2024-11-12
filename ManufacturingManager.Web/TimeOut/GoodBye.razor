@@ -1,0 +1,34 @@
+﻿@page "/TimeOut/GoodBye"
+@using ManufacturingManager.Web.Components.Layout
+@using ManufacturingManager.Web.Data
+
+@inject NavigationManager _navigationManager
+@layout EmptyLayout
+@inject UserLogged   _currentUser 
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title panel-authorization">
+            <img src="images/fsc-alert-icon-danger.png" alt="Alert!" />
+            Goodbye!
+        </h2>
+    </div>
+    <div class="card-body">
+        You have exceeded PCS Case Management Timeout limit with no activity.
+        Your session has been abandoned.
+        Please click continue to return to the splash page and login again.
+    </div>
+    <div class="card-footer">
+        <div class="clearfix">
+            <a href="/" class="btn btn-primary">Continue</a>
+        </div>
+    </div>
+</div>
+@code
+{
+    protected override void OnInitialized()
+    {
+        //base.OnInitialized();Logging.WriteToLog(@"User " + _currentUser.VaLogon + @" logged out due to Timeout",LoggingCategoryEnum.Debug );
+        _navigationManager.NavigateTo("logout", true);
+
+    }
+}

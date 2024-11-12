@@ -1,0 +1,94 @@
+﻿@page "/Home"
+@layout EmptyLayout
+@using ManufacturingManager.Core
+@using ManufacturingManager.Core.Repositories
+@using ManufacturingManager.Web.Components.Layout
+@using ManufacturingManager.Web.Data
+@using ManufacturingManager.Web.Services
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject ProtectedSessionStorage _protectedSessionStorage
+@inject NavigationManager _navigationManager
+@inject UserLogged _currentUser
+@inject IUsersRepository _usersRepository
+<div class="row m-2">
+    <div class="spinner"></div>
+</div>
+<h1>Loading your workload........</h1>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        var user = await _protectedSessionStorage.GetAsync<int>("userId");
+        var userId = user.Value;
+        await SetUpIdentityForUser(userId);
+
+    }
+    private async Task SetUpIdentityForUser(int userId)
+    {
+        User u = _usersRepository.Users(userId);
+        if (u.UserId == 0 || !u.IsActive)
+        {
+            if (u.UserId == 0)
+            {
+                // Logging.WriteToLog(@"User " + userId.ToString() + @" does not exists in Case Management portal!", LoggingCategoryEnum.General);
+            }
+            else
+            {
+                // Logging.WriteToLog(@"User " + u.FullName + @" in Inactive in the Case Management portal!", LoggingCategoryEnum.General);
+            }
+            _navigationManager.NavigateTo("/NoAccess");
+            return;
+
+        }
+        _currentUser.UserId = u.UserId;
+        _currentUser.UserName = u.FullName;
+        _currentUser.LoginName = u.LoginName;
+        //Setup role
+        // Individual user
+        bool validUser = true;
+
+        if (u.UserRoleId == 1)
+        {
+            _currentUser.Role = "Administrator";
+        }
+        else if (u.UserRoleId == 2)
+        {
+            _currentUser.Role = "User";
+        }
+        else if (u.UserRoleId == 3)
+        {
+            _currentUser.Role = "Viewer";
+        }
+        else
+        {
+            //Unable to get user
+            validUser = false;
+        }
+
+        if (validUser && LoginUser(_currentUser))
+        {
+            //await _usersRepository.UpdateLoginDate(u.UserId);
+            string userLogged = $"{_currentUser.UserName} ({_currentUser.UserId})";
+            //Set up the user to be used in log4net
+            // Logging.SetUpUserForLogger(userLogged);
+
+            // Logging.WriteToLog(@"User " + _currentUser.VaLogon + @" logged in successfully", LoggingCategoryEnum.Debug);
+            //flag to let Dispose save a log record when user close browser without login
+
+            _navigationManager.NavigateTo("/FTCSolarConfiguration");
+        }
+        else
+        {
+            // Logging.WriteToLog(@"User {_currentUser.VaLogon} unable to login. ValidUser = {validUser}. Page = Home", LoggingCategoryEnum.Error);
+            _navigationManager.NavigateTo("/");
+        }
+    }
+
+    private bool LoginUser(UserLogged userLogged)
+    {
+         ((CustomAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(userLogged);
+        
+        return true;
+    }
+}

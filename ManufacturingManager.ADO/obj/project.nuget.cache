@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jZmXoXbS7fQ=",
+  "dgSpecHash": "JpgcO8mCFFI=",
   "success": true,
-  "projectFilePath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj",
+  "projectFilePath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj",
   "expectedPackageFiles": [
     "/Users/manisekharganti/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/Users/manisekharganti/.nuget/packages/azure.identity/1.11.3/azure.identity.1.11.3.nupkg.sha512",

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9wMrDyqvHwSfEMxWk/WI8wKayOZYeZa1DbbSMOEP+rQ=",
+  "Hash": "tvHh4cDzezYwbYIlaT71bXzgv+QPFFh073RJZOTTem0=",
   "Source": "ManufacturingManager.Components.UI",
   "BasePath": "_content/ManufacturingManager.Components.UI",
   "Mode": "Default",
@@ -9,10 +9,10 @@
   "DiscoveryPatterns": [],
   "Assets": [
     {
-      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/bundle/ManufacturingManager.Components.UI.styles.css",
+      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/bundle/ManufacturingManager.Components.UI.styles.css",
       "SourceId": "ManufacturingManager.Components.UI",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/bundle/",
+      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/bundle/",
       "BasePath": "_content/ManufacturingManager.Components.UI",
       "RelativePath": "ManufacturingManager.Components.UI.styles.css",
       "AssetKind": "All",
@@ -25,13 +25,13 @@
       "AssetTraitValue": "ApplicationBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/bundle/ManufacturingManager.Components.UI.styles.css"
+      "OriginalItemSpec": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/bundle/ManufacturingManager.Components.UI.styles.css"
     },
     {
-      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css",
+      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css",
       "SourceId": "ManufacturingManager.Components.UI",
       "SourceType": "Computed",
-      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/projectbundle/",
+      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/projectbundle/",
       "BasePath": "_content/ManufacturingManager.Components.UI",
       "RelativePath": "ManufacturingManager.Components.UI.bundle.scp.css",
       "AssetKind": "All",
@@ -44,7 +44,7 @@
       "AssetTraitValue": "ProjectBundle",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css"
+      "OriginalItemSpec": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/obj/Debug/net8.0/scopedcss/projectbundle/ManufacturingManager.Components.UI.bundle.scp.css"
     }
   ]
 }

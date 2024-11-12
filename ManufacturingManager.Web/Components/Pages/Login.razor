@@ -1,0 +1,14 @@
+﻿@page "/Login"
+
+@inject NavigationManager NavigationManager
+<div class="col-auto text-center">
+    <input type="button" class="btn btn-primary" value="Back to Index Page" @onclick="@Redirect"/>
+</div>
+
+@code {
+
+    void Redirect()
+    {
+        NavigationManager.NavigateTo("/FTCSolarConfiguration", true, true);
+    }
+}

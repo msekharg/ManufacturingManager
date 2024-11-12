@@ -1,0 +1,39 @@
+﻿@page "/NoAccess"
+@using ManufacturingManager.Web.Components.Layout
+@using ManufacturingManager.Web.Configuration
+@layout EmptyLayout
+@inject NavigationManager NavigationManager 
+@inject AppSettings AppSettings
+<PageTitle>No Access</PageTitle>
+<div class="row px-5 mx-5 py-5">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <div class="card border border-danger">
+            <div class="card-header bottom-spacing-10">
+                <img src="images/fsc-alert-icon-danger.png" alt="Alert!"/>
+                <h2 class="panel-title panel-default text-danger">
+                    You don't have access to this Portal!
+                </h2>
+
+            </div>
+            <div class="card-body">
+                Your CMS account is currently inactive or you don't have access to the system.<br /><br/>
+                Please contact the System Administrator at PCS Team at <b><a href="mailto:@AppSettings.ContactEmail?Subject=Reactivate%20CMS%20Account">@AppSettings.ContactEmail</a></b> to request your account be re-activated.<br /><br />
+                Thank you.
+            </div>
+            <div class="card-footer">
+                <div class="col-auto text-center">
+                    <input type="button" class="btn btn-primary" value="Back to Index Page" @onclick="@Redirect"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</div>
+@code {
+
+    void Redirect()
+    {
+        NavigationManager.NavigateTo("/", true, true);
+    }
+}

@@ -64,6 +64,61 @@ namespace ManufacturingManager.Core.Repositories
 
             return colorCodeMatrices;
         }
+        
+        public ColorCodeMatrix GetColorCodeMatrixById(int colorCodeMatrixId)
+        {
+            ColorCodeMatrix colorCodeMatrix = new ColorCodeMatrix();
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            try
+            {
+                //string connString = Configuration.ChangeManagementConnectionString();
+                using SqlConnection conn = new SqlConnection(connString);
+
+                string strSelectCmd =
+                    $"SELECT TOP 1 ColorCodeMatrixId,Color,HexColorCode,PantoneColor,RALColorCode FROM dbo.ColorCodeMatrix WHERE ColorCodeMatrixId=@ColorCodeMatrixId";
+    
+                conn.Open();
+                colorCodeMatrix =  conn.QueryAsync<ColorCodeMatrix>(strSelectCmd, new{colorCodeMatrixId = colorCodeMatrixId}).Result.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return colorCodeMatrix;
+        }
+        
+        public async Task<bool> UpdateColorCode(ColorCodeMatrix colorCodeMatrix)
+        {
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            // colorCodeMatrix.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            string sql =
+                "UPDATE dbo.ColorCodeMatrix SET " +
+                "Color = @Color, HexColorCode = @HexColorCode, PantoneColor = @PantoneColor, RALColorCode = @RALColorCode" +
+                " WHERE ColorCodeMatrixId = @ColorCodeMatrixId";
+
+            using SqlConnection conn = new(connString);
+            conn.Open();
+            conn.ExecuteAsync(sql, colorCodeMatrix);
+            return await Task.FromResult(true);
+        }
+        
+        public async Task<int> InsertColorCode(ColorCodeMatrix colorCodeMatrix)
+        {
+            // dimension.CreatedBy = dimension.InspectorName;
+            // dimension.CreatedDate = DateTime.Now;
+            // dimension.UpdatedBy = dimension.InspectorName; dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            var insertQuery =
+                "INSERT INTO dbo.ColorCodeMatrix(Color, HexColorCode, PantoneColor,RALColorCode) VALUES (@Color,@HexColorCode,@PantoneColor,@RALColorCode)";
+
+            using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
+            conn.Open();
+            var colorCodeMatrixId = conn.ExecuteScalar<int>(insertQuery, colorCodeMatrix);
+
+            return await Task.FromResult(colorCodeMatrixId);
+        }
 
         public IEnumerable<MidRailConfiguration> GetMidRailConfiguration()
         {
@@ -371,7 +426,7 @@ namespace ManufacturingManager.Core.Repositories
         }
         public async Task<IEnumerable<FinalInspection>> GetFinalInspectionsDataView()
         {
-            IEnumerable<FinalInspection> solarInspectionRecords = new List<FinalInspection>();
+            IEnumerable<FinalInspection> finalInspectionRecords = new List<FinalInspection>();
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             try
             {
@@ -383,14 +438,14 @@ namespace ManufacturingManager.Core.Repositories
 
                 conn.Open();
 
-                solarInspectionRecords =  conn.QueryAsync<FinalInspection>(strSelectCmd).Result;
+                finalInspectionRecords =  conn.QueryAsync<FinalInspection>(strSelectCmd).Result;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
 
-            return await Task.FromResult(solarInspectionRecords);
+            return await Task.FromResult(finalInspectionRecords);
         }
         
         public async Task<FinalInspection> GetFinalInspectionRecordById(int finalInspectionId)

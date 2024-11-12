@@ -760,7 +760,7 @@ function DatatableFinalInspectionWorkload(args) {
     });
 }
 
-function UserstableLookup(args) {
+function UsersTableLookup(args) {
     window.$(document).ready(function () {
         var table = "#" + args.tableName;
         var title = args.titleInExcelFile;

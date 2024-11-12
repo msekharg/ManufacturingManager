@@ -2672,11 +2672,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj",
+      "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj",
       "projectName": "ManufacturingManager.ADO",
-      "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj",
+      "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj",
       "packagesPath": "/Users/manisekharganti/.nuget/packages/",
-      "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/obj/",
+      "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/manisekharganti/.nuget/NuGet/NuGet.Config"

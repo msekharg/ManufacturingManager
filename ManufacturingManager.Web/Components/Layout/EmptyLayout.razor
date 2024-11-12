@@ -1,0 +1,53 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JsRuntime
+
+<PageTitle>PCS Case Management</PageTitle>
+
+@*<div class="fsc-brand horizontal-nav container-fluid body-content">*@
+<div class="fsc-brand horizontal-nav">
+    <div>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header main-nav">
+                    <div class="brand-container">
+                        <a class="navbar-brand va-logo-brand" href="#" title="Go to application home"><span class="home-text">Home</span><img src="images/1_-VA-PRIMARY-HORIZONTAL-White_260.png" class="va-logo" alt="Veterans Affairs Logo" /></a>
+                        <a class="navbar-brand fsc-logo-brand" href="#" title="Go to application home"><span class="home-text">Home</span><img src="images/FSC-Logo-White-SVG.svg" class="fsc-logo" alt="FSC Logo" /> </a>
+                    </div>
+
+                    <div class="title-container">
+                        <div class="title-skew">
+                            <div class="title-left-skew">
+                                <div class="title-text">
+                                    PCS Case Management Portal
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        @*<div class="container-fluid main-container">*@
+        <div class="container-fluid main-container">
+            @Body
+        </div>
+        <FscFooter></FscFooter>
+    </div>
+</div>
+@code {
+    private Lazy<Task<IJSObjectReference>> _moduleTask = null!;
+    protected override async Task OnInitializedAsync()
+    {
+        /*Fixing layout with fsc footer */
+        // _moduleTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>(
+        //     "import", "./js/fsc-footer.js").AsTask());
+        // var module = await _moduleTask.Value;
+        // await module.InvokeAsync<string>("footerAffix");
+
+
+    }
+
+
+}

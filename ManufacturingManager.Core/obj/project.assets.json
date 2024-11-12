@@ -2725,11 +2725,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/ManufacturingManager.Core.csproj",
+      "projectUniqueName": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Core/ManufacturingManager.Core.csproj",
       "projectName": "ManufacturingManager.Core",
-      "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/ManufacturingManager.Core.csproj",
+      "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Core/ManufacturingManager.Core.csproj",
       "packagesPath": "/Users/manisekharganti/.nuget/packages/",
-      "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Core/obj/",
+      "outputPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Core/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/manisekharganti/.nuget/NuGet/NuGet.Config"
@@ -2744,8 +2744,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj": {
-              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj"
+            "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj": {
+              "projectPath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.ADO/ManufacturingManager.ADO.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1BcWzZH1hug=",
+  "dgSpecHash": "A3307Mz+his=",
   "success": true,
-  "projectFilePath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Database/ManufacturingManager.Database.csproj",
+  "projectFilePath": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Database/ManufacturingManager.Database.csproj",
   "expectedPackageFiles": [
     "/Users/manisekharganti/.nuget/packages/microsoft.netcore.app.ref/6.0.31/microsoft.netcore.app.ref.6.0.31.nupkg.sha512",
     "/Users/manisekharganti/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.31/microsoft.aspnetcore.app.ref.6.0.31.nupkg.sha512"
