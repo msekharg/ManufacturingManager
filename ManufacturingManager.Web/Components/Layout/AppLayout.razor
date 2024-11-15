@@ -34,7 +34,7 @@
         </ErrorContent>
     </CustomErrorBoundary>
 
-    <FscFooter></FscFooter>
+    @* <FscFooter></FscFooter> *@
 </div>
 
 @code {
@@ -57,9 +57,9 @@
 
             To run this script define moduleTask variable above, then load the timeout scrip
         */
-        _moduleTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/timeout.js").AsTask());
-        var module = await _moduleTask.Value;
-        await module.InvokeAsync<string>("startTimeOut", AppSettings.SessionTimeoutInMinutes * 60, AppSettings.SessionWarningMinutes * 60);
+        // _moduleTask = new(() => JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/timeout.js").AsTask());
+        // var module = await _moduleTask.Value;
+        // await module.InvokeAsync<string>("startTimeOut", AppSettings.SessionTimeoutInMinutes * 60, AppSettings.SessionWarningMinutes * 60);
 
         if (AuthenticationStateTask != null)
         {

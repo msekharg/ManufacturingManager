@@ -45,6 +45,28 @@ namespace ManufacturingManager.Core.Repositories
             }
             return await Task.FromResult(list);
         }
+
+        private void UpdateCache(User user)
+        {
+            if (AppCache.Users is List<User> userList)
+            {
+                var appCacheUserIndex = userList.FindIndex(u => u.UserId == user.UserId);
+
+                if (appCacheUserIndex >= 0)
+                {
+                    userList[appCacheUserIndex] = user;
+                }
+                else
+                {
+                    userList.Add(user);
+                }
+            }
+            else
+            {
+                // If not a List, you can add a different handling logic here
+                Console.WriteLine("AppCache.Users is not a List.");
+            }
+        }
         
         // public async Task<string> GetEmailsForAdministratorsAndCoordinators()
         // {
@@ -178,35 +200,24 @@ namespace ManufacturingManager.Core.Repositories
             return await Task.FromResult(ret);
 
         }
-        public async Task<bool> Update(User user, int updatedBy)
+        public async Task<int> Update(User user, int updatedBy)
         {
-            bool ret;
-            try
-            {
-                var db = DatabaseFactory.CreateDatabase("PCSCase");
-                await using var dbCommand = db.GetStoredProcCommand("UsersUpdate");
-                db.AddInParameter(dbCommand, "@UserId", DbType.Int32, user.UserId);
-                db.AddInParameter(dbCommand, "@FirstName", DbType.String, user.FirstName);
-                db.AddInParameter(dbCommand, "@MInitial", DbType.String, user.MiddleName);
-                db.AddInParameter(dbCommand, "@LastName", DbType.String, user.LastName);
-                db.AddInParameter(dbCommand, "@VaLogon", DbType.String, user.LoginName);
-                db.AddInParameter(dbCommand, "@Email", DbType.String, user.Email);
-                db.AddInParameter(dbCommand, "@ProfileId", DbType.Int32, user.UserRoleId);
-                db.AddInParameter(dbCommand, "@Active", DbType.Boolean, user.IsActive);
-                db.AddInParameter(dbCommand, "@UpdatedBy", DbType.Int32, updatedBy);
-                // Execute the query
-                db.ExecuteNonQuery(dbCommand);
-                ret = true;
-                if (AppCache.Users != null)
-                    AppCache.Users.Clear();
-            }
-            catch (SqlException exception)
-            {
-                // Logging.WriteToLog($"Exception in Users.Update() message: {exception.Message}",
-                //     LoggingCategoryEnum.Error, exception);
-                ret = false;
-            }
-            return await Task.FromResult(ret);
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            // user.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            string sql =
+                "UPDATE [dbo].[User] SET " +
+                "FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName, UserRoleId = @UserRoleId" +
+                " WHERE UserId = @UserId";
+
+            await using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordUpdated = await conn.ExecuteAsync(sql, user);
+            
+            if(recordUpdated > 0)
+                UpdateCache(user);
+            
+            return recordUpdated;
 
         }
 

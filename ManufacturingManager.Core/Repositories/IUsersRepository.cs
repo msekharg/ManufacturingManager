@@ -9,7 +9,7 @@ namespace ManufacturingManager.Core.Repositories
         Task<IEnumerable<User>> GetUserList(bool onlyActive);
         // Task<string> GetEmailsForAdministratorsAndCoordinators();
         Task<bool> Add(User user, int createdBy);
-        Task<bool> Update(User user, int updatedBy);
+        Task<int> Update(User user, int updatedBy);
         Task<bool> UpdateLoginDate(int userId);
         void AssignValues(User r, DataRow dr);
     }

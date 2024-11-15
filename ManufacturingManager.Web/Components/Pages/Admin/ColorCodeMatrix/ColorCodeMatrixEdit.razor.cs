@@ -21,7 +21,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
         {
             _editContext = new EditContext(_colorCodeMatrix);
             //_category.Active = true;
-            var id = await SessionStorage.GetAsync<int>("ColorCodeId");
+            var id = await SessionStorage.GetAsync<int>("ColorCodeMatrixId");
             if (id.Value != 0)
             {
 

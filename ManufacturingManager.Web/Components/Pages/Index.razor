@@ -3,14 +3,19 @@
 @using ManufacturingManager.Core.Repositories
 @using ManufacturingManager.Web.Components.Layout
 @using ManufacturingManager.Web.Configuration
+@using ManufacturingManager.Web.Data
 @using ManufacturingManager.Web.Services
 @inject IdentityInformation Identity
 @inject IUsersRepository  UsersRepository
-@inject NavigationManager NavigationManager
+@inject NavigationManager _navigationManager
 @inject ProtectedSessionStorage ProtectedSessionStorage 
 @inject AppSettings MyAppSettings
 @inject IHttpContextAccessor  HttpContextAccessor  
 @rendermode  InteractiveServer
+@inject UserLogged _currentUser
+@inject IUsersRepository _usersRepository
+@inject AuthenticationStateProvider _authenticationStateProvider
+
 <PageTitle>Quality Assurance Manager</PageTitle>
 <div class="mx-4">
 <EditForm OnSubmit="@Login" EditContext="_editContext">

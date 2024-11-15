@@ -8,6 +8,7 @@
 @inject ProtectedSessionStorage SessionStorage
 @inject NavigationManager navigationManager
 @inject IDataEntryRepository DataEntryRepository
+@inject IJSRuntime JSRuntime
 
 @* @inject UserLogged CurrentUser *@
  @attribute [Authorize(Roles = "Administrator,User")]
@@ -88,7 +89,13 @@
         }
     </div>
 </div>
-
+<script>
+    function resetScrollPosition() {
+        window.scrollTo(0, 0); // Reset the scroll position
+        document.body.style.height = 'auto'; // Adjust height if needed
+        document.body.style.width = 'auto';  // Adjust width if needed
+    }
+</script>
 @code{
 
     public IList<FinalInspection> _listofFinalInspections = new List<FinalInspection>();
@@ -121,6 +128,14 @@
 
     }
      
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("resetScrollPosition");
+        }
+    }
+    
     protected void GetSelectedRecords(int finalInspectionId)
     {
         SessionStorage.SetAsync("FinalInspectionId", finalInspectionId);
@@ -129,7 +144,7 @@
     
     protected void AddNewRecord()
     {
-        navigationManager.NavigateTo("/FTCSolarConfiguration");
+        navigationManager.NavigateTo($"/FTCSolarConfiguration/{false}");
     }
 
     private async void OnDeleteDialogClose()

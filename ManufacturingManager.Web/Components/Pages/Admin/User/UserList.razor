@@ -19,18 +19,18 @@
                 <h2 class="text-primary" id="startContent">List of Users</h2>
             </div>
             <div class="col-6 text-right align-middle">
-                <AuthorizeView Roles="Administrator">
-                    <Authorized>
+                @* <AuthorizeView Roles="Administrator"> *@
+                @*     <Authorized> *@
                         <button class="btn btn-primary  btn-lg" @onclick="() => ReditectToEditPage(0)" title="Add user">
                             <i class="bi-plus-circle-fill me-2"></i>Add User
                         </button>
-                    </Authorized>
-                </AuthorizeView>
+                @*     </Authorized> *@
+                @* </AuthorizeView> *@
             </div>
         </div>
     </div>
     <div class="card-body">
-        <LookUpTablesGrid Items="_users" TItem="User" JqueryFileName="UsersTableLookup" Args="@Args" Caption="List of Users">
+        <LookUpTablesGrid Items="Users" TItem="User" JqueryFileName="DatatableSolarInspectionWorkload" Args="@Args" Caption="List of Users">
             <Columns>
                 <LookUpTablesGridColumn Name="FirstName" Label="First Name">
                     <div tabindex="0">
@@ -52,7 +52,7 @@
                         @context.Email
                     </div>
                 </LookUpTablesGridColumn>
-                <LookUpTablesGridColumn Name="VaLogon" Label="VA Login">
+                <LookUpTablesGridColumn Name="LoginName" Label="Login Name">
                     <div tabindex="0">
                         @context.LoginName
                     </div>

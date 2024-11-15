@@ -13,6 +13,8 @@
 @inject ProtectedSessionStorage SessionStorage
 @inject NavigationManager NavigationManager
 @inject IHttpContextAccessor HttpContextAccessor
+@using System.ComponentModel.DataAnnotations;
+@using ManufacturingManager.Core.Models
 @*@inject UserLogged CurrentUser*@
 
 <div class="card border mx-2">
@@ -38,22 +40,22 @@
 @*  <ValidationSummary />*@
 <div class="card-body">
 
-@* <div class="row"> *@
-@*     <div class="col-12"> *@
-@* *@
-@*         <label class="form-check-label fw-bold pe-3">Inspector</label><br/> *@
-@*         <InputText @bind-Value="@_finalInspection!.InspectorName" class="form-control" id="inspectorName" *@
-@*                    @ref="_inputInspectorName"/> *@
-@*         <ValidationMessage For="@(() => _finalInspection!.InspectorName)"></ValidationMessage> *@
-@*     </div> *@
-@* </div> *@
+<div class="row">
+    <div class="col-12">
+
+        <label class="form-check-label fw-bold pe-3">Inspector</label><br/>
+        <InputText @bind-Value="@_finalInspection!.InspectorName" class="form-control" id="inspectorName"
+                   @ref="_inputInspectorName"/>
+        <ValidationMessage For="@(() => _finalInspection!.InspectorName)"></ValidationMessage>
+    </div>
+</div>
 @* <div class="col-6"> *@
 <div class="row form-group ">
 <div class="col-6">
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
-            <label class="form-label fw-bold pe-3" for="tubeThickness">Tube - Thickness</label>
-            <span style="color: red">(Min = 3.00 ; Max = 3.18)</span>
+            <label class="form-label fw-bold pe-3" for="tubeThickness">Tube-Thickness</label>
+            <span style="color: black">@_thicknessLabelMessage</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TubeThicknessString" class="form-control" id="tubeThickness"
                    @ref="_inputTubeThickness"/>
@@ -63,7 +65,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="midHangerClampThicknessString">Clamp Thickness</label>
-            <span style="color: red">(Min = 2.40 ; Max = 2.60)</span>
+            <span style="color: black">(Min = 2.40 ; Max = 2.60)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.MidHangerClampThicknessString" class="form-control" id="midHangerClampThicknessString"
                    @ref="_inputClampThickness"/>
@@ -73,7 +75,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="railTubeHeight">Rail Tube Height</label>
-            <span style="color: red">(Min = 84.5 ; Max = 85.5)</span>
+            <span style="color: black">@_heightLabelMessage</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.RailTubeHeightString" class="form-control" id="railTubeHeight"
                    @ref="_inputRailTubeHeight"/>
@@ -83,7 +85,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="railTubeWidth">Rail Tube Width</label>
-            <span style="color: red">(Min = 29.5 ; Max = 30.5)</span>
+            <span style="color: black">(Min = 29.5 ; Max = 30.5)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.RailTubeWidthString" class="form-control" id="railTubeWidth"
                    @ref="_inputRailTubeWidth"/>
@@ -93,7 +95,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="tubeWeldSeamLocation">Tube Weld seam Location</label>
-            <span style="color: red">(Min = 37.5 ; Max = 47.5)</span>
+            <span style="color: black">(Min = 37.5 ; Max = 47.5)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TubeWeldSeamLocationString" class="form-control" id="tubeWeldSeamLocation"
                    @ref="_inputTubeWeldSeamLocation"/>
@@ -103,7 +105,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="tubeLength">Tube Length</label>
-            <span style="color: red">(Min = 2896 ; Max = 2904)</span>
+            <span style="color: black">@_lengthLabelMessage</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TubeLengthString" class="form-control" id="tubeLength"
                    @ref="_inputTubeLength"/>
@@ -113,7 +115,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="tubeCornerRadius4Places">Tube Corner Radius 4 Places </label>
-            <span style="color: red">(Min = 5.75 ; Max = 6.25)</span>
+            <span style="color: black">(Min = 5.75 ; Max = 6.25)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TubeCornerRadius4PlacesString" class="form-control" id="tubeCornerRadius4Places"
                    @ref="_inputTubeCornerRadius4Places"/>
@@ -123,7 +125,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="endOfTubeToCLDistance">End of tube to CL Distance</label>
-            <span style="color: red">(Min = 1449 ; Max = 1451)</span>
+            <span style="color: black">(Min = 1449 ; Max = 1451)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.EndOfTubeToCLDistanceString" class="form-control" id="endOfTubeToCLDistance"
                    @ref="_inputEndOfTubeToCLDistance"/>
@@ -135,7 +137,7 @@
             <label class="form-label fw-bold pe-3" for="endOfTubeToClamp1Bolt_2Places">
                 End of Tube to Clamp 1 Bolt @@ 2 Places
             </label>
-            <span style="color: red">(Min = 64 ; Max = 66)</span>
+            <span style="color: black">(Min = 64 ; Max = 66)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.EndOfTubeToClamp1Bolt_2PlacesString" class="form-control" id="endOfTubeToClamp1Bolt_2Places"
                    @ref="_inputEndOfTubeToClamp1Bolt_2Places"/>
@@ -147,7 +149,7 @@
             <label class="form-label fw-bold pe-3" for="clamp1BoltToClamp2BoltDistance_2Places">
                 Clamp 1 Bolt to Clamp 2 Bolt Distance @@ 2 Places
             </label>
-            <span style="color: red">(Min = 74.5 ; Max = 75.5)</span>
+            <span style="color: black">(Min = 74.5 ; Max = 75.5)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.Clamp1BoltToClamp2BoltDistance_2PlacesString" class="form-control" id="clamp1BoltToClamp2BoltDistance_2Places"
                    @ref="_inputClamp1BoltToClamp2BoltDistance_2Places"/>
@@ -160,7 +162,7 @@
             <label class="form-label fw-bold pe-3" for="endOfTubeToClamp3Bolt_2Places">
                 End of Tube to Clamp 3 Bolt @@ 2 Places
             </label>
-            <span style="color: red">(Min = 839 ; Max = 841)</span>
+            <span style="color: black">(Min = 839 ; Max = 841)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.EndOfTubeToClamp3Bolt_2PlacesString" class="form-control" id="endOfTubeToClamp3Bolt_2Places"
                    @ref="_inputEndOfTubeToClamp1Bolt_2Places"/>
@@ -172,7 +174,7 @@
             <label class="form-label fw-bold pe-3" for="clamp3BoltToClamp4BoltDistance_2Places">
                 Clamp 3 Bolt to Clamp 4 Bolt Distance @@ 2 Places
             </label>
-            <span style="color: red">(Min = 114 ; Max = 116)</span>
+            <span style="color: black">(Min = 114 ; Max = 116)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.Clamp3BoltToClamp4BoltDistance_2PlacesString" class="form-control" id="clamp3BoltToClamp4BoltDistance_2Places"
                    @ref="_inputClamp3BoltToClamp4BoltDistance_2Places"/>
@@ -187,7 +189,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="torqueClamp1_2Places">Torque(Clamp 1) @@ 2 Places</label>
-            <span style="color: red">(Min = 47.5 ; Max = 52.3)</span>
+            <span style="color: black">(Min = 47.5 ; Max = 52.3)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TorqueClamp1_2PlacesString" class="form-control" id="torqueClamp1_2Places"
                    @ref="_inputTorqueClamp1_2Places"/>
@@ -197,7 +199,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="torqueClamp2_2Places">Torque(Clamp 2) @@ 2 Places</label>
-            <span style="color: red">(Min = 33.9 ; Max = 37.3)</span>
+            <span style="color: black">(Min = 33.9 ; Max = 37.3)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TorqueClamp2_2PlacesString" class="form-control" id="torqueClamp2_2Places"
                    @ref="_inputTorqueClamp2_2Places"/>
@@ -207,7 +209,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="torqueClamp3_2Places">Torque(Clamp 3) @@ 2 Places</label>
-            <span style="color: red">(Min = 33.9 ; Max = 37.3)</span>
+            <span style="color: black">(Min = 33.9 ; Max = 37.3)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TorqueClamp3_2PlacesString" class="form-control" id="torqueClamp3_2Places"
                    @ref="_inputTorqueClamp3_2Places"/>
@@ -217,7 +219,7 @@
     <div class="col-12 col-md-6  py-3 px-3">
         <div class="form-group">
             <label class="form-label fw-bold pe-3" for="torqueClamp4_2Places">Torque(Clamp 4) @@ 2 Places</label>
-            <span style="color: red">(Min = 33.9 ; Max = 37.3)</span>
+            <span style="color: black">(Min = 33.9 ; Max = 37.3)</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TorqueClamp4_2PlacesString" class="form-control" id="torqueClamp4_2Places"
                    @ref="_inputTorqueClamp4_2Places"/>
@@ -336,8 +338,12 @@
                 @*  var showBtnSave = !(_case!.AssignedToUserId > 0 && _case.StatusId == (int)CaseStatusEnum.ReassignmentRequested);
                     @if (showBtnSave)
                     { *@
-                <input type="button" class="btn btn-primary" id="buttonsSave" value="@_btnSave" title="Submit" @onclick="@JustSave"/>
-                <input type="button" class="btn btn-primary" id="buttonsCancel" value="Cancel" title="Submit" @onclick="@Cancel"/>
+                <input type="button" class="btn btn-primary btn-lg me-3" id="buttonsSave" value="@_btnSave" title="Submit" @onclick="@JustSave"/>
+                <input type="button" class="btn btn-primary btn-lg me-3" id="buttonsCancel" value="Cancel" title="Submit" @onclick="@Cancel"/>
+                
+                <input type="button" class="btn btn-primary btn-lg me-3" id="buttonBackToWorkList" value="Back to WorkList" title="Submit" @onclick="@BackToWorkList"/>
+                <input type="button" class="btn btn-primary btn-lg" id="buttonChangeConfiguration" value="Change Configuration" title="Submit" @onclick="@ChangeConfiguration"/>
+            
             }
         </div>
 
@@ -351,12 +357,11 @@
     <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose"/>
 }
 
-
 @code
 {
     /*[Parameter] public FTCSolarSettings FTCSolarSettings { get; set; }*/
     [Parameter] public int FinalInspectionId { get; set; } = 0;
-    [Parameter] public FTCSolarAssemblyConfiguration SolarAssemblyConfiguration { get; set; }
+    [Parameter] public CurrentFTCConfiguration CurrentFTCConfiguration { get; set; }
     private readonly MessageBoxParameters _messageBoxParameters = new();
 
     private FinalInspection _finalInspection;
@@ -365,6 +370,7 @@
     //private Users _userFromAdSearch;
 
     EditContext _editContext = default!;
+    private ValidationMessageStore? _validationMessageStore;
 
     //Dimension
     private IList<Decision>? _okNokList;
@@ -380,6 +386,27 @@
     public string _btnSave = "Save";
     public string _btnComplete = "Complete";
     public string? _reassignmentRequestedBy;
+    
+    //Validation values
+    private string _thicknessValidationMessage;
+    private string _lengthValidationMessage;
+    private string _heightValidationMessage;
+
+    private string _thicknessLabelMessage;
+    private string _lengthLabelMessage;
+    private string _heightLabelMessage;
+    
+    double thicknessLowerLimit = 0;
+    double thicknessUpperLimit = 0.18;
+    double lengthLowerLimit = -4.0;
+    double lengthUpperLimit = 4.0;
+    double heightLowerLimit = -0.5;
+    double heightUpperLimit = 0.5;
+
+    double configurationThickness;
+    double configurationHeight;
+    double configurationLength;
+
 
     private int _numberOfRows = 3;
 
@@ -432,6 +459,8 @@
     private InputText _inputTorqueClamp2_2Places;
 
     private string _partInformation;
+
+    private CurrentFTCConfiguration _currentFtcConfiguration;
     //Attachments
     //public List<Attachment> AttachmentList = new();
     //public string FolderLocationForUpload => MyConfig.TempUploadFileFolderPath;
@@ -439,7 +468,7 @@
     protected override async Task OnInitializedAsync()
     {
         FillDropdown();
-       
+        
         if (FinalInspectionId != 0)
         {
             _finalInspection = await DataEntryRepository.GetFinalInspectionRecordById(FinalInspectionId);
@@ -483,18 +512,41 @@
             _finalInspection.InspectorName = HttpContextAccessor.HttpContext?.User?.Identity?.Name;
             _title = "Create Case ";
             _status = "Status: New";
-            _finalInspection.TubeLength = Convert.ToDouble(SolarAssemblyConfiguration.Length);
-            _finalInspection.TubeThickness = Convert.ToDouble(SolarAssemblyConfiguration.Thickness);
-            _finalInspection.RailTubeHeight = Convert.ToDouble(SolarAssemblyConfiguration.Height);
+            _finalInspection.TubeLength = Convert.ToDouble(CurrentFTCConfiguration.Length);
+            _finalInspection.TubeThickness = Convert.ToDouble(CurrentFTCConfiguration.Thickness);
+            _finalInspection.RailTubeHeight = Convert.ToDouble(CurrentFTCConfiguration.Height);
             
-            _partInformation = _finalInspection.PartName = $"{SolarAssemblyConfiguration.PartNumber}-{SolarAssemblyConfiguration.Height}-{SolarAssemblyConfiguration.Thickness}" +
-                               $"-{SolarAssemblyConfiguration.Length}-80-1-{SolarAssemblyConfiguration.AssemblyConfiguration}" +
+            _partInformation = _finalInspection.PartName = $"{CurrentFTCConfiguration.PartNumber}-{CurrentFTCConfiguration.Height}-{CurrentFTCConfiguration.Thickness}" +
+                               $"-{CurrentFTCConfiguration.Length}-80-1-{CurrentFTCConfiguration.AssemblyConfiguration}" +
                                $"-A-{DateTime.Now.ToString("yyyy-MM-dd")}";
         }
 
-        
+        if (AppCache.CurrentFTCConfigurations != null && AppCache.CurrentFTCConfigurations.Any())
+            _currentFtcConfiguration = AppCache.CurrentFTCConfigurations.FirstOrDefault();
+        else
+        {
+            _currentFtcConfiguration = DataEntryRepository.GetCurrentFTCConfiguration(true).FirstOrDefault();
+            if (_currentFtcConfiguration == null)
+            {
+                _currentFtcConfiguration = new CurrentFTCConfiguration();
+                _currentFtcConfiguration.PartNumber = CurrentFTCConfiguration.PartNumber;
+                _currentFtcConfiguration.AssemblyConfiguration = CurrentFTCConfiguration.AssemblyConfiguration;
+                _currentFtcConfiguration.Height = Convert.ToDouble(CurrentFTCConfiguration.Height);
+                _currentFtcConfiguration.Length = Convert.ToDouble(CurrentFTCConfiguration.Length);
+                _currentFtcConfiguration.Thickness = Convert.ToDouble(CurrentFTCConfiguration.Thickness);
+                _currentFtcConfiguration.IsActive = true;
+                _currentFtcConfiguration.StartDateTime = DateTime.Now;
+                _currentFtcConfiguration.EndDateTime = null;
+                _currentFtcConfiguration.CreatedBy = _finalInspection.InspectorName;
+                //Insert the configuration
+                _currentFtcConfiguration = DataEntryRepository.InsertCurrentFTCConfiguration(_currentFtcConfiguration);
+            }
+        }
         
         _editContext = new EditContext(_finalInspection);
+        if (_editContext != null)
+            _validationMessageStore = new ValidationMessageStore(_editContext);
+        FillValidationLabel();
 
         _showMessageBox = false;
         _showInternalComments = false;
@@ -505,6 +557,27 @@
         //}
 
         //SetCompleteButton();
+    }
+
+    private void FillValidationLabel()
+    {
+        configurationLength = _finalInspection.TubeLength <= 0.00 
+            ? Convert.ToDouble(CurrentFTCConfiguration.Length) : _finalInspection.TubeLength;
+        configurationThickness = _finalInspection.TubeThickness <= 0.00 ?
+            Convert.ToDouble(CurrentFTCConfiguration.Thickness) : _finalInspection.TubeThickness;
+        configurationHeight = _finalInspection.RailTubeHeight <= 0.00 ?  
+            Convert.ToDouble(CurrentFTCConfiguration.Height) : _finalInspection.RailTubeHeight ;
+
+        thicknessLowerLimit = 0;
+        thicknessUpperLimit = 0.18;
+        lengthLowerLimit = 4.0;
+        lengthUpperLimit = 4.0;
+        heightLowerLimit = 0.5;
+        heightUpperLimit = 0.5;
+
+        _lengthLabelMessage = $"(Min = {_currentFtcConfiguration.Length - lengthLowerLimit} ; Max = {_currentFtcConfiguration.Length + lengthUpperLimit})";
+        _thicknessLabelMessage = $"(Min = {_currentFtcConfiguration.Thickness - thicknessLowerLimit} ; Max = {_currentFtcConfiguration.Thickness + thicknessUpperLimit})";
+        _heightLabelMessage = $"(Min = {_currentFtcConfiguration.Height - heightLowerLimit} ; Max = {_currentFtcConfiguration.Height + heightUpperLimit})";
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -551,7 +624,7 @@
     protected async Task JustSave()
     {
         string error = string.Empty;
-
+        _validationMessageStore.Clear();
         if (_editContext.Validate())
         {
             await SaveCase(false);
@@ -572,6 +645,8 @@
     {
         _showMessageBox = false;
         _messageBoxParameters.PageToRedirect = "";
+        
+        _validationMessageStore?.Clear();
         if (editContext.Validate())
         {
             string error = string.Empty;
@@ -601,6 +676,16 @@
         _messageBoxParameters.IsErrorMessage = true;
         StateHasChanged();
     }
+
+    private async Task BackToWorkList()
+    {
+        NavigationManager.NavigateTo("/FinalInspectionsWorkload");
+    }
+
+    private async Task ChangeConfiguration()
+    {
+        NavigationManager.NavigateTo($"/FTCSolarConfiguration/{true}");
+    }
     
     private async Task FocusFirstError()
     {
@@ -609,44 +694,79 @@
 
     protected async Task SaveCase(bool complete)
     {
-        if (FinalInspectionId != 0)
+        //Manual validation
+        if (_finalInspection.TubeThickness < (_currentFtcConfiguration.Thickness - thicknessLowerLimit) || _finalInspection.TubeThickness > (_currentFtcConfiguration.Thickness + thicknessUpperLimit))
         {
-            bool updateSuccess = await DataEntryRepository.UpdateFinalInspection(_finalInspection);
+            _validationMessageStore?.Add(() => _finalInspection.TubeThickness, $"Value should be between {_currentFtcConfiguration.Thickness - thicknessLowerLimit} and {_currentFtcConfiguration.Thickness + thicknessUpperLimit}");
+        }
+        if (_finalInspection.TubeLength < (_currentFtcConfiguration.Length - lengthLowerLimit) || _finalInspection.TubeLength > (_currentFtcConfiguration.Length + lengthUpperLimit))
+        {
+            _validationMessageStore?.Add(() => _finalInspection.TubeLength, $"Value should be between {_currentFtcConfiguration.Length - lengthLowerLimit} and {_currentFtcConfiguration.Length + lengthUpperLimit}");
+        }
+        if (_finalInspection.RailTubeHeight < (_currentFtcConfiguration.Height - heightLowerLimit) || _finalInspection.RailTubeHeight > (_currentFtcConfiguration.Height + heightUpperLimit))
+        {
+            _validationMessageStore?.Add(() => _finalInspection.RailTubeHeight, $"Value should be between {_currentFtcConfiguration.Height - heightLowerLimit} and {_currentFtcConfiguration.Height + heightUpperLimit}");
+        }
 
-            if (updateSuccess)
+        if (_editContext.GetValidationMessages().Any())
+        {
+            // _editContext.NotifyValidationStateChanged();
+            _showMessageBox = false;
+        }
+        else{
+            if (FinalInspectionId != 0)
             {
-                _messageBoxParameters.Title = "Data updated.";
-                _messageBoxParameters.Message = "Dimension with " + _finalInspection.FinalInspectionId + " updated.";
-                _messageBoxParameters.IsErrorMessage = false;
-                _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
+                bool updateSuccess = await DataEntryRepository.UpdateFinalInspection(_finalInspection);
+
+                if (updateSuccess)
+                {
+                    _messageBoxParameters.Title = "Data updated.";
+                    _messageBoxParameters.Message = "Dimension with " + _finalInspection.FinalInspectionId + " updated.";
+                    _messageBoxParameters.IsErrorMessage = false;
+                    // _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
+                    _messageBoxParameters.PageToRedirect = @"/FinalInspectionForm";
+                }
+                else
+                {
+                    ShowErrorMessage("Error updating Dimension data.", $"Unable to update case {_finalInspection.FinalInspectionId}. Please contact system administrator.");
+                }
             }
             else
             {
-                ShowErrorMessage("Error updating Dimension data.", $"Unable to update case {_finalInspection.FinalInspectionId}. Please contact system administrator.");
+                int ret = await (DataEntryRepository.InsertFinalInspection(_finalInspection));
+                if (!string.IsNullOrEmpty(ret.ToString()))
+                {
+                    _messageBoxParameters.Title = "New Final Inspection data added";
+                    _messageBoxParameters.Message = "Final Inspection number: " + ret;
+                    _messageBoxParameters.IsErrorMessage = false;
+                    // _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
+                    _messageBoxParameters.PageToRedirect = @"/FinalInspectionForm";
+                }
+                else
+                {
+                    _messageBoxParameters.Title = "Error adding Final Inspection data";
+                    _messageBoxParameters.Message = "Unable to add new Final Inspection data. Please contact system administrator.";
+                    _messageBoxParameters.IsErrorMessage = true;
+                    _messageBoxParameters.PageToRedirect = "";
+                }
             }
+            // _showMessageBox = true;
         }
-        else
-        {
-            int ret = await (DataEntryRepository.InsertFinalInspection(_finalInspection));
-            if (!string.IsNullOrEmpty(ret.ToString()))
-            {
-                _messageBoxParameters.Title = "New Final Inspection data added";
-                _messageBoxParameters.Message = "Final Inspection number: " + ret;
-                _messageBoxParameters.IsErrorMessage = false;
-                _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
-            }
-            else
-            {
-                _messageBoxParameters.Title = "Error adding Final Inspection data";
-                _messageBoxParameters.Message = "Unable to add new Final Inspection data. Please contact system administrator.";
-                _messageBoxParameters.IsErrorMessage = true;
-                _messageBoxParameters.PageToRedirect = "";
-            }
-        }
-
-        _showMessageBox = true;
     }
 
+    private void OnFieldChanged(object sender, FieldChangedEventArgs e)
+    {
+        if (e.FieldIdentifier.FieldName == nameof(_finalInspection.TubeThicknessString))
+        {
+            // Re-evaluate the validation state for TubeThickness
+            _validationMessageStore?.Clear(e.FieldIdentifier);
+            if (_editContext.Validate())
+            {
+                StateHasChanged(); // Ensure UI updates
+            }
+        }
+    }
+    
     private void EditContext_OnFieldChanged(object sender,
         FieldChangedEventArgs e)
     {

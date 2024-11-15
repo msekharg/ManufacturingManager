@@ -10,6 +10,7 @@ namespace ManufacturingManager.Core
         public static IList<MidRailConfiguration> MidRailConfigurations { get; set; }
         public static IList<UserRole> UserRoles { get; set; }
         public static IList<User> Users { get; set; }
+        public static IList<CurrentFTCConfiguration> CurrentFTCConfigurations { get; set; }
     }
 
 }

@@ -5,7 +5,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
 {
     public partial class UserList
     {
-        public IList<Core.User> _users = null!;
+        public IList<Core.User> Users = null!;
         public string? LogTitle { get; set; }
         public int RecordId { get; set; }
         public bool ShowDialogOpen { get; set; }
@@ -20,11 +20,11 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
         {
             Args = new()
             {
-                TableName = "UsersTable",
+                TableName = "UserTable",
                 FilenameToExportExcel = "PCSCMS_UsersList",
                 TitleInExcelFile = "List of Users"
             };
-            _users = (IList<Core.User>)await UserRepository.GetUserList(false);
+            Users = (IList<Core.User>)await UserRepository.GetUserList(false);
         }
 
         protected void ReditectToEditPage(int recordId)

@@ -17,6 +17,84 @@ namespace ManufacturingManager.Core.Repositories
         //}
 
         //Lookups
+        public IList<CurrentFTCConfiguration> GetCurrentFTCConfiguration(bool isActive = true)
+        {
+            IList<CurrentFTCConfiguration> currentFtcConfigurations = new List<CurrentFTCConfiguration>();
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            try
+            {
+                if (AppCache.CurrentFTCConfigurations is { Count: > 0 })
+                {
+                    currentFtcConfigurations = AppCache.CurrentFTCConfigurations;
+                }
+                //string connString = Configuration.ChangeManagementConnectionString();
+                using SqlConnection conn = new SqlConnection(connString);
+
+                string strSelectCmd =
+                    $"SELECT TOP 1000 CurrentFTCConfigurationId,PartNumber,AssemblyConfiguration,Height,Length,Thickness,IsActive,StartDateTime,EndDateTime, CreatedBy, CreatedDate FROM dbo.CurrentFTCConfiguration" + 
+                    " WHERE IsActive=@IsActive";
+
+                conn.Open();
+                
+                currentFtcConfigurations =  conn.QueryAsync<CurrentFTCConfiguration>(strSelectCmd, new{IsActive = isActive}).Result.ToList();
+                AppCache.CurrentFTCConfigurations = currentFtcConfigurations;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return currentFtcConfigurations;
+        }
+        
+        public bool UpdateCurrentFTCConfiguration(CurrentFTCConfiguration currentFtcConfiguration)
+        {
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            string sql =
+                "UPDATE dbo.CurrentFTCConfiguration SET " +
+                "IsActive = 0, EndDateTime = @EndDateTime" +
+                " WHERE CurrentFTCConfigurationId = @CurrentFTCConfigurationId";
+
+            using SqlConnection conn = new(connString);
+            conn.Open();
+            var recordUpdated = conn.ExecuteAsync(sql, currentFtcConfiguration).Result;
+            
+            return recordUpdated > 0;
+        }
+
+        public int InvalidateAllFTCConfigurations()
+        {
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            string sql =
+                "UPDATE dbo.CurrentFTCConfiguration SET " +
+                "IsActive = 0, EndDateTime = @EndDateTime" +
+                " WHERE IsActive = 1";
+
+            using SqlConnection conn = new(connString);
+            conn.Open();
+            var recordUpdated = conn.ExecuteAsync(sql, new{EndDateTime = DateTime.Now}).Result;
+
+            return recordUpdated;
+        }
+        
+        public CurrentFTCConfiguration InsertCurrentFTCConfiguration(CurrentFTCConfiguration currentFtcConfiguration)
+        {
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            var insertQuery =
+                "INSERT INTO dbo.CurrentFTCConfiguration(PartNumber, AssemblyConfiguration, Height,Length, Thickness, IsActive, StartDateTime, EndDateTime, CreatedBy)" +
+                "VALUES (@PartNumber, @AssemblyConfiguration, @Height, @Length, @Thickness, @IsActive, @StartDateTime, @EndDateTime, @CreatedBy); SELECT SCOPE_IDENTITY();";
+                
+
+            using var conn = new SqlConnection(connString);
+            conn.Open();
+            var currentFtcConfigurationId = conn.ExecuteScalar<int>(insertQuery, currentFtcConfiguration);
+            
+            if (currentFtcConfigurationId > 0)
+                AppCache.CurrentFTCConfigurations.Add(currentFtcConfiguration);
+            
+            return currentFtcConfiguration;
+        }
+        
         public IEnumerable<ClampsPositioning> GetClampsPositioning()
         {
             IEnumerable<ClampsPositioning> clampsPositionings = new List<ClampsPositioning>();

@@ -29,7 +29,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
         {
             _showActiveDirectorySearch = false;
             _editContext = new EditContext(_user);
-            _profileList = new List<UserRole>(await UserRoleRepository.GetUserRoleList());
+            _profileList = new List<UserRole>( UserRoleRepository.GetUserRoleList());
 
             if (_profileList.Count > 0)
             {
@@ -71,11 +71,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
         }
         protected async Task Save()
         {
-            if (_showActiveDirectorySearch)
-            {
-                return;
-            }
-
             var currentUserId = CurrentUser.UserId;
             _messageBoxParameters.Title = _user.UserId == 0 ? "New User added." : "User Updated";
             _messageBoxParameters.PageToRedirect = @"/UserList";
@@ -85,7 +80,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             string successMessage;
             if (uExist != null && uExist.UserId != _user.UserId)
             {
-                successMessage = "There is an existing user for VA Account: " + _user.LoginName;
+                successMessage = "There is an existing user for Account: " + _user.LoginName;
                 _messageBoxParameters.Message = successMessage;
                 _messageBoxParameters.IsErrorMessage = true;
                 _messageBoxParameters.PageToRedirect = @"";
@@ -94,7 +89,15 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             {
                 bool retval;
                 if (_user.UserId != 0)
-                    retval = await Repository.Update(_user, currentUserId);
+                {
+                    int recordsUpdated = await Repository.Update(_user, currentUserId);
+                    if(recordsUpdated > 0)
+                        retval = true;
+                    else
+                    {
+                        retval = false;
+                    }
+                }
                 else
                     retval = await Repository.Add(_user, currentUserId);
                 if (retval)
@@ -115,17 +118,11 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             }
 
             _showMessageBox = true;
-
+// StateHasChanged();
 
         }
         private async Task FocusFirstError()
         {
-
-            if (_showActiveDirectorySearch)
-            {
-                return;
-
-            }
             // repeat for all inputs
             if (_editContext.GetValidationMessages(() => _user.Email).Any())
             {

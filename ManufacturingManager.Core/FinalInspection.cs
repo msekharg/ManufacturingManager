@@ -16,7 +16,7 @@ public class FinalInspection : IValidatableObject
     public string InspectorName {get;set;}
 
     [DisplayName("Tube - Thickness")]
-    [Range(3.00, 3.18, ErrorMessage = "Value should be between 3.00 and 3.18")]
+    // [Range(3.00, 3.18, ErrorMessage = "Value should be between 3.00 and 3.18")]
     
     public string PartName { get; set; }
     public double TubeThickness { get; set; } = 3.1;
@@ -44,7 +44,7 @@ public class FinalInspection : IValidatableObject
     }
 
     [DisplayName("Rail Tube Height")]
-    [Range(84.50, 85.50, ErrorMessage = "Value should be between 84.50 and 85.50")]
+    // [Range(84.50, 85.50, ErrorMessage = "Value should be between 84.50 and 85.50")]
     public double RailTubeHeight { get; set; } = 85;
     public string RailTubeHeightString
     {
@@ -83,7 +83,7 @@ public class FinalInspection : IValidatableObject
     }
 
     [DisplayName("Tube Length")]
-    [Range(2896.00, 2904.00, ErrorMessage = "Value should be between 2896.00 and 2904.00")]
+    // [Range(2896.00, 2904.00, ErrorMessage = "Value should be between 2896.00 and 2904.00")]
     public double TubeLength { get; set; } = 2900.01;
     public string TubeLengthString
     {

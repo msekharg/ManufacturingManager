@@ -88,7 +88,7 @@ namespace ManufacturingManager.Components.UI.MessageBox
             }
         }
 
-        public Task ClickOk()
+        private Task ClickOk()
         {
             if (!string.IsNullOrEmpty(MessageBoxParameters?.PageToRedirect))
             {
@@ -112,9 +112,9 @@ namespace ManufacturingManager.Components.UI.MessageBox
                 ClickOk();
         }
 
-        public async void SetFocusFirstElement()
+        private void SetFocusFirstElement()
         {
-            await _focusFirstElementFor508.FocusAsync();
+             _focusFirstElementFor508.FocusAsync();
         }
 
     }

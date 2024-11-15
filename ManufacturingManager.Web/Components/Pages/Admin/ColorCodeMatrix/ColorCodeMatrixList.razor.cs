@@ -5,7 +5,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
 {
     public partial class ColorCodeMatrixList
     {
-        public IList<Core.Models.ColorCodeMatrix> _colorCodeMatrices = null!;
+        public IList<Core.Models.ColorCodeMatrix> ColorCodeMatrices = null!;
         public string? LogTitle { get; set; }
         public int RecordId { get; set; }
         public bool ShowDialogOpen { get; set; }
@@ -22,26 +22,24 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
             {
                 TableName = "categoryTable",
                 FilenameToExportExcel = "PCSCMS_CategoryList",
-                TitleInExcelFile = "List of Categories"
+                TitleInExcelFile = "List of Colors"
             };
-            _colorCodeMatrices =  _DataEntryRepository.GetColorCodeMatrix().ToList();
+            ColorCodeMatrices =  _DataEntryRepository.GetColorCodeMatrix().ToList();
         }
 
-        protected void ReditectToEditPage(int recordId)
+        private void RedirectToEditPage(int colorCodeMatrixId)
         {
-            SessionStorage.SetAsync("CategoryId", recordId);
-            NavigationManager.NavigateTo("/EditCategory");
+            SessionStorage.SetAsync("ColorCodeMatrixId", colorCodeMatrixId);
+            NavigationManager.NavigateTo("/EditColorCode");
         }
 
-
-
-        protected async void ViewLog(int id, string desc)
+        private async void ViewLog(int id, string desc)
         {
             ArgsView = new()
             {
-                TableName = "lookUpCategory",
-                FilenameToExportExcel = "PCSCMS_CategoryLogFor " + desc,
-                TitleInExcelFile = "Tracking log for Category " + desc
+                TableName = "lookUpColorCodes",
+                FilenameToExportExcel = "ColorCodesLogFor " + desc,
+                TitleInExcelFile = "Tracking log for ColorCodes " + desc
 
             };
 
@@ -61,7 +59,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
                 bool retvalue = true;//await _DataEntryRepository.DeleteColorCode(id, CurrentUser.UserId);
                 if (retvalue)
                 {
-                    _colorCodeMatrices =  _DataEntryRepository.GetColorCodeMatrix().ToList();
+                    ColorCodeMatrices =  _DataEntryRepository.GetColorCodeMatrix().ToList();
                     await InvokeAsync(StateHasChanged);
                 }
                 else

@@ -1,15 +1,19 @@
-﻿ @page "/CategoryList"
+﻿ @page "/ColorCodeList"
 @using ManufacturingManager.Core.Repositories
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using ManufacturingManager.Components.UI
 @using ManufacturingManager.Core.Models
+@using ManufacturingManager.Web.Data
+@using ManufacturingManager.Web.Services
 @inject IDataEntryRepository _DataEntryRepository
 @inject ProtectedSessionStorage SessionStorage
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JsRuntime
-@* @inject UserLogged CurrentUser *@
+@inject UserLogged CurrentUser 
 @rendermode InteractiveServer
+
 <PageTitle>List of categories</PageTitle>
+
 @attribute [Authorize(Roles = "Administrator,Coordinator")]
 <div class="card border">
     <div class="card-header">
@@ -20,7 +24,7 @@
             <div class="col-6 text-right align-middle">
                 <AuthorizeView Roles="Administrator">
                     <Authorized>
-                        <button class="btn btn-primary  btn-lg" @onclick="() => ReditectToEditPage(0)" title="Add Category">
+                        <button class="btn btn-primary  btn-lg" @onclick="() => RedirectToEditPage(0)" title="Add Category">
                             <i class="bi-plus-circle-fill me-2"></i>Add Category
                         </button>
                     </Authorized>
@@ -29,7 +33,7 @@
         </div>
     </div>
     <div class="card-body">
-        <LookUpTablesGrid Items="(IList<ColorCodeMatrix>)_colorCodeMatrices" TItem="ColorCodeMatrix" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of Color Codes">
+        <LookUpTablesGrid Items="(IList<ColorCodeMatrix>)ColorCodeMatrices" TItem="ColorCodeMatrix" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of Color Codes">
             <Columns>
                 <LookUpTablesGridColumn Label="Color">
                     <div tabindex="0">
@@ -62,29 +66,26 @@
                     @{
                         var id = context.ColorCodeMatrixId;
                         var color = context.Color;
-                        // if (CurrentUser.Role == "Administrator")
-                        // {
-                            <button class="btn btn-success mx-4" value="" @onclick="() => ReditectToEditPage(id)" title=" Edit category @context.Color" role="button" aria-pressed="false">
+                        if (CurrentUser.Role == "Administrator")
+                        {
+                            <button class="btn btn-success mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit category @context.Color" role="button" aria-pressed="false">
                                 <i class="bi-pencil"></i>
                             </button>
-                        @* } *@
-                        @* <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, desc)" title=" View log information for category @context.Description" role="button" aria-pressed="false"> *@
-                        @*     <i class="bi-binoculars"></i> *@
-                        @* </button> *@
-                        // if (context.TimesUsed == 0 && CurrentUser.Role == "Administrator")
-                        // {
+                        }
+                        <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, color)" title=" View log information for category @context.Color" role="button" aria-pressed="false">
+                            <i class="bi-binoculars"></i> 
+                        </button> 
+                        if (CurrentUser.Role == "Administrator")
+                        {
 
-                            @* <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(id, desc)" title=" Delete category @context.Description"> *@
-                            @*     <i class="bi-trash"></i> *@
-                            @* </button> *@
-
-                        @* } *@
+                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(id, color)" title=" Delete category @context.Color">
+                                <i class="bi-trash"></i>
+                            </button>
+                        }
                     }
 
                 </LookUpTablesGridColumn>
-
             </Columns>
-
         </LookUpTablesGrid>
         @if (ShowDialogOpen)
         {

@@ -14,7 +14,7 @@ namespace ManufacturingManager.Core.Repositories
             UserRole profile;
             if (AppCache.UserRoles == null || AppCache.UserRoles.Count == 0)
             {
-                profile = GetUserRoleList().Result.FirstOrDefault(x => x.UserRoleId == userRoleId);
+                profile = GetUserRoleList().FirstOrDefault(x => x.UserRoleId == userRoleId);
             }
             else
             {
@@ -23,9 +23,9 @@ namespace ManufacturingManager.Core.Repositories
             return profile;
         }
 
-        public async Task<IEnumerable<UserRole>> GetUserRoleList()
+        public IList<UserRole> GetUserRoleList()
         {
-            IEnumerable<UserRole> list = new List<UserRole>();
+            IList<UserRole> list = new List<UserRole>();
 
             if (AppCache.UserRoles is { Count: > 0 })
             {
@@ -44,16 +44,16 @@ namespace ManufacturingManager.Core.Repositories
 
                     conn.Open();
 
-                    list = await conn.QueryAsync<UserRole>(strSelectCmd);
+                    list =  conn.QueryAsync<UserRole>(strSelectCmd).Result.ToList();
 
-                    AppCache.UserRoles = list.ToList();
+                    AppCache.UserRoles = list;
                 }
                 catch (Exception ex)
                 {
                 }
             }
 
-            return await Task.FromResult(list);
+            return list;
         }
     }
 }

@@ -5,6 +5,10 @@ namespace ManufacturingManager.Core.Repositories
     public interface IDataEntryRepository
     {
         //Lookups
+        IList<CurrentFTCConfiguration> GetCurrentFTCConfiguration(bool isActive);
+        bool UpdateCurrentFTCConfiguration(CurrentFTCConfiguration currentFtcConfiguration);
+        int InvalidateAllFTCConfigurations();
+        CurrentFTCConfiguration InsertCurrentFTCConfiguration(CurrentFTCConfiguration currentFtcConfiguration);
         IEnumerable<ClampsPositioning> GetClampsPositioning();
         IEnumerable<ColorCodeMatrix> GetColorCodeMatrix();
         ColorCodeMatrix GetColorCodeMatrixById(int colorCodeMatrixId);

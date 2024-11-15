@@ -1,5 +1,5 @@
 ﻿@page "/Home"
-@layout EmptyLayout
+@* @layout EmptyLayout *@
 @using ManufacturingManager.Core
 @using ManufacturingManager.Core.Repositories
 @using ManufacturingManager.Web.Components.Layout
@@ -10,18 +10,16 @@
 @inject NavigationManager _navigationManager
 @inject UserLogged _currentUser
 @inject IUsersRepository _usersRepository
-<div class="row m-2">
-    <div class="spinner"></div>
+<div class="col-auto text-center">
+    <h2>This application does what it does.</h2>
 </div>
-<h1>Loading your workload........</h1>
-
 @code {
 
     protected override async Task OnInitializedAsync()
     {
         var user = await _protectedSessionStorage.GetAsync<int>("userId");
         var userId = user.Value;
-        await SetUpIdentityForUser(userId);
+        //await SetUpIdentityForUser(userId);
 
     }
     private async Task SetUpIdentityForUser(int userId)
@@ -76,7 +74,7 @@
             // Logging.WriteToLog(@"User " + _currentUser.VaLogon + @" logged in successfully", LoggingCategoryEnum.Debug);
             //flag to let Dispose save a log record when user close browser without login
 
-            _navigationManager.NavigateTo("/FTCSolarConfiguration");
+             _navigationManager.NavigateTo($"/FTCSolarConfiguration/{false}");
         }
         else
         {
