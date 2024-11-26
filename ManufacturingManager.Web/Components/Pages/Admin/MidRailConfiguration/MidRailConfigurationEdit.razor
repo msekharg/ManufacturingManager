@@ -1,0 +1,82 @@
+﻿ @page "/EditMidRailConfiguration"
+@using System.Dynamic
+@using ManufacturingManager.Core.Repositories
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using Microsoft.Extensions.Azure
+@using ManufacturingManager.Components.UI.MessageBox
+@inject IDataEntryRepository _dataEntryRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@* @inject UserLogged CurrentUser *@
+@rendermode InteractiveServer
+@attribute [Authorize(Roles = "Administrator")]
+<PageTitle>Edit Category</PageTitle>
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-primary " tabindex="0">@_addEditTitle</h2>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="my-4 ms-5 w-50 form-group required">
+            <div class="control-label" aria-label="Asterik indicates required" tabindex="0">Indicates required</div>
+        </div>
+
+        <EditForm EditContext="_editContext" OnValidSubmit="Save" OnInvalidSubmit="@FocusFirstError">
+            <DataAnnotationsValidator />
+            <div class="ms-5 w-50 form-group required">
+                <label class="fw-bold me-3 control-label" for="PartNumber">PartNumber</label>
+                <InputText class="form-control" id="Description" @bind-Value="_midRailConfiguration.PartNumber" type="text" data-val="true"
+                           aria-label="Description.Field required" @ref="_inputPartNumber"
+                           data-val-length="The field Description must be a string with a maximum length of 50 characters." />
+                <div>
+                    <ValidationMessage For="@(() => _midRailConfiguration.PartNumber)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="my-4 ms-5 w-50">
+                <label class="fw-bold me-3" for="Height">Height</label>
+                <InputNumber class="form-control" id="Resolution" @bind-Value="_midRailConfiguration.Height" type="text" />
+                <div>
+                    <ValidationMessage For="@(() => _midRailConfiguration.Height)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="my-4 ms-5 w-50">
+                <label class="fw-bold me-3" for="Height">Thickness</label>
+                <InputNumber class="form-control" id="Resolution" @bind-Value="_midRailConfiguration.Thickness" type="text" />
+                <div>
+                    <ValidationMessage For="@(() => _midRailConfiguration.Thickness)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="my-4 ms-5 w-50">
+                <label class="fw-bold me-3" for="Height">Length</label>
+                <InputNumber class="form-control" id="Resolution" @bind-Value="_midRailConfiguration.Length" type="text" />
+                <div>
+                    <ValidationMessage For="@(() => _midRailConfiguration.Length)"></ValidationMessage>
+                </div>
+            </div>
+            @* <div class="input-group ms-5 w-50"> *@
+            @*     <label class="fw-bold me-4" for="Active">Active</label> *@
+            @*     <InputCheckbox class="form-check " @bind-Value="_category.Active" id="Active"></InputCheckbox> *@
+            @*     <label class="form-check-label fst-italic ms-2" for="Active">Check/uncheck this box to make this option active or inactive.</label><br /> *@
+            @* </div> *@
+
+            <div class="form-group row mt-5 w-50">
+                <div class="col-2"></div>
+                <div class="col-auto">
+                    <input type="submit" class="btn btn-primary me-5" value="Save" />
+                    <input type="button" class="btn btn-default" value="Back to List" @onclick="@ReturnToList" />
+                </div>
+            </div>
+
+        </EditForm>
+
+    </div>
+</div>
+
+@if (_showMessageBox)
+{
+    <MessageBox MessageBoxParameters="@_messageBoxParameters" OnClose="@MessageBoxClose" />
+}

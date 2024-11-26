@@ -98,6 +98,7 @@
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/obj/Debug/net8.0/ManufacturingManager.Web.pdb
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/obj/Debug/net8.0/ManufacturingManager.Web.genruntimeconfig.cache
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/obj/Debug/net8.0/ref/ManufacturingManager.Web.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/wwwroot/js/MyDataTables.js
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Components.UI.staticwebassets.runtime.json
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/log4net.config
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/log4net.Release.config

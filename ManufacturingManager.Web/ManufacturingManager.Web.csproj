@@ -2229,6 +2229,8 @@
       <Compile Include="Components\Layout\NavMenuHorizontal.razor.cs" />
       <Compile Include="Components\Pages\Admin\ColorCodeMatrix\ColorCodeMatrixEdit.razor.cs" />
       <Compile Include="Components\Pages\Admin\ColorCodeMatrix\ColorCodeMatrixList.razor.cs" />
+      <Compile Include="Components\Pages\Admin\MidRailConfiguration\MidRailConfigurationEdit.razor.cs" />
+      <Compile Include="Components\Pages\Admin\MidRailConfiguration\MidRailConfigurationList.razor.cs" />
       <Compile Include="Components\Pages\Admin\User\UserEdit.razor.cs" />
       <Compile Include="Components\Pages\Admin\User\UserList.razor.cs" />
       <Compile Include="Components\Pages\Error.cshtml.cs" />
@@ -2295,6 +2297,9 @@
       <Content Remove="Components\_Host.cshtml" />
       <Content Remove="Components\_Layout.cshtml" />
       <Content Include="wwwroot\lib\.DS_Store" />
+      <Content Update="wwwroot\js\MyDataTables.js">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
 <!--      <Content Include="wwwroot\lib\bootstrap\css\bootstrap.min.css" />-->
     </ItemGroup>
 
@@ -2313,6 +2318,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AdditionalFiles Include="Components\Pages\Admin\MidRailConfiguration\MidRailConfigurationEdit.razor" />
+      <AdditionalFiles Include="Components\Pages\Admin\MidRailConfiguration\MidRailConfigurationList.razor" />
       <AdditionalFiles Include="Components\Pages\Dimensions\DimensionAdd.razor" />
       <AdditionalFiles Include="Components\Pages\Dimensions\DimensionEdit.razor" />
       <AdditionalFiles Include="Components\Pages\Dimensions\DimensionWorkload.razor" />

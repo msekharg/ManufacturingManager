@@ -1,4 +1,4 @@
-﻿ @page "/ColorCodeList"
+﻿ @page "/MidRailConfigurationList"
 @using ManufacturingManager.Core.Repositories
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using ManufacturingManager.Components.UI
@@ -12,9 +12,9 @@
 @inject UserLogged CurrentUser 
 @rendermode InteractiveServer
 
-<PageTitle>List of categories</PageTitle>
+<PageTitle>List of Mid Rail Configurations</PageTitle>
 
-@attribute [Authorize(Roles = "Administrator,Coordinator")]
+@attribute [Authorize(Roles = "Administrator")]
 <div class="card border">
     <div class="card-header">
         <div class="row">
@@ -33,16 +33,26 @@
         </div>
     </div>
     <div class="card-body">
-        <LookUpTablesGrid Items="ColorCodeMatrices" TItem="ColorCodeMatrix" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of Color Codes">
+        <LookUpTablesGrid Items="MidRailConfigurations" TItem="MidRailConfiguration" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of MidRail Configurations">
             <Columns>
-                <LookUpTablesGridColumn Label="Color">
+                <LookUpTablesGridColumn Label="PartNumber">
                     <div tabindex="0">
-                        @context.Color
+                        @context.PartNumber
                     </div>
                 </LookUpTablesGridColumn>
-                <LookUpTablesGridColumn Label="HexCode">
+                <LookUpTablesGridColumn Label="Height">
                     <div tabindex="0">
-                        @context.HexColorCode
+                        @context.Height
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="Thickness">
+                    <div tabindex="0">
+                        @context.Thickness
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="Length">
+                    <div tabindex="0">
+                        @context.Length
                     </div>
                 </LookUpTablesGridColumn>
                 @* <LookUpTablesGridColumn Name="Active" Label="Active"> *@
@@ -64,22 +74,21 @@
                 @* </LookUpTablesGridColumn> *@
                 <LookUpTablesGridColumn Name="" Label="Action">
                     @{
-                        var id = context.ColorCodeMatrixId;
-                        var color = context.Color;
+                        var id = context.MidRailConfigurationId;
+                        var partNumber = context.PartNumber;
                         if (CurrentUser.Role == "Administrator")
                         {
-                            <button class="btn btn-success mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit category @context.Color" role="button" aria-pressed="false">
+                            <button class="btn btn-success mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit configuration @context.PartNumber" role="button" aria-pressed="false">
                                 <i class="bi-pencil bi-pencil-blue"></i>
                             </button>
                         }
-                        <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, color)" title=" View log information for category @context.Color" role="button" aria-pressed="false">
+                        <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, partNumber)" title=" View log information for configuration @context.PartNumber" role="button" aria-pressed="false">
                             <i class="bi-binoculars"></i> 
                         </button> 
                         if (CurrentUser.Role == "Administrator")
                         {
-
-                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(id, color)" title=" Delete category @context.Color">
-                                <i class="bi-trash" style="color:orange"></i>
+                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(id, partNumber)" title=" Delete configuration @context.PartNumber">
+                                <i class="bi-trash"></i>
                             </button>
                         }
                     }

@@ -11,7 +11,7 @@
 @inject IJSRuntime JSRuntime
 
 @* @inject UserLogged CurrentUser *@
- @attribute [Authorize(Roles = "Administrator,User")]
+@attribute [Authorize(Roles = "Administrator,User")]
 
 <PageTitle>Final Inspection Report Viewer</PageTitle>
 <div class="card border">
@@ -27,15 +27,15 @@
     </div>
     <br/>
     <div class="col-8" tabindex="0">
-        <button class="btn btn-success mx-4" @onclick="() => AddNewRecord()" title="Add Final Inspection Record"
+        <button class="btn btn-success mx-4 btn-lg" @onclick="() => AddNewRecord()" title="Add Final Inspection Record"
                 role="button" aria-pressed="false">
             Add Record
             @*<i class="bi-pencil"></i>*@
         </button>
     </div>
-    
+
     <div class="card-body">
-        <LookUpTablesGrid Items="_listofFinalInspections" TItem="FinalInspection" JqueryFileName="DatatableSolarInspectionWorkload" Args="@Args" SpinningNoRecords="false" Caption="FinalInspectionWorkload">
+        <LookUpTablesGrid Items="_listofFinalInspections" TItem="FinalInspection" JqueryFileName="DatatableFinalInspectionWorkload" Args="@Args" SpinningNoRecords="false" ReloadTable="true" Caption="FinalInspectionWorkload">
             <Columns>
                 <LookUpTablesGridColumn Name="FinalInspectionId" Label="FinalInspection Id">
                     <div tabindex="0">
@@ -43,36 +43,135 @@
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="InspectorName" Label="Inspector Name">
-                    <div tabindex="0">
+                    <div tabindex="1">
                         @context.InspectorName
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="MidHangerClampThickness" Label="Mid Hanger Clamp Thickness">
-                    <div tabindex="0">
+                    <div tabindex="2">
                         @context.MidHangerClampThickness
                     </div>
                 </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="RailTubeHeight" Label="Rail Tube Height">
+                    <div tabindex="3">
+                        @context.RailTubeHeight
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="RailTubeWidth" Label="Rail Tube Width">
+                    <div tabindex="4">
+                        @context.RailTubeWidth
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TubeWeldSeamLocation" Label="Tube Weld Seam Location">
+                    <div tabindex="5">
+                        @context.TubeWeldSeamLocation
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TubeLength" Label="Tube Length">
+                    <div tabindex="6">
+                        @context.TubeLength
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TubeCornerRadius4Places" Label="Tube Corner Radius 4 Places">
+                    <div tabindex="7">
+                        @context.TubeCornerRadius4Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="EndOfTubeToCLDistance" Label="End of Tube to CL Distance">
+                    <div tabindex="8">
+                        @context.EndOfTubeToCLDistance
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="EndOfTubeToClamp1Bolt_2Places" Label="End of Tube to Clamp 1 Bolt 2 Places">
+                    <div tabindex="9">
+                        @context.EndOfTubeToClamp1Bolt_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="Clamp1BoltToClamp2BoltDistance_2Places" Label="Clamp 1 Bolt to Clamp 2 Bolt Distance 2 Places">
+                    <div tabindex="10">
+                        @context.Clamp1BoltToClamp2BoltDistance_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="EndOfTubeToClamp3Bolt_2Places" Label="End of Tube to Clamp 3 Bolt Distance 2 Places">
+                    <div tabindex="11">
+                        @context.EndOfTubeToClamp3Bolt_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="Clamp3BoltToClamp4BoltDistance_2Places" Label="Clamp 3 Bolt to Clamp 4 Bolt Distance 2 Places">
+                    <div tabindex="12">
+                        @context.Clamp3BoltToClamp4BoltDistance_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TorqueClamp1_2Places" Label="Torque(Clamp 1) 2 Places">
+                    <div tabindex="13">
+                        @context.TorqueClamp1_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TorqueClamp2_2Places" Label="Torque(Clamp 2) 2 Places">
+                    <div tabindex="14">
+                        @context.TorqueClamp2_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TorqueClamp3_2Places" Label="Torque(Clamp 3) 2 Places">
+                    <div tabindex="15">
+                        @context.TorqueClamp3_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TorqueClamp4_2Places" Label="Torque(Clamp 4) 2 Places">
+                    <div tabindex="16">
+                        @context.TorqueClamp4_2Places
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="TorqueMarking" Label="Torque Marking">
+                    <div tabindex="17">
+                        @context.TorqueMarkingString
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="PartMarking" Label="Part marking">
+                    <div tabindex="18">
+                        @context.PartMarkingString
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="RivetPresence" Label="Rivet Presence Qty=2">
+                    <div tabindex="19">
+                        @context.RivetPresenceString
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="MidHangerHolesAlign" Label="Mid Hanger Holes Align">
+                    <div tabindex="20">
+                        @context.MidHangerHolesAlignString
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="WasherPlatePresence6Locations" Label="Washer plate presence 6 locations">
+                    <div tabindex="21">
+                        @context.WasherPlatePresence6LocationsString
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="ColorCode" Label="Color Code">
+                    <div tabindex="22">
+                        @context.ColorCodeString
+                    </div>
+                </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="Appearance" Label="Appearance">
-                    <div tabindex="0">
+                    <div tabindex="23">
                         @context.AppearanceString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="CreatedDate" Label="Created Date">
-                    <div tabindex="0">
+                    <div tabindex="24">
                         @context.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss")
                     </div>
                 </LookUpTablesGridColumn>
-               
+
                 <LookUpTablesGridColumn Name="" Label="Action">
                     @{
-
                         var id = context.FinalInspectionId;
 
                         <button class="btn btn-success mx-4" @onclick="() => GetSelectedRecords(id)" title="Edit Final Inspection @context.FinalInspectionId"
                                 role="button" aria-pressed="false">
                             <i class="bi-pencil"></i>
                         </button>
-                       
+
                         // <button class="btn btn-secondary text-white" value="" @onclick="() => ViewLog(id, context.InspectorName)" title=" View log information for Case  @context.DimensionId"
                         //         role="button" aria-pressed="false">
                         //     <i class="bi-binoculars"></i>
@@ -96,6 +195,7 @@
         document.body.style.width = 'auto';  // Adjust width if needed
     }
 </script>
+
 @code{
 
     public IList<FinalInspection> _listofFinalInspections = new List<FinalInspection>();
@@ -105,29 +205,46 @@
     private LookUpTableArgs Args { get; set; }
     public LookUpTableArgs ArgsView { get; set; }
     private IList<Decision>? _okNokList;
-    
+
     protected override async Task OnInitializedAsync()
     {
         Args = new LookUpTableArgs
         {
             TableName = "FinalInspectionTable",
-            FilenameToExportExcel = "FinalInspectionWorkload"//,
-            //TitleInExcelFile = "Workload for user "
+            FilenameToExportExcel = "FinalInspectionWorkload",
+            TitleInExcelFile = "Workload for user "
         };
-        
+
         _okNokList = DropDownCategories.GetDecisions();
-        
+
         _listofFinalInspections = (IList<FinalInspection>)await DataEntryRepository.GetFinalInspectionsDataView();
         foreach (var finalInspection in _listofFinalInspections)
         {
-            var decisionname = _okNokList
-                .Where(x => x.DecisionId == finalInspection.Appearance).FirstOrDefault().DecisionName;
-            finalInspection.AppearanceString = decisionname;
+            var decisionNameAppearance = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.Appearance)
+                ?.DecisionName;
+            var decisionNameTorqueMarking = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.TorqueMarking)
+                ?.DecisionName;
+            var decisionNamePartMarking = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.PartMarking)
+                ?.DecisionName;
+            var decisionNameRivetPresence = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.RivetPresence)
+                ?.DecisionName;
+            var decisionNameMidHangerHolesAlign = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.MidHangerHolesAlign)
+                ?.DecisionName;
+            var decisionNameWasherPlatePresence6Locations = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.WasherPlatePresence6Locations)
+                ?.DecisionName;
+            var decisionNameColorCode = _okNokList.FirstOrDefault(x => x.DecisionId == finalInspection.ColorCode)
+                ?.DecisionName;
+            
+            finalInspection.AppearanceString = decisionNameAppearance;
+            finalInspection.TorqueMarkingString = decisionNameTorqueMarking;
+            finalInspection.PartMarkingString = decisionNamePartMarking;
+            finalInspection.RivetPresenceString = decisionNameRivetPresence;
+            finalInspection.MidHangerHolesAlignString = decisionNameMidHangerHolesAlign;
+            finalInspection.WasherPlatePresence6LocationsString = decisionNameWasherPlatePresence6Locations;
+            finalInspection.ColorCodeString = decisionNameColorCode;
         }
-       
-
     }
-     
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -135,13 +252,13 @@
             await JSRuntime.InvokeVoidAsync("resetScrollPosition");
         }
     }
-    
+
     protected void GetSelectedRecords(int finalInspectionId)
     {
         SessionStorage.SetAsync("FinalInspectionId", finalInspectionId);
         navigationManager.NavigateTo("/EditFinalInspection");
     }
-    
+
     protected void AddNewRecord()
     {
         navigationManager.NavigateTo($"/FTCSolarConfiguration/{false}");

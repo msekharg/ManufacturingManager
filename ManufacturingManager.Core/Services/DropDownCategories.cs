@@ -6,8 +6,8 @@
         {
             var decisionList = new List<Decision>
             {
-                new() { DecisionId = 0, DecisionName = "OK" },
-                new() { DecisionId = 1, DecisionName = "NOK" }
+                new() { DecisionId = 1, DecisionName = "OK" },
+                new() { DecisionId = 2, DecisionName = "NOK" }
             };
             return decisionList;
         }

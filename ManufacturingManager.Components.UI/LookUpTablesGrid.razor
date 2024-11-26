@@ -12,15 +12,15 @@
 else
 {
    <div class="table-responsive">
-       <table class="table table-bordered table-striped " id="@Args.TableName" role="grid" aria-describedby="lookUpTable_info">
+       <table class="table table-bordered table-striped light-blue-header" id="@Args.TableName" role="grid" aria-describedby="lookUpTable_info">
            @*I don't show the caption because it is the same as the page title, but it is needed for 508*@
            <caption class="caption-top text-center text-white">@Caption</caption>
-           <thead class="table-primary">
+           <thead class="table-primary" style="color:#0dcaf0; font-size: 1.75rem;">
            <tr>
                @Columns?.Invoke(default(TItem)!)
            </tr>
            </thead>
-           <tbody>
+           <tbody style="font-size: 1.5rem;">
            @foreach (var item in Items)
            {
                <CascadingValue Value="item">
@@ -71,17 +71,14 @@ else
             //Add a method from the Original page (see )
             if (ReloadTable)
             {
-
                await RemoveDataTable();
                 await _jsRuntime.InvokeAsync<object>(JqueryFileName, Args);
                 ReloadTable = false;
             }
-
         }
         else
         {
-            await _jsRuntime.InvokeAsync<object>(JqueryFileName,  Args);
-
+            await _jsRuntime.InvokeAsync<object>(JqueryFileName, Args);
         }
     }
 

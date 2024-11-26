@@ -7,7 +7,6 @@ namespace ManufacturingManager.Core;
 
 public class FinalInspection : IValidatableObject
 {
-
     [Key]
    public int FinalInspectionId { get; set; }
     [DisplayName("Inspector")]
@@ -230,48 +229,56 @@ public class FinalInspection : IValidatableObject
     
     public string TorqueMarkingString
     {
-        get => TorqueMarking.ToString();
-        set
-        {
-            if (int.TryParse(value, out int val))
-                TorqueMarking = val;
-        }
+        get;
+        set;
+        // get => TorqueMarking.ToString();
+        // set
+        // {
+        //     if (int.TryParse(value, out int val))
+        //         TorqueMarking = val;
+        // }
     }
 
     [DisplayName("Part Marking")]
     public int PartMarking {get;set;}
     public string PartMarkingString
     {
-        get => PartMarking.ToString();
-        set
-        {
-            if (int.TryParse(value, out int val))
-                PartMarking = val;
-        }
+        get;
+        set;
+        // get => PartMarking.ToString();
+        // set
+        // {
+        //     if (int.TryParse(value, out int val))
+        //         PartMarking = val;
+        // }
     }
 
     [DisplayName("Rivet Presence Qty=2")]
     public int RivetPresence {get;set;}
     public string RivetPresenceString
     {
-        get => RivetPresence.ToString();
-        set
-        {
-            if (int.TryParse(value, out int val))
-                RivetPresence = val;
-        }
+        get;
+        set;
+        // get => RivetPresence.ToString();
+        // set
+        // {
+        //     if (int.TryParse(value, out int val))
+        //         RivetPresence = val;
+        // }
     }
 
     [DisplayName("Mid Hanger Holes Align")]
     public int MidHangerHolesAlign {get;set;}
     public string MidHangerHolesAlignString
     {
-        get => MidHangerHolesAlign.ToString();
-        set
-        {
-            if (int.TryParse(value, out int val))
-                MidHangerHolesAlign = val;
-        }
+        get;
+        set;
+        // get => MidHangerHolesAlign.ToString();
+        // set
+        // {
+        //     if (int.TryParse(value, out int val))
+        //         MidHangerHolesAlign = val;
+        // }
     }
     
     [DisplayName("Washer plate presence @6 locations")]
@@ -279,24 +286,28 @@ public class FinalInspection : IValidatableObject
     {get;set;}
     public string WasherPlatePresence6LocationsString
     {
-        get => WasherPlatePresence6Locations.ToString();
-        set
-        {
-            if (int.TryParse(value, out int val))
-                WasherPlatePresence6Locations = val;
-        }
+        get;
+        set;
+        // get => WasherPlatePresence6Locations.ToString();
+        // set
+        // {
+        //     if (int.TryParse(value, out int val))
+        //         WasherPlatePresence6Locations = val;
+        // }
     }
     
     [DisplayName("Color Code")]
     public int ColorCode {get;set;}
     public string ColorCodeString
     {
-        get => ColorCode.ToString();
-        set
-        {
-            if (int.TryParse(value, out int val))
-                ColorCode = val;
-        }
+        get;
+        set;
+        // get => ColorCode.ToString();
+        // set
+        // {
+        //     if (int.TryParse(value, out int val))
+        //         ColorCode = val;
+        // }
     }
     
     [DisplayName("Appearance")]

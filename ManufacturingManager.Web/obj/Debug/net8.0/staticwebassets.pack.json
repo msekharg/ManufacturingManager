@@ -109,12 +109,12 @@
       "PackagePath": "staticwebassets/images/1_-VA-PRIMARY-HORIZONTAL-White_260.png"
     },
     {
-      "Id": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/Unimacts-Logo-White-SVG.svg",
-      "PackagePath": "staticwebassets/images/Unimacts-Logo-White-SVG.svg"
+      "Id": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/FSC-Logo-White-SVG.svg",
+      "PackagePath": "staticwebassets/images/FSC-Logo-White-SVG.svg"
     },
     {
-      "Id": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/Unimacts.jpeg",
-      "PackagePath": "staticwebassets/images/Unimacts.jpeg"
+      "Id": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/Unimacts.png",
+      "PackagePath": "staticwebassets/images/Unimacts.png"
     },
     {
       "Id": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/bolt_gt_2_2.png",

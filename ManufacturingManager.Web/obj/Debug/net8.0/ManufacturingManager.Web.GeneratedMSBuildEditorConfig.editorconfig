@@ -18,6 +18,18 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web
 build_property._RazorSourceGeneratorDebug = 
 
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Admin/MidRailConfiguration/MidRailConfigurationEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = 
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9BZG1pbi9NaWRSYWlsQ29uZmlndXJhdGlvbi9NaWRSYWlsQ29uZmlndXJhdGlvbkVkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Admin/MidRailConfiguration/MidRailConfigurationList.razor]
+build_metadata.AdditionalFiles.TargetPath = 
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9BZG1pbi9NaWRSYWlsQ29uZmlndXJhdGlvbi9NaWRSYWlsQ29uZmlndXJhdGlvbkxpc3QucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Dimensions/DimensionAdd.razor]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9EaW1lbnNpb25zL0RpbWVuc2lvbkFkZC5yYXpvcg==

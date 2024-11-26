@@ -222,6 +222,61 @@ namespace ManufacturingManager.Core.Repositories
             return midRailConfigurations;
         }
         
+        public MidRailConfiguration GetMidRailConfigurationById(int midRailConfigurationId)
+        {
+            MidRailConfiguration midRailConfiguration = new MidRailConfiguration();
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            try
+            {
+                //string connString = Configuration.ChangeManagementConnectionString();
+                using SqlConnection conn = new SqlConnection(connString);
+
+                string strSelectCmd =
+                    $"SELECT TOP 1 MidRailConfigurationId,PartNumber,Height,Thickness,Length FROM dbo.MidRailConfiguration WHERE MidRailConfigurationId=@MidRailConfigurationId";
+    
+                conn.Open();
+                midRailConfiguration =  conn.QueryAsync<MidRailConfiguration>(strSelectCmd, new{MidRailConfigurationId = midRailConfigurationId}).Result.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return midRailConfiguration;
+        }
+        
+        public async Task<int> UpdateMidRailConfiguration(MidRailConfiguration midRailConfiguration)
+        {
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            // colorCodeMatrix.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            string sql =
+                "UPDATE dbo.MidRailConfiguration SET " +
+                "PartNumber = @PartNumber, Height = @Height, Thickness = @Thickness, Length = @Length" +
+                " WHERE MidRailConfigurationId = @MidRailConfigurationId";
+
+            using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordsUpdated = await conn.ExecuteAsync(sql, midRailConfiguration);
+            return recordsUpdated;
+        }
+
+        public async Task<int> InsertMidRailConfiguration(MidRailConfiguration midRailConfiguration)
+        {
+            // dimension.CreatedBy = dimension.InspectorName;
+            // dimension.CreatedDate = DateTime.Now;
+            // dimension.UpdatedBy = dimension.InspectorName; dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            var insertQuery =
+                "INSERT INTO dbo.MidRailConfiguration(PartNumber, Height, Thickness, Length) VALUES (@PartNumber,@Height,@Thickness,@Length)";
+
+            using var conn = new SqlConnection(connString);
+            conn.Open();
+            var midRailConfigurationId = conn.ExecuteScalar<int>(insertQuery, midRailConfiguration);
+
+            return await Task.FromResult(midRailConfigurationId);
+        }
+        
         public async Task<IEnumerable<Dimension>> GetDimensionsDataView()
         {
             IEnumerable<Dimension> changeLogs = new List<Dimension>();

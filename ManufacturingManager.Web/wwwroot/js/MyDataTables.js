@@ -692,19 +692,22 @@ function DatatableFinalInspectionWorkload(args) {
                     extend: 'excel',
                     messageTop: title,
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4],
+                        //columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24],
+                        columns: ':visible',
                         orthogonal: "myExport",
                         format: {
                             body: function (data, row, column, node) {
                                 // replace icon for quick case to Yes if exists 
-                                if (column === 4) {
-                                    if (data.indexOf("check-circle-fill") !== -1) {
-                                        data = 'Yes';
-                                    }
-                                    else
-                                        data = '';
-                                }
-                                return data.replace('<div tabindex="0">', '').replace('</div>', '');
+                                data = data.replace(/<div tabindex="[^"]*">/g, '').replace(/<\/div>/g, '');
+
+                                if (column === 25) {
+                                     if (data.indexOf("check-circle-fill") !== -1) {
+                                         data = 'Yes';
+                                     }
+                                     else
+                                         data = '';
+                                 }
+                                 return data.replace('<div tabindex="0">', '').replace('</div>', '');
 
                                 /*return column === 4 ? data.replace(/[$,]/g, '') : data;*/
                             }

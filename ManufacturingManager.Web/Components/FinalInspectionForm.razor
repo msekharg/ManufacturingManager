@@ -230,7 +230,8 @@
     <div class="col-12 col-md-6 py-3 px-3 ">
             <label class="form-label fw-bold">Torque Marking</label>
             <InputSelect id="ddlTorqueMarking" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.TorqueMarkingString">
+                         @bind-Value="@_finalInspection!.TorqueMarking">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -244,7 +245,8 @@
         <div class="col-12 col-md-6 py-3 px-3 ">
             <label class="form-label fw-bold">Part Marking</label>
             <InputSelect id="ddlPartMarking" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.PartMarkingString">
+                         @bind-Value="@_finalInspection!.PartMarking">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -258,7 +260,8 @@
         <div class="col-12 col-md-6 py-3 px-3 ">
             <label class="form-label fw-bold">RivetPresence Qty=2</label>
             <InputSelect id="ddlRivetPresence" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.RivetPresenceString">
+                         @bind-Value="@_finalInspection!.RivetPresence">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -272,7 +275,8 @@
         <div class="col-12 col-md-6 py-3 px-3 ">
             <label class="form-label fw-bold">Mid Hanger Holes Align</label>
             <InputSelect id="ddlMidHangerHolesAlign" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.MidHangerHolesAlignString">
+                         @bind-Value="@_finalInspection!.MidHangerHolesAlign">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -288,7 +292,8 @@
                 Washer plate presence 6 locations
             </label>
             <InputSelect id="ddlWasherPlatePresence6Locations" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.WasherPlatePresence6LocationsString">
+                         @bind-Value="@_finalInspection!.WasherPlatePresence6Locations">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -302,7 +307,8 @@
         <div class="col-12 col-md-6 py-3 px-3 ">
             <label class="form-label fw-bold">Color Code</label>
             <InputSelect id="ddlColorCode" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.ColorCodeString">
+                         @bind-Value="@_finalInspection!.ColorCode">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -317,6 +323,7 @@
             <label class="form-label fw-bold">Appearance</label>
             <InputSelect id="ddlAppearance" class="form-select form-control"
                          @bind-Value="@_finalInspection!.Appearance">
+                <option value="0">Select a value</option>
                 @if (_okNokList != null)
                 {
                     foreach (var item in _okNokList)
@@ -333,7 +340,7 @@
 </div>
 <div class="card-footer">
     <div class="row">
-        <div class="col-3 text-center">
+        <div class="col-4 text-center">
             @{
                 @*  var showBtnSave = !(_case!.AssignedToUserId > 0 && _case.StatusId == (int)CaseStatusEnum.ReassignmentRequested);
                     @if (showBtnSave)
@@ -343,10 +350,8 @@
                 
                 <input type="button" class="btn btn-primary btn-lg me-3" id="buttonBackToWorkList" value="Back to WorkList" title="Submit" @onclick="@BackToWorkList"/>
                 <input type="button" class="btn btn-primary btn-lg" id="buttonChangeConfiguration" value="Change Configuration" title="Submit" @onclick="@ChangeConfiguration"/>
-            
             }
         </div>
-
     </div>
 </div>
 </EditForm>
@@ -722,9 +727,12 @@
                 {
                     _messageBoxParameters.Title = "Data updated.";
                     _messageBoxParameters.Message = "Dimension with " + _finalInspection.FinalInspectionId + " updated.";
-                    _messageBoxParameters.IsErrorMessage = false;
-                    // _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
-                    _messageBoxParameters.PageToRedirect = @"/FinalInspectionForm";
+                    _messageBoxParameters.IsErrorMessage = false; 
+                    
+                    _showMessageBox = true;
+                    _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
+                    // ClearExistingFields();
+                    //_messageBoxParameters.PageToRedirect = @"/FinalInspectionForm";
                 }
                 else
                 {
@@ -740,7 +748,10 @@
                     _messageBoxParameters.Message = "Final Inspection number: " + ret;
                     _messageBoxParameters.IsErrorMessage = false;
                     // _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
-                    _messageBoxParameters.PageToRedirect = @"/FinalInspectionForm";
+                    ClearExistingFields();
+                    
+                    _showMessageBox = true;
+                    _messageBoxParameters.PageToRedirect = @"/AddFinalInspection";
                 }
                 else
                 {
@@ -750,8 +761,47 @@
                     _messageBoxParameters.PageToRedirect = "";
                 }
             }
-            // _showMessageBox = true;
         }
+    }
+
+    private void ClearExistingFields()
+    {
+        _finalInspection = new FinalInspection
+        {
+            InspectorName = string.Empty,
+            PartName = string.Empty,
+            TubeThickness = 0.0,// 3.1,
+            MidHangerClampThickness = 0.0,//  2.5,
+            RailTubeHeight = 0.0,//  85.0,
+            RailTubeWidth = 0.0,//  29.75,
+            TubeWeldSeamLocation = 0.0,//  42.0,
+            TubeLength = 0.0,//  2900.01,
+            TubeCornerRadius4Places = 6,
+            EndOfTubeToCLDistance = 1450.0,
+            EndOfTubeToClamp1Bolt_2Places = 65.0,
+            Clamp1BoltToClamp2BoltDistance_2Places = 75.0,
+            EndOfTubeToClamp3Bolt_2Places = 840.0,
+            Clamp3BoltToClamp4BoltDistance_2Places = 115.0,
+            TorqueClamp1_2Places = 49.0,
+            TorqueClamp2_2Places = 35.0,
+            TorqueClamp3_2Places = 36.0,
+            TorqueClamp4_2Places = 37.1,
+            TorqueMarking = 0,
+            PartMarking = 0,
+            RivetPresence = 0,
+            MidHangerHolesAlign = 0,
+            WasherPlatePresence6Locations = 0,
+            ColorCode = 0,
+            Appearance = 0,
+            CreatedBy = string.Empty,
+            CreatedDate = DateTime.Now,
+            UpdatedBy = string.Empty,
+            UpdatedDate = DateTime.Now
+        };
+
+        // Notify the EditContext to re-render with the cleared model
+        _editContext = new EditContext(_finalInspection);
+        StateHasChanged(); // Update the UI
     }
 
     private void OnFieldChanged(object sender, FieldChangedEventArgs e)
@@ -794,28 +844,6 @@
         StateHasChanged();
     }
 
-
-    //TODO further story
-    //private void ShowFindUserInAd()
-    //{
-    //    _showActiveDirectorySearch = true;
-    //    StateHasChanged();
-    //}
-
-    //private void MyUserSelected()
-    //{
-    //    _userFromAdSearch = _adId.UserReturned ;// .EmailReturned;
-    //    if (_userFromAdSearch!=null)
-    //    {
-    //        //Find rest of information from AD
-    //        _case.Email = _userFromAdSearch.Email ;
-    //        _case.CustomerName = _userFromAdSearch.FullName;
-    //        _case.Phone = _userFromAdSearch.PhoneNumber;
-    //    }
-
-    //    _showActiveDirectorySearch = false;
-
-    //}
     private void RefreshAttachments()
     {
     }

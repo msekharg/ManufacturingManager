@@ -1,10 +1,12 @@
 ﻿@page "/AddFinalInspection"
 @using ManufacturingManager.Core
 @using ManufacturingManager.Core.Models
+@using ManufacturingManager.Core.Repositories
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using ManufacturingManager.Web.Components
 @inject ProtectedSessionStorage SessionStorage
 @inject NavigationManager NavigationManager
+@inject IDataEntryRepository DataEntryRepository
 @attribute [Authorize]
 <PageTitle>Add Final Inspection</PageTitle>
 @if (CurrentFTCConfiguration != null)
@@ -18,8 +20,14 @@
     protected override async Task OnInitializedAsync()
     {
         var configuration  = await SessionStorage.GetAsync<CurrentFTCConfiguration>("CurrentFTCConfiguration");
-        CurrentFTCConfiguration = configuration.Value;
-       
+        if (configuration.Value != null)
+        {
+            CurrentFTCConfiguration = configuration.Value;
+        }
+        else
+        {
+            CurrentFTCConfiguration = DataEntryRepository.GetCurrentFTCConfiguration(true).FirstOrDefault();
+        }
 
     }
 

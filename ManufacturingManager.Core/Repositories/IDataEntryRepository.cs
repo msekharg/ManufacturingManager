@@ -15,6 +15,9 @@ namespace ManufacturingManager.Core.Repositories
         Task<bool> UpdateColorCode(ColorCodeMatrix colorCodeMatrix);
         Task<int> InsertColorCode(ColorCodeMatrix colorCodeMatrix);
         IEnumerable<MidRailConfiguration> GetMidRailConfiguration();
+        MidRailConfiguration GetMidRailConfigurationById(int midRailConfigurationId);
+        Task<int> UpdateMidRailConfiguration(MidRailConfiguration midRailConfiguration);
+        Task<int> InsertMidRailConfiguration(MidRailConfiguration midRailConfiguration);
         
         Task<IEnumerable<Dimension>> GetDimensionsDataView();
         Task<Dimension> GetDimensionById(int id);

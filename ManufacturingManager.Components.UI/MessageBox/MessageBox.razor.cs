@@ -54,7 +54,6 @@ namespace ManufacturingManager.Components.UI.MessageBox
 {
     public partial class MessageBox : ComponentBase
     {
-
         [Parameter] public MessageBoxParameters? MessageBoxParameters { get; set; }
         [Parameter] public EventCallback<bool> OnClose { get; set; }
         
@@ -82,7 +81,6 @@ namespace ManufacturingManager.Components.UI.MessageBox
         {
             if (firstRender)
             {
-
                 //Set Focus 1 first element for 508 users
                 SetFocusFirstElement();
             }
@@ -100,10 +98,8 @@ namespace ManufacturingManager.Components.UI.MessageBox
 
         public void KeyPress(KeyboardEventArgs e)
         {
-         
             if (e.Key == "Tab")
                SetFocusFirstElement();
-            
         }
 
         public void QuitOnEscape(KeyboardEventArgs e)

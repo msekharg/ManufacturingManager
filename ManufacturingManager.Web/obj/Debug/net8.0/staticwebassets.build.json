@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gqcrBhO8J9/783kU60PG1ldvwV53LOtV5HVJhO4Gr7I=",
+  "Hash": "xF945Hx1rgg8rICN35bjVL5lJqHdswpuu/pVY2V5XJE=",
   "Source": "ManufacturingManager.Web",
   "BasePath": "_content/ManufacturingManager.Web",
   "Mode": "Default",
@@ -656,6 +656,25 @@
       "OriginalItemSpec": "wwwroot/images/fsc-alert-icon-danger.png"
     },
     {
+      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/FSC-Logo-White-SVG.svg",
+      "SourceId": "ManufacturingManager.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/",
+      "BasePath": "_content/ManufacturingManager.Web",
+      "RelativePath": "images/FSC-Logo-White-SVG.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/FSC-Logo-White-SVG.svg"
+    },
+    {
       "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/sort_asc_disabled.png",
       "SourceId": "ManufacturingManager.Web",
       "SourceType": "Discovered",
@@ -751,12 +770,12 @@
       "OriginalItemSpec": "wwwroot/images/sort_desc.png"
     },
     {
-      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/Unimacts-Logo-White-SVG.svg",
+      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/Unimacts.png",
       "SourceId": "ManufacturingManager.Web",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/",
       "BasePath": "_content/ManufacturingManager.Web",
-      "RelativePath": "images/Unimacts-Logo-White-SVG.svg",
+      "RelativePath": "images/Unimacts.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -767,26 +786,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/images/Unimacts-Logo-White-SVG.svg"
-    },
-    {
-      "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/images/Unimacts.jpeg",
-      "SourceId": "ManufacturingManager.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/",
-      "BasePath": "_content/ManufacturingManager.Web",
-      "RelativePath": "images/Unimacts.jpeg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/images/Unimacts.jpeg"
+      "OriginalItemSpec": "wwwroot/images/Unimacts.png"
     },
     {
       "Identity": "/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/wwwroot/js/buttons.bootstrap.min.js",
@@ -1449,7 +1449,7 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
+      "CopyToOutputDirectory": "Always",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/MyDataTables.js"
     },
