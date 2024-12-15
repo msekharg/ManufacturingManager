@@ -1,0 +1,2 @@
+insert into [qualityassurancemanager].[dbo].[user] ( [FirstName] , [MiddleName] , [LastName] , [LoginName] , [Email] , [UserRoleId] , [LastAccess] , [IsActive] , [CreatedBy] , [CreatedDate] , [UpdatedBy] , [UpdatedDate] ) 
+values ( /* FirstName */ 'Mani' ,/* MiddleName */ 'B' ,/* LastName */ 'G' ,/* LoginName */ 'manisekharganti@gmail.com' ,/* Email */ 'manisekharganti@gmail.com' ,/* UserRoleId */ 1 ,/* LastAccess */ null ,/* IsActive */ 1 ,/* CreatedBy */ N'admin' ,/* CreatedDate */ '2024-11-11 22:49:12.457' ,/* UpdatedBy */ null ,/* UpdatedDate */ null  );

@@ -147,3 +147,18 @@ btn-success {
 color: #000; // Text color
 }
 
+.table > thead > tr > th {
+    color: #fff;
+    background-color: #add8e6;
+    border-bottom: none
+}
+
+.table .light-blue-header th,
+.table .light-blue-header tr {
+    background-color: lightblue !important;
+}
+
+.table-primary.light-blue-header {
+    background-color: lightblue !important;
+    color: black !important;
+}

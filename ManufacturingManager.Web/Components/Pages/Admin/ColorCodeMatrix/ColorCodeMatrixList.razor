@@ -1,4 +1,4 @@
-﻿ @page "/ColorCodeList"
+﻿@page "/ColorCodeList"
 @using ManufacturingManager.Core.Repositories
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @using ManufacturingManager.Components.UI
@@ -12,20 +12,20 @@
 @inject UserLogged CurrentUser 
 @rendermode InteractiveServer
 
-<PageTitle>List of categories</PageTitle>
+<PageTitle >List of categories</PageTitle>
 
 @attribute [Authorize(Roles = "Administrator,Coordinator")]
 <div class="card border">
     <div class="card-header">
         <div class="row">
             <div class="col-6" tabindex="0">
-                <h2 class="text-primary" id="startContent">List of Categories</h2>
+                <h2 class="text-primary text-black" id="startContent">List of Colors</h2>
             </div>
             <div class="col-6 text-right align-middle">
                 <AuthorizeView Roles="Administrator">
                     <Authorized>
                         <button class="btn btn-primary  btn-lg" @onclick="() => RedirectToEditPage(0)" title="Add Category">
-                            <i class="bi-plus-circle-fill me-2"></i>Add Category
+                            <i class="bi-plus-circle-fill me-2"></i>Add Color
                         </button>
                     </Authorized>
                 </AuthorizeView>
@@ -36,54 +36,43 @@
         <LookUpTablesGrid Items="ColorCodeMatrices" TItem="ColorCodeMatrix" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of Color Codes">
             <Columns>
                 <LookUpTablesGridColumn Label="Color">
-                    <div tabindex="0">
+                    <div tabindex="1">
                         @context.Color
                     </div>
                 </LookUpTablesGridColumn>
-                <LookUpTablesGridColumn Label="HexCode">
-                    <div tabindex="0">
+                <LookUpTablesGridColumn Label="HexColorCode">
+                    <div tabindex="2">
                         @context.HexColorCode
                     </div>
                 </LookUpTablesGridColumn>
-                @* <LookUpTablesGridColumn Name="Active" Label="Active"> *@
-                @*     <div class="text-center" tabindex="0"> *@
-                @*         @if (context.Active) *@
-                @*         { *@
-                @*             <i class="bi bi-check-circle-fill" role="img" aria-label="Category @context.Description is Active" Title="Active" style="font-size: 1.5rem; color: green;"></i> *@
-                @*         } *@
-                @*         else *@
-                @*         { *@
-                @*             <i class="bi bi-x-circle-fill" role="img" aria-label="Category @context.Description is Inactive" Title="Inactive" style="font-size: 1.5rem; color: red;"></i> *@
-                @*         } *@
-                @*     </div> *@
-                @* </LookUpTablesGridColumn> *@
-                @* <LookUpTablesGridColumn Label="# Times Used"> *@
-                @*     <div tabindex="0"> *@
-                @*         @context.TimesUsed *@
-                @*     </div> *@
-                @* </LookUpTablesGridColumn> *@
+                <LookUpTablesGridColumn Label="PantoneColor">
+                    <div tabindex="3">
+                        @context.PantoneColor
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="RALColorCode">
+                    <div tabindex="4">
+                        @context.RALColorCode
+                    </div>
+                </LookUpTablesGridColumn>
+                
                 <LookUpTablesGridColumn Name="" Label="Action">
                     @{
                         var id = context.ColorCodeMatrixId;
                         var color = context.Color;
-                        if (CurrentUser.Role == "Administrator")
-                        {
-                            <button class="btn btn-success mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit category @context.Color" role="button" aria-pressed="false">
-                                <i class="bi-pencil bi-pencil-blue"></i>
-                            </button>
-                        }
+                        
+                        <button class="btn btn-primary mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit category @context.Color" role="button" aria-pressed="false">
+                            <i class="bi-pencil bi-pencil-blue"></i>
+                        </button>
+                        
                         <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, color)" title=" View log information for category @context.Color" role="button" aria-pressed="false">
                             <i class="bi-binoculars"></i> 
                         </button> 
-                        if (CurrentUser.Role == "Administrator")
-                        {
-
-                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(id, color)" title=" Delete category @context.Color">
-                                <i class="bi-trash" style="color:orange"></i>
-                            </button>
-                        }
+                        
+                        <button class="btn btn-warning text-white mx-4" value="" @onclick="() => DeleteRecord(context, color)" title=" Delete category @context.Color">
+                            <i class="bi-trash" style="color:orange"></i>
+                        </button>
                     }
-
                 </LookUpTablesGridColumn>
             </Columns>
         </LookUpTablesGrid>
@@ -93,5 +82,3 @@
         }
     </div>
 </div>
-
-

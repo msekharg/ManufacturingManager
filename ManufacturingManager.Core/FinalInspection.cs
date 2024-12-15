@@ -225,104 +225,40 @@ public class FinalInspection : IValidatableObject
     }
     
     [DisplayName("Torque Marking")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int TorqueMarking {get;set;}
+    public string TorqueMarkingString { get; set; }
     
-    public string TorqueMarkingString
-    {
-        get;
-        set;
-        // get => TorqueMarking.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         TorqueMarking = val;
-        // }
-    }
-
     [DisplayName("Part Marking")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int PartMarking {get;set;}
-    public string PartMarkingString
-    {
-        get;
-        set;
-        // get => PartMarking.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         PartMarking = val;
-        // }
-    }
-
+    public string PartMarkingString {get;set;}
+    
     [DisplayName("Rivet Presence Qty=2")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int RivetPresence {get;set;}
-    public string RivetPresenceString
-    {
-        get;
-        set;
-        // get => RivetPresence.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         RivetPresence = val;
-        // }
-    }
+    public string RivetPresenceString { get; set; }
 
     [DisplayName("Mid Hanger Holes Align")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int MidHangerHolesAlign {get;set;}
-    public string MidHangerHolesAlignString
-    {
-        get;
-        set;
-        // get => MidHangerHolesAlign.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         MidHangerHolesAlign = val;
-        // }
-    }
+    public string MidHangerHolesAlignString { get; set; }
     
     [DisplayName("Washer plate presence @6 locations")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int WasherPlatePresence6Locations
     {get;set;}
-    public string WasherPlatePresence6LocationsString
-    {
-        get;
-        set;
-        // get => WasherPlatePresence6Locations.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         WasherPlatePresence6Locations = val;
-        // }
-    }
+    public string WasherPlatePresence6LocationsString { get; set; }
     
     [DisplayName("Color Code")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int ColorCode {get;set;}
-    public string ColorCodeString
-    {
-        get;
-        set;
-        // get => ColorCode.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         ColorCode = val;
-        // }
-    }
+    public string ColorCodeString { get; set; }
     
     [DisplayName("Appearance")]
+    [Range(1, 2, ErrorMessage = "Select a value")]
     public int Appearance {get;set;}
-    public string AppearanceString
-    {
-        get;
-        set;
-        // get => Appearance.ToString();
-        // set
-        // {
-        //     if (int.TryParse(value, out int val))
-        //         Appearance = val;
-        // }
-    }
+    public string AppearanceString { get; set; }
 
     public string CreatedBy { get; set; }
     public DateTime CreatedDate { get; set; }

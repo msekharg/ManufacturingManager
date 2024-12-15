@@ -78,24 +78,6 @@ build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9GaW5hbEluc3Bl
 build_metadata.AdditionalFiles.CssScope = 
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/InprocessCheck/InprocessCheckAdd.razor]
-build_metadata.AdditionalFiles.TargetPath = 
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9JbnByb2Nlc3NDaGVjay9JbnByb2Nlc3NDaGVja0FkZC5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/InprocessCheck/InprocessCheckEdit.razor]
-build_metadata.AdditionalFiles.TargetPath = 
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9JbnByb2Nlc3NDaGVjay9JbnByb2Nlc3NDaGVja0VkaXQucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/InprocessCheck/InprocessCheckWorkload.razor]
-build_metadata.AdditionalFiles.TargetPath = 
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9JbnByb2Nlc3NDaGVjay9JbnByb2Nlc3NDaGVja1dvcmtsb2FkLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Solar/AddNewSolarInspection.razor]
 build_metadata.AdditionalFiles.TargetPath = 
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Tb2xhci9BZGROZXdTb2xhckluc3BlY3Rpb24ucmF6b3I=
@@ -148,10 +130,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9JbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/InprocessCheckForm.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9JbnByb2Nlc3NDaGVja0Zvcm0ucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Layout/AppLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvQXBwTGF5b3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -162,6 +140,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Layout/FscFooter.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9MYXlvdXQvRnNjRm9vdGVyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Admin/ClampsPositioning/ClampsPositioningEdit.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9BZG1pbi9DbGFtcHNQb3NpdGlvbmluZy9DbGFtcHNQb3NpdGlvbmluZ0VkaXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Admin/ClampsPositioning/ClampsPositioningList.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9BZG1pbi9DbGFtcHNQb3NpdGlvbmluZy9DbGFtcHNQb3NpdGlvbmluZ0xpc3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/Admin/ColorCodeMatrix/ColorCodeMatrixEdit.razor]
@@ -198,10 +184,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Pages/NoAccess.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9QYWdlcy9Ob0FjY2Vzcy5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/ReceivingInspection.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9SZWNlaXZpbmdJbnNwZWN0aW9uLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/Components/Routes.razor]

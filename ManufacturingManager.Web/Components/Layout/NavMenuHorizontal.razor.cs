@@ -46,9 +46,9 @@ namespace ManufacturingManager.Web.Components.Layout
             SessionStorage.SetAsync("AvoidLogInDispose",true);
 
             // Logging.WriteToLog(@"User " + CurrentUser.VaLogon + @" logged out",LoggingCategoryEnum.Debug );
-             ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(CurrentUser);
-            CurrentUser = new UserLogged();
-            NavigationManager.NavigateTo("logout", true);
+             ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
+            
+            NavigationManager.NavigateTo("MicrosoftIdentity/Account/SignOut", true);
 
             //var url = $"{_navigationManager.BaseUri}/";
             //_js.InvokeVoidAsync("OpenWindow", url);

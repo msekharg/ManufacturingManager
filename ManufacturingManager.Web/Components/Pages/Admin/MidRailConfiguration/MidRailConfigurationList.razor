@@ -19,13 +19,13 @@
     <div class="card-header">
         <div class="row">
             <div class="col-6" tabindex="0">
-                <h2 class="text-primary" id="startContent">List of Categories</h2>
+                <h2 class="text-primary text-black" id="startContent">List of MidRail Configurations</h2>
             </div>
             <div class="col-6 text-right align-middle">
                 <AuthorizeView Roles="Administrator">
                     <Authorized>
                         <button class="btn btn-primary  btn-lg" @onclick="() => RedirectToEditPage(0)" title="Add Category">
-                            <i class="bi-plus-circle-fill me-2"></i>Add Category
+                            <i class="bi-plus-circle-fill me-2"></i>Add Configuration
                         </button>
                     </Authorized>
                 </AuthorizeView>
@@ -36,22 +36,22 @@
         <LookUpTablesGrid Items="MidRailConfigurations" TItem="MidRailConfiguration" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of MidRail Configurations">
             <Columns>
                 <LookUpTablesGridColumn Label="PartNumber">
-                    <div tabindex="0">
+                    <div tabindex="1">
                         @context.PartNumber
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Label="Height">
-                    <div tabindex="0">
+                    <div tabindex="2">
                         @context.Height
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Label="Thickness">
-                    <div tabindex="0">
+                    <div tabindex="3">
                         @context.Thickness
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Label="Length">
-                    <div tabindex="0">
+                    <div tabindex="4">
                         @context.Length
                     </div>
                 </LookUpTablesGridColumn>
@@ -87,7 +87,7 @@
                         </button> 
                         if (CurrentUser.Role == "Administrator")
                         {
-                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(id, partNumber)" title=" Delete configuration @context.PartNumber">
+                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(context, partNumber)" title=" Delete configuration @context.PartNumber">
                                 <i class="bi-trash"></i>
                             </button>
                         }

@@ -32,7 +32,7 @@
 </div>
 
 <div class="form-group required">
-    <div class="control-label px-3" aria-label="Asterik indicates required" tabindex="0">* Indicates required</div>
+    <div class="control-label px-3" aria-label="Asterik indicates required" tabindex="0" style="color: red">* Indicates required</div>
 
 </div>
 <EditForm EditContext="_editContext" OnSubmit="@CompleteCase">
@@ -40,15 +40,20 @@
 @*  <ValidationSummary />*@
 <div class="card-body">
 
-<div class="row">
-    <div class="col-12">
+<div class="row form-group ">
+    <div class="col-6">
 
-        <label class="form-check-label fw-bold pe-3">Inspector</label><br/>
-        <InputText @bind-Value="@_finalInspection!.InspectorName" class="form-control" id="inspectorName"
-                   @ref="_inputInspectorName"/>
-        <ValidationMessage For="@(() => _finalInspection!.InspectorName)"></ValidationMessage>
+        <div class="col-12 col-md-6  py-3 px-3">
+            <div class="form-group">
+                <label class="form-check-label fw-bold pe-3">Inspector</label><br/>
+                <InputText @bind-Value="@_finalInspection!.InspectorName" class="form-control" id="inspectorName"
+                           @ref="_inputInspectorName"/>
+                <ValidationMessage For="@(() => _finalInspection!.InspectorName)"></ValidationMessage>
+            </div>
+        </div>
     </div>
 </div>
+
 @* <div class="col-6"> *@
 <div class="row form-group ">
 <div class="col-6">
@@ -58,7 +63,7 @@
             <span style="color: black">@_thicknessLabelMessage</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TubeThicknessString" class="form-control" id="tubeThickness"
-                   @ref="_inputTubeThickness"/>
+                   @ref="_inputTubeThickness" disabled="true"/>
         <ValidationMessage For="@(() => _finalInspection!.TubeThickness)"></ValidationMessage>
     </div>
 
@@ -78,7 +83,7 @@
             <span style="color: black">@_heightLabelMessage</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.RailTubeHeightString" class="form-control" id="railTubeHeight"
-                   @ref="_inputRailTubeHeight"/>
+                   @ref="_inputRailTubeHeight" disabled="true"/>
         <ValidationMessage For="@(() => _finalInspection!.RailTubeHeight)"></ValidationMessage>
     </div>
 
@@ -108,7 +113,7 @@
             <span style="color: black">@_lengthLabelMessage</span>
         </div>
         <InputText @bind-Value="@_finalInspection!.TubeLengthString" class="form-control" id="tubeLength"
-                   @ref="_inputTubeLength"/>
+                   @ref="_inputTubeLength" disabled="true"/>
         <ValidationMessage For="@(() => _finalInspection!.TubeLength)"></ValidationMessage>
     </div>
 
@@ -226,113 +231,120 @@
         <ValidationMessage For="@(() => _finalInspection!.TorqueClamp4_2Places)"></ValidationMessage>
     </div>
 
-    
+
     <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">Torque Marking</label>
-            <InputSelect id="ddlTorqueMarking" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.TorqueMarking">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+        <label class="form-label fw-bold">Torque Marking</label>
+        <InputSelect id="ddlTorqueMarking" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.TorqueMarking">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.TorqueMarking)"></ValidationMessage>
+    </div>
 
-        <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">Part Marking</label>
-            <InputSelect id="ddlPartMarking" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.PartMarking">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+    <div class="col-12 col-md-6 py-3 px-3 ">
+        <label class="form-label fw-bold">Part Marking</label>
+        <InputSelect id="ddlPartMarking" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.PartMarking">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.PartMarking)"></ValidationMessage>
+    </div>
 
-        <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">RivetPresence Qty=2</label>
-            <InputSelect id="ddlRivetPresence" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.RivetPresence">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+    <div class="col-12 col-md-6 py-3 px-3 ">
+        <label class="form-label fw-bold">RivetPresence Qty=2</label>
+        <InputSelect id="ddlRivetPresence" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.RivetPresence">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.RivetPresence)"></ValidationMessage>
+    </div>
 
-        <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">Mid Hanger Holes Align</label>
-            <InputSelect id="ddlMidHangerHolesAlign" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.MidHangerHolesAlign">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+    <div class="col-12 col-md-6 py-3 px-3 ">
+        <label class="form-label fw-bold">Mid Hanger Holes Align</label>
+        <InputSelect id="ddlMidHangerHolesAlign" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.MidHangerHolesAlign">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.MidHangerHolesAlign)"></ValidationMessage>
+    </div>
 
-        <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">
-                Washer plate presence 6 locations
-            </label>
-            <InputSelect id="ddlWasherPlatePresence6Locations" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.WasherPlatePresence6Locations">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+    <div class="col-12 col-md-6 py-3 px-3 ">
+        <label class="form-label fw-bold">
+            Washer plate presence 6 locations
+        </label>
+        <InputSelect id="ddlWasherPlatePresence6Locations" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.WasherPlatePresence6Locations">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.WasherPlatePresence6Locations)"></ValidationMessage>
+    </div>
 
-        <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">Color Code</label>
-            <InputSelect id="ddlColorCode" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.ColorCode">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+    <div class="col-12 col-md-6 py-3 px-3 ">
+        <label class="form-label fw-bold">Color Code</label>
+        <InputSelect id="ddlColorCode" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.ColorCode">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.ColorCode)"></ValidationMessage>
+    </div>
 
-        <div class="col-12 col-md-6 py-3 px-3 ">
-            <label class="form-label fw-bold">Appearance</label>
-            <InputSelect id="ddlAppearance" class="form-select form-control"
-                         @bind-Value="@_finalInspection!.Appearance">
-                <option value="0">Select a value</option>
-                @if (_okNokList != null)
+    <div class="col-12 col-md-6 py-3 px-3 ">
+        <label class="form-label fw-bold">Appearance</label>
+        <InputSelect id="ddlAppearance" class="form-select form-control"
+                     @bind-Value="@_finalInspection!.Appearance">
+            <option value="0">Select a value</option>
+            @if (_okNokList != null)
+            {
+                foreach (var item in _okNokList)
                 {
-                    foreach (var item in _okNokList)
-                    {
-                        <option value="@item.DecisionId">@item.DecisionName</option>
-                    }
+                    <option value="@item.DecisionId">@item.DecisionName</option>
                 }
-            </InputSelect>
-        </div>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => _finalInspection!.Appearance)"></ValidationMessage>
+    </div>
     @* </div> *@
 </div>
 </div>
@@ -347,7 +359,7 @@
                     { *@
                 <input type="button" class="btn btn-primary btn-lg me-3" id="buttonsSave" value="@_btnSave" title="Submit" @onclick="@JustSave"/>
                 <input type="button" class="btn btn-primary btn-lg me-3" id="buttonsCancel" value="Cancel" title="Submit" @onclick="@Cancel"/>
-                
+
                 <input type="button" class="btn btn-primary btn-lg me-3" id="buttonBackToWorkList" value="Back to WorkList" title="Submit" @onclick="@BackToWorkList"/>
                 <input type="button" class="btn btn-primary btn-lg" id="buttonChangeConfiguration" value="Change Configuration" title="Submit" @onclick="@ChangeConfiguration"/>
             }
@@ -364,15 +376,11 @@
 
 @code
 {
-    /*[Parameter] public FTCSolarSettings FTCSolarSettings { get; set; }*/
     [Parameter] public int FinalInspectionId { get; set; } = 0;
     [Parameter] public CurrentFTCConfiguration CurrentFTCConfiguration { get; set; }
     private readonly MessageBoxParameters _messageBoxParameters = new();
 
     private FinalInspection _finalInspection;
-    //TODO future story
-    //private FindUserInActiveDirectory  _adId;
-    //private Users _userFromAdSearch;
 
     EditContext _editContext = default!;
     private ValidationMessageStore? _validationMessageStore;
@@ -391,7 +399,7 @@
     public string _btnSave = "Save";
     public string _btnComplete = "Complete";
     public string? _reassignmentRequestedBy;
-    
+
     //Validation values
     private string _thicknessValidationMessage;
     private string _lengthValidationMessage;
@@ -400,7 +408,7 @@
     private string _thicknessLabelMessage;
     private string _lengthLabelMessage;
     private string _heightLabelMessage;
-    
+
     double thicknessLowerLimit = 0;
     double thicknessUpperLimit = 0.18;
     double lengthLowerLimit = -4.0;
@@ -473,7 +481,7 @@
     protected override async Task OnInitializedAsync()
     {
         FillDropdown();
-        
+
         if (FinalInspectionId != 0)
         {
             _finalInspection = await DataEntryRepository.GetFinalInspectionRecordById(FinalInspectionId);
@@ -520,18 +528,18 @@
             _finalInspection.TubeLength = Convert.ToDouble(CurrentFTCConfiguration.Length);
             _finalInspection.TubeThickness = Convert.ToDouble(CurrentFTCConfiguration.Thickness);
             _finalInspection.RailTubeHeight = Convert.ToDouble(CurrentFTCConfiguration.Height);
-            
+
             _partInformation = _finalInspection.PartName = $"{CurrentFTCConfiguration.PartNumber}-{CurrentFTCConfiguration.Height}-{CurrentFTCConfiguration.Thickness}" +
-                               $"-{CurrentFTCConfiguration.Length}-80-1-{CurrentFTCConfiguration.AssemblyConfiguration}" +
-                               $"-A-{DateTime.Now.ToString("yyyy-MM-dd")}";
+                                                           $"-{CurrentFTCConfiguration.Length}-80-1-{CurrentFTCConfiguration.AssemblyConfiguration}" +
+                                                           $"-A-{CurrentFTCConfiguration.StartDateTime.ToString("yyyy-MM-dd")}";
         }
 
         if (AppCache.CurrentFTCConfigurations != null && AppCache.CurrentFTCConfigurations.Any())
             _currentFtcConfiguration = AppCache.CurrentFTCConfigurations.FirstOrDefault();
-        else
-        {
-            _currentFtcConfiguration = DataEntryRepository.GetCurrentFTCConfiguration(true).FirstOrDefault();
-            if (_currentFtcConfiguration == null)
+            else
+            {
+                _currentFtcConfiguration = DataEntryRepository.GetCurrentFTCConfiguration(true).FirstOrDefault();
+                if (_currentFtcConfiguration == null)
             {
                 _currentFtcConfiguration = new CurrentFTCConfiguration();
                 _currentFtcConfiguration.PartNumber = CurrentFTCConfiguration.PartNumber;
@@ -547,7 +555,7 @@
                 _currentFtcConfiguration = DataEntryRepository.InsertCurrentFTCConfiguration(_currentFtcConfiguration);
             }
         }
-        
+
         _editContext = new EditContext(_finalInspection);
         if (_editContext != null)
             _validationMessageStore = new ValidationMessageStore(_editContext);
@@ -566,12 +574,11 @@
 
     private void FillValidationLabel()
     {
-        configurationLength = _finalInspection.TubeLength <= 0.00 
-            ? Convert.ToDouble(CurrentFTCConfiguration.Length) : _finalInspection.TubeLength;
-        configurationThickness = _finalInspection.TubeThickness <= 0.00 ?
-            Convert.ToDouble(CurrentFTCConfiguration.Thickness) : _finalInspection.TubeThickness;
-        configurationHeight = _finalInspection.RailTubeHeight <= 0.00 ?  
-            Convert.ToDouble(CurrentFTCConfiguration.Height) : _finalInspection.RailTubeHeight ;
+        configurationLength = _finalInspection.TubeLength <= 0.00
+            ? Convert.ToDouble(CurrentFTCConfiguration.Length)
+            : _finalInspection.TubeLength;
+        configurationThickness = _finalInspection.TubeThickness <= 0.00 ? Convert.ToDouble(CurrentFTCConfiguration.Thickness) : _finalInspection.TubeThickness;
+        configurationHeight = _finalInspection.RailTubeHeight <= 0.00 ? Convert.ToDouble(CurrentFTCConfiguration.Height) : _finalInspection.RailTubeHeight;
 
         thicknessLowerLimit = 0;
         thicknessUpperLimit = 0.18;
@@ -625,7 +632,7 @@
     {
         _okNokList = DropDownCategories.GetDecisions();
     }
-    
+
     protected async Task JustSave()
     {
         string error = string.Empty;
@@ -639,18 +646,18 @@
             await FocusFirstError();
         }
     }
-    
+
     protected void Cancel()
     {
         string error = string.Empty;
-         NavigationManager.NavigateTo("/FinalInspectionsWorkload");
+        NavigationManager.NavigateTo("/FinalInspectionsWorkload");
     }
 
     protected async Task CompleteCase(EditContext editContext)
     {
         _showMessageBox = false;
         _messageBoxParameters.PageToRedirect = "";
-        
+
         _validationMessageStore?.Clear();
         if (editContext.Validate())
         {
@@ -691,7 +698,7 @@
     {
         NavigationManager.NavigateTo($"/FTCSolarConfiguration/{true}");
     }
-    
+
     private async Task FocusFirstError()
     {
         // repeat for all inputs in order where elements are into the form
@@ -704,10 +711,12 @@
         {
             _validationMessageStore?.Add(() => _finalInspection.TubeThickness, $"Value should be between {_currentFtcConfiguration.Thickness - thicknessLowerLimit} and {_currentFtcConfiguration.Thickness + thicknessUpperLimit}");
         }
+
         if (_finalInspection.TubeLength < (_currentFtcConfiguration.Length - lengthLowerLimit) || _finalInspection.TubeLength > (_currentFtcConfiguration.Length + lengthUpperLimit))
         {
             _validationMessageStore?.Add(() => _finalInspection.TubeLength, $"Value should be between {_currentFtcConfiguration.Length - lengthLowerLimit} and {_currentFtcConfiguration.Length + lengthUpperLimit}");
         }
+
         if (_finalInspection.RailTubeHeight < (_currentFtcConfiguration.Height - heightLowerLimit) || _finalInspection.RailTubeHeight > (_currentFtcConfiguration.Height + heightUpperLimit))
         {
             _validationMessageStore?.Add(() => _finalInspection.RailTubeHeight, $"Value should be between {_currentFtcConfiguration.Height - heightLowerLimit} and {_currentFtcConfiguration.Height + heightUpperLimit}");
@@ -718,7 +727,8 @@
             // _editContext.NotifyValidationStateChanged();
             _showMessageBox = false;
         }
-        else{
+        else
+        {
             if (FinalInspectionId != 0)
             {
                 bool updateSuccess = await DataEntryRepository.UpdateFinalInspection(_finalInspection);
@@ -727,8 +737,8 @@
                 {
                     _messageBoxParameters.Title = "Data updated.";
                     _messageBoxParameters.Message = "Dimension with " + _finalInspection.FinalInspectionId + " updated.";
-                    _messageBoxParameters.IsErrorMessage = false; 
-                    
+                    _messageBoxParameters.IsErrorMessage = false;
+
                     _showMessageBox = true;
                     _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
                     // ClearExistingFields();
@@ -749,9 +759,9 @@
                     _messageBoxParameters.IsErrorMessage = false;
                     // _messageBoxParameters.PageToRedirect = @"/FinalInspectionsWorkload";
                     ClearExistingFields();
-                    
+
+                    _messageBoxParameters.PageToRedirect = @"/FTCSolarConfiguration/false";
                     _showMessageBox = true;
-                    _messageBoxParameters.PageToRedirect = @"/AddFinalInspection";
                 }
                 else
                 {
@@ -770,12 +780,12 @@
         {
             InspectorName = string.Empty,
             PartName = string.Empty,
-            TubeThickness = 0.0,// 3.1,
-            MidHangerClampThickness = 0.0,//  2.5,
-            RailTubeHeight = 0.0,//  85.0,
-            RailTubeWidth = 0.0,//  29.75,
-            TubeWeldSeamLocation = 0.0,//  42.0,
-            TubeLength = 0.0,//  2900.01,
+            TubeThickness = 0.0, // 3.1,
+            MidHangerClampThickness = 0.0, //  2.5,
+            RailTubeHeight = 0.0, //  85.0,
+            RailTubeWidth = 0.0, //  29.75,
+            TubeWeldSeamLocation = 0.0, //  42.0,
+            TubeLength = 0.0, //  2900.01,
             TubeCornerRadius4Places = 6,
             EndOfTubeToCLDistance = 1450.0,
             EndOfTubeToClamp1Bolt_2Places = 65.0,
@@ -816,7 +826,7 @@
             }
         }
     }
-    
+
     private void EditContext_OnFieldChanged(object sender,
         FieldChangedEventArgs e)
     {

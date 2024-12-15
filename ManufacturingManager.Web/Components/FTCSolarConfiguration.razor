@@ -143,8 +143,6 @@
     private ValidationMessageStore _messageStore;
 
     private FTCSolarSettings _ftcSolarSettings;
-
-    // private FTCSolarAssemblyConfiguration _ftcSolarConfiguration;
     private CurrentFTCConfiguration _currentFtcConfiguration;
     private string BackGroundColortt4 { get; set; }
     private string BackGroundColortt25 { get; set; }
@@ -292,6 +290,7 @@
         {
             //Invalidate previous configuration and add new one
             DataEntryRepository.InvalidateAllFTCConfigurations();
+            _currentFtcConfiguration.IsActive = true;
             DataEntryRepository.InsertCurrentFTCConfiguration(_currentFtcConfiguration);
         }
         catch (Exception ex)

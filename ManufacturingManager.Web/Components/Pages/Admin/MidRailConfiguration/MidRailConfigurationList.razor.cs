@@ -48,16 +48,15 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.MidRailConfiguration
             await InvokeAsync(StateHasChanged);
         }
 
-        private async Task DeleteRecord(int id, string description)
+        private async Task DeleteRecord(Core.Models.MidRailConfiguration midRailConfiguration, string description)
         {
             var message = "Please confirm deletion of Configuration " + description;
-
-
+            
             bool confirmation = await JsRuntime.InvokeAsync<bool>("confirm", message);
             if (confirmation)
             {
-                bool retvalue = true;//await _DataEntryRepository.DeleteColorCode(id, CurrentUser.UserId);
-                if (retvalue)
+                int retvalue = await _DataEntryRepository.DeleteMidRailConfiguration(midRailConfiguration);
+                if (retvalue > 0)
                 {
                     MidRailConfigurations =  _DataEntryRepository.GetMidRailConfiguration().ToList();
                     await InvokeAsync(StateHasChanged);
@@ -65,7 +64,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.MidRailConfiguration
                 else
                 {
                     await JsRuntime.InvokeVoidAsync("alert", "Unable to delete this record");
-
                 }
             }
         }

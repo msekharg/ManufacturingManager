@@ -44,20 +44,19 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
             };
 
             RecordId = id;
-            LogTitle = "View log for Category " + desc;
+            LogTitle = "View log for Color " + desc;
             ShowDialogOpen = true;
             await InvokeAsync(StateHasChanged);
         }
-        protected async Task DeleteRecord(int id, string description)
+        protected async Task DeleteRecord(Core.Models.ColorCodeMatrix colorCodeMatrix, string description)
         {
-            var message = "Please confirm deletion of category " + description;
-
-
+            var message = "Please confirm deletion of Color " + description;
+            
             bool confirmation = await JsRuntime.InvokeAsync<bool>("confirm", message);
             if (confirmation)
             {
-                bool retvalue = true;//await _DataEntryRepository.DeleteColorCode(id, CurrentUser.UserId);
-                if (retvalue)
+                int retvalue = await _DataEntryRepository.DeleteColorCode(colorCodeMatrix);
+                if(retvalue > 0)
                 {
                     ColorCodeMatrices =  _DataEntryRepository.GetColorCodeMatrix().ToList();
                     await InvokeAsync(StateHasChanged);

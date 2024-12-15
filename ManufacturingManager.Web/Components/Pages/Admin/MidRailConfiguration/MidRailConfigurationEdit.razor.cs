@@ -13,6 +13,10 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.MidRailConfiguration
         private string _errorMessage = "";
         public bool _showMessageBox;
         private InputText? _inputPartNumber;
+        private InputNumber<int> _inputHeight = null!;
+        private InputNumber<decimal> _inputThickness = null!;
+        private InputNumber<int> _inputLength = null!;
+        private InputNumber<decimal> _inputRailWeight = null!;
         
         private readonly MessageBoxParameters _messageBoxParameters = new();
 
@@ -40,15 +44,16 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.MidRailConfiguration
         }
         protected async Task Save()
         {
-            AppCache.MidRailConfigurations = null;
+            AppCache.ClampsPositioningConfigurations = null;
             Core.Models.MidRailConfiguration midRailConfiguration = new()
             {
                 MidRailConfigurationId = _midRailConfiguration.MidRailConfigurationId,
                 PartNumber = _midRailConfiguration.PartNumber,
                 Height = _midRailConfiguration.Height,
-                Thickness = _midRailConfiguration.Thickness,
-                Length = _midRailConfiguration.Length
-            };
+                Thickness = Math.Round((decimal)_midRailConfiguration.Thickness, 2),
+                Length = _midRailConfiguration.Length,
+                RailWeight = Math.Round((decimal)_midRailConfiguration.RailWeight , 3)
+                   };
             bool retval;
             int recordsUpdated = 0;
             int id;
@@ -69,7 +74,7 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.MidRailConfiguration
 
             if (retval)
             {
-                var successMessage = $"PartNumber {midRailConfiguration.PartNumber} successfully updated.";
+                var successMessage = $"PartNumber {midRailConfiguration.PartNumber} successfully";
                 successMessage += midRailConfiguration.MidRailConfigurationId != 0 ? " updated." : " created.";
                 _messageBoxParameters.Message = successMessage;
             }
@@ -98,6 +103,23 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.MidRailConfiguration
             {
                 await _inputPartNumber!.Element!.Value.FocusAsync();
             }
+            else if (_editContext.GetValidationMessages(() => _midRailConfiguration.Height).Any())
+            {
+                await _inputHeight!.Element!.Value.FocusAsync();
+            }
+            else if (_editContext.GetValidationMessages(() => _midRailConfiguration.Thickness).Any())
+            {
+                await _inputThickness!.Element!.Value.FocusAsync();
+            }
+            else if (_editContext.GetValidationMessages(() => _midRailConfiguration.Length).Any())
+            {
+                await _inputLength!.Element!.Value.FocusAsync();
+            }
+            else if (_editContext.GetValidationMessages(() => _midRailConfiguration.RailWeight).Any())
+            {
+                await _inputRailWeight!.Element!.Value.FocusAsync();
+            }
+           
         }
     }
 }

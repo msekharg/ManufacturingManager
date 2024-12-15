@@ -1,5 +1,6 @@
 ﻿@page "/"
 @layout EmptyLayout
+@using ManufacturingManager.Core
 @using ManufacturingManager.Core.Repositories
 @using ManufacturingManager.Web.Components.Layout
 @using ManufacturingManager.Web.Configuration
@@ -15,10 +16,10 @@
 @inject UserLogged _currentUser
 @inject IUsersRepository _usersRepository
 @inject AuthenticationStateProvider _authenticationStateProvider
+@inject ILoggingService LoggingService
 
 <PageTitle>Quality Assurance Manager</PageTitle>
 <div class="mx-4">
-<EditForm OnSubmit="@Login" EditContext="_editContext">
     <div class="row" >
         <div class="col-12">
             <div class="card">
@@ -34,11 +35,10 @@
                     <hr/>
                     <p class="top-spacing-20">
                         
-                        <input type="submit" value="I agree" class="btn btn-primary m-4" title="I agree to the authorization criteria"/>
+                        <button class="btn btn-primary" @onclick='() => Login()' title="I agree">I agree click</button>
                     </p>
                 </div>
             </div>
         </div>
     </div>
-</EditForm>
 </div>

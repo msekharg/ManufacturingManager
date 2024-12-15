@@ -1,0 +1,8 @@
+insert into [qualityassurancemanager].[dbo].[colorcodematrix] ( [ColorCodeMatrixId] , [Color] , [HexColorCode] , [PantoneColor] , [RALColorCode] ) 
+values ( /* ColorCodeMatrixId */ 1 ,/* Color */ N'Reds' ,/* HexColorCode */ N'#E6194B' ,/* PantoneColor */ N'192' ,/* RALColorCode */ N'3018'  ), 
+( /* ColorCodeMatrixId */ 2 ,/* Color */ N'Yellow' ,/* HexColorCode */ N'#FFFF00' ,/* PantoneColor */ N'102' ,/* RALColorCode */ N'1003'  ), 
+( /* ColorCodeMatrixId */ 3 ,/* Color */ N'Green' ,/* HexColorCode */ N'#3CB44B' ,/* PantoneColor */ N'361' ,/* RALColorCode */ N'6038'  ), 
+( /* ColorCodeMatrixId */ 4 ,/* Color */ N'Orange' ,/* HexColorCode */ N'#F58231' ,/* PantoneColor */ N'164' ,/* RALColorCode */ N'2008'  ), 
+( /* ColorCodeMatrixId */ 5 ,/* Color */ N'Blue' ,/* HexColorCode */ N'#4472C4' ,/* PantoneColor */ N'660' ,/* RALColorCode */ N'5015'  ), 
+( /* ColorCodeMatrixId */ 6 ,/* Color */ N'Purple' ,/* HexColorCode */ N'#911EB4' ,/* PantoneColor */ N'253' ,/* RALColorCode */ N'4008'  ), 
+( /* ColorCodeMatrixId */ 7 ,/* Color */ N'Black' ,/* HexColorCode */ N'#000000	' ,/* PantoneColor */ N'296' ,/* RALColorCode */ N'9005'  );

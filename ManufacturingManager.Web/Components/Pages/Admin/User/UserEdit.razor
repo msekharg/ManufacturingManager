@@ -32,24 +32,16 @@
         </div>
 
         <EditForm EditContext="_editContext" OnValidSubmit="@Save" OnInvalidSubmit="@FocusFirstError">
-            @if (!_showActiveDirectorySearch)
-            {
+            
                 <DataAnnotationsValidator />
-            }
+            
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10">
                     <div class="form-group required top-spacing-10 row ">
                         <div class="col-5 ">
                             <label class="fw-bold me-3 control-label" for="Email">Email</label>
-                            @if (_user.UserId == 0)
-                            {
-                                <button class="btn btn-success me-4" value="Search User" @onclick="ShowFindUserInAd" title="Search User in Active Directory">
-                                    Search User
-                                    <i class="bi-search pe-2"></i>
-                                </button>
-
-                            }
+                         
                             <InputText class="form-control" id="Email" @bind-Value="_user.Email" type="text" data-val="true"
                                        aria-label="Email Address.Field required" @ref="_inputEmail" />
                             <div>
@@ -57,14 +49,6 @@
                             </div>
                         </div>
                         <div class="col-2"></div>
-                        <div class="col-5">
-                            <label class="fw-bold me-3 control-label" for="VaLogon">VA Login</label>
-                            <InputText class="form-control" id="VaLogon" @bind-Value="_user.LoginName" type="text" data-val="true"
-                                       aria-label="VA Logon.Field required" @ref="_inputVaLogon" />
-                            <div>
-                                <ValidationMessage For="@(() => _user.LoginName)"></ValidationMessage>
-                            </div>
-                        </div>
                     </div>
                     <div class="form-group required row top-spacing-10">
                         <div class="col-5">

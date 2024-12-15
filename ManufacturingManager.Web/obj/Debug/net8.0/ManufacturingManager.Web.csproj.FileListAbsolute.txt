@@ -100,12 +100,12 @@
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Web/obj/Debug/net8.0/ref/ManufacturingManager.Web.dll
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/wwwroot/js/MyDataTables.js
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Components.UI.staticwebassets.runtime.json
-/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/log4net.config
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/log4net.Release.config
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/appsettings.Development.json
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/appsettings.json
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Web.staticwebassets.runtime.json
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Web
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/log4net.config
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Web.deps.json
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Web.runtimeconfig.json
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/ManufacturingManager.Web.dll
@@ -126,6 +126,7 @@
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Data.SqlClient.dll
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Extensions.Logging.Log4Net.AspNetCore.dll
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Identity.Abstractions.dll
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Identity.Client.dll
 /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Web/bin/Debug/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll

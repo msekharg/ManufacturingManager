@@ -7,6 +7,7 @@
 @inject ProtectedSessionStorage SessionStorage
 @inject NavigationManager NavigationManager
 @inject UserLogged CurrentUser
+@inject IJSRuntime JsRuntime
 @rendermode InteractiveServer
 
 <PageTitle>List of users</PageTitle>
@@ -16,12 +17,12 @@
     <div class="card-header">
         <div class="row">
             <div class="col-6" tabindex="0">
-                <h2 class="text-primary" id="startContent">List of Users</h2>
+                <h2 class="text-primary text-black" id="startContent">List of Users</h2>
             </div>
             <div class="col-6 text-right align-middle">
                 @* <AuthorizeView Roles="Administrator"> *@
                 @*     <Authorized> *@
-                        <button class="btn btn-primary  btn-lg" @onclick="() => ReditectToEditPage(0)" title="Add user">
+                        <button class="btn btn-primary  btn-lg" @onclick="() => RedirectToEditPage(0)" title="Add user">
                             <i class="bi-plus-circle-fill me-2"></i>Add User
                         </button>
                 @*     </Authorized> *@
@@ -50,11 +51,6 @@
                 <LookUpTablesGridColumn Name="Email" Label="Email">
                     <div tabindex="0">
                         @context.Email
-                    </div>
-                </LookUpTablesGridColumn>
-                <LookUpTablesGridColumn Name="LoginName" Label="Login Name">
-                    <div tabindex="0">
-                        @context.LoginName
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="ProfileDescription" Label="Profile">
@@ -87,21 +83,20 @@
                     @{
                         var id = context.UserId;
                         var desc = context.FullName;
-                        if (CurrentUser.Role == "Administrator")
-                        {
-                            <button class="btn btn-success mx-4" value="" @onclick="() => ReditectToEditPage(id)" title=" Edit user @desc" role="button" aria-pressed="false">
+                        
+                            <button class="btn btn-primary mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit User: @desc" role="button" aria-pressed="false">
                                 <i class="bi-pencil"></i>
                             </button>
-                        }
-                        <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, desc)" title=" View log information for user @desc" role="button" aria-pressed="false">
-                            <i class="bi-binoculars"></i>
-                        </button>
+                            <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, desc)" title=" View log information for User: @desc" role="button" aria-pressed="false">
+                                <i class="bi-binoculars"></i>
+                            </button>
+                            <button class="btn btn-warning text-white mx-4" value="" @onclick="() => DeleteRecord(context, desc)" title=" Delete User: @desc">
+                                <i class="bi-trash"></i>
+                            </button>
                     }
 
                 </LookUpTablesGridColumn>
-
             </Columns>
-
         </LookUpTablesGrid>
         @if (ShowDialogOpen)
         {

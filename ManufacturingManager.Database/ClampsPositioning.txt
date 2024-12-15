@@ -1,0 +1,14 @@
+insert into [qualityassurancemanager].[dbo].[clampspositioning] ( [ClampsPositioningId] , [CXPX] , [CX] , [Clamp1] , [Clamp2] , [PX] , [Clamp3] , [Clamp4] , [HoleSetDrilled] ) 
+values ( /* ClampsPositioningId */ 1 ,/* CXPX */ 'C1P1' ,/* CX */ 'C1' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'Q' ,/* PX */ 'P1' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'S' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 2 ,/* CXPX */ 'C1P2' ,/* CX */ 'C1' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'Q' ,/* PX */ 'P2' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'T' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 3 ,/* CXPX */ 'C1P3' ,/* CX */ 'C1' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'R' ,/* PX */ 'P3' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'S' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 4 ,/* CXPX */ 'C1P4' ,/* CX */ 'C1' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'R' ,/* PX */ 'P4' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'T' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 5 ,/* CXPX */ 'C2P2' ,/* CX */ 'C2' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'Q' ,/* PX */ 'P2' ,/* Clamp3 */ 'F' ,/* Clamp4 */ 'T' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 6 ,/* CXPX */ 'C2P4' ,/* CX */ 'C2' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'R' ,/* PX */ 'P4' ,/* Clamp3 */ 'F' ,/* Clamp4 */ 'T' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 7 ,/* CXPX */ 'C3P3' ,/* CX */ 'C3' ,/* Clamp1 */ 'B' ,/* Clamp2 */ 'R' ,/* PX */ 'P3' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'S' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 8 ,/* CXPX */ 'C3P4' ,/* CX */ 'C3' ,/* Clamp1 */ 'B' ,/* Clamp2 */ 'R' ,/* PX */ 'P4' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'T' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 9 ,/* CXPX */ 'C4P4' ,/* CX */ 'C4' ,/* Clamp1 */ 'B' ,/* Clamp2 */ 'R' ,/* PX */ 'P4' ,/* Clamp3 */ 'F' ,/* Clamp4 */ 'T' ,/* HoleSetDrilled */ 'Y'  ), 
+( /* ClampsPositioningId */ 10 ,/* CXPX */ 'C1P0' ,/* CX */ 'C1' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'NA' ,/* PX */ 'P0' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'NA' ,/* HoleSetDrilled */ 'N'  ), 
+( /* ClampsPositioningId */ 11 ,/* CXPX */ 'C2P0' ,/* CX */ 'C2' ,/* Clamp1 */ 'A' ,/* Clamp2 */ 'NA' ,/* PX */ 'P0' ,/* Clamp3 */ 'F' ,/* Clamp4 */ 'NA' ,/* HoleSetDrilled */ 'N'  ), 
+( /* ClampsPositioningId */ 12 ,/* CXPX */ 'C3P0' ,/* CX */ 'C3' ,/* Clamp1 */ 'B' ,/* Clamp2 */ 'NA' ,/* PX */ 'P0' ,/* Clamp3 */ 'E' ,/* Clamp4 */ 'NA' ,/* HoleSetDrilled */ 'N'  ), 
+( /* ClampsPositioningId */ 13 ,/* CXPX */ 'C4P0' ,/* CX */ 'C4' ,/* Clamp1 */ 'B' ,/* Clamp2 */ 'NA' ,/* PX */ 'P0' ,/* Clamp3 */ 'F' ,/* Clamp4 */ 'NA' ,/* HoleSetDrilled */ 'N'  );

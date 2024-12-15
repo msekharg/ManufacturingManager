@@ -38,23 +38,30 @@
             </div>
             <div class="my-4 ms-5 w-50">
                 <label class="fw-bold me-3" for="Height">Height</label>
-                <InputNumber class="form-control" id="Resolution" @bind-Value="_midRailConfiguration.Height" type="text" />
+                <InputNumber class="form-control" id="Height" @ref="_inputHeight" @bind-Value="_midRailConfiguration.Height" type="text" />
                 <div>
                     <ValidationMessage For="@(() => _midRailConfiguration.Height)"></ValidationMessage>
                 </div>
             </div>
             <div class="my-4 ms-5 w-50">
-                <label class="fw-bold me-3" for="Height">Thickness</label>
-                <InputNumber class="form-control" id="Resolution" @bind-Value="_midRailConfiguration.Thickness" type="text" />
+                <label class="fw-bold me-3" for="Thickness">Thickness</label>
+                <InputNumber class="form-control" id="Thickness" @ref="_inputThickness" @bind-Value="_midRailConfiguration.Thickness" type="text" />
                 <div>
                     <ValidationMessage For="@(() => _midRailConfiguration.Thickness)"></ValidationMessage>
                 </div>
             </div>
             <div class="my-4 ms-5 w-50">
-                <label class="fw-bold me-3" for="Height">Length</label>
-                <InputNumber class="form-control" id="Resolution" @bind-Value="_midRailConfiguration.Length" type="text" />
+                <label class="fw-bold me-3" for="Length">Length</label>
+                <InputNumber class="form-control" id="Length" @ref="_inputLength" @bind-Value="_midRailConfiguration.Length" type="text" />
                 <div>
                     <ValidationMessage For="@(() => _midRailConfiguration.Length)"></ValidationMessage>
+                </div>
+            </div>
+            <div class="my-4 ms-5 w-50">
+                <label class="fw-bold me-3" for="RailWeight">RailWeight</label>
+                <InputNumber class="form-control" id="RailWeight" @ref="_inputRailWeight" @bind-Value="_midRailConfiguration.RailWeight" type="text" />
+                <div>
+                    <ValidationMessage For="@(() => _midRailConfiguration.RailWeight)"></ValidationMessage>
                 </div>
             </div>
             @* <div class="input-group ms-5 w-50"> *@

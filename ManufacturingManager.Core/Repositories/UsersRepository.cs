@@ -25,7 +25,7 @@ namespace ManufacturingManager.Core.Repositories
                     using SqlConnection conn = new SqlConnection(connString);
 
                     string strSelectCmd =
-                        $"SELECT TOP 1000 UserId, FirstName, MiddleName, LastName, LoginName, Email, UserRoleId, LastAccess, IsActive, CreatedBy, CreatedDate, UpdatedBy, UpdatedDate FROM [dbo].[User] WHERE IsActive = 1";
+                        $"SELECT TOP 1000 UserId, FirstName, MiddleName, LastName, Email, UserRoleId, LastAccess, IsActive, CreatedBy, CreatedDate, UpdatedBy, UpdatedDate FROM [QualityAssuranceManager].[dbo].[User] WHERE IsActive = 1";
 
                     conn.Open();
 
@@ -46,19 +46,21 @@ namespace ManufacturingManager.Core.Repositories
             return await Task.FromResult(list);
         }
 
-        private void UpdateCache(User user)
+        private void UpdateCache(User user, string operation)
         {
             if (AppCache.Users is List<User> userList)
             {
                 var appCacheUserIndex = userList.FindIndex(u => u.UserId == user.UserId);
 
-                if (appCacheUserIndex >= 0)
+                if (operation.ToLower().Equals("update"))
                 {
-                    userList[appCacheUserIndex] = user;
+                    if(appCacheUserIndex > 0)
+                        userList[appCacheUserIndex] = user;
                 }
-                else
+                else if (operation.ToLower().Equals("delete"))
                 {
-                    userList.Add(user);
+                    if(appCacheUserIndex > 0)
+                        AppCache.Users.RemoveAt(appCacheUserIndex);
                 }
             }
             else
@@ -148,17 +150,17 @@ namespace ManufacturingManager.Core.Repositories
             return user;
         }
 
-        public User Users(string loginName)
+        public User Users(string email)
         {
             User user;
             if (AppCache.Users == null || AppCache.Users.Count == 0)
             {
-                user = GetUserList(false).Result.FirstOrDefault(x => x.LoginName  == loginName );
+                user = GetUserList(false).Result.FirstOrDefault(x => x.Email  == email );
             }
             else
             {
                 //Get Values from Cache
-                user = AppCache.Users.FirstOrDefault(x => x.LoginName == loginName );
+                user = AppCache.Users.FirstOrDefault(x => x.Email == email );
             }
 
             return user;
@@ -166,39 +168,37 @@ namespace ManufacturingManager.Core.Repositories
         public async Task<bool> Add(User user, int createdBy)
         {
             bool ret;
+            int userId = 0;
             try
             {
-                var db = DatabaseFactory.CreateDatabase("PCSCase");
-                await using (var dbCommand = db.GetStoredProcCommand("UsersAdd"))
-                {
-                    db.AddInParameter(dbCommand, "@FirstName", DbType.String, user.FirstName);
-                    db.AddInParameter(dbCommand, "@MInitial", DbType.String, user.MiddleName);
-                    db.AddInParameter(dbCommand, "@LastName", DbType.String, user.LastName);
-                    db.AddInParameter(dbCommand, "@VaLogon", DbType.String, user.LoginName);
-                    db.AddInParameter(dbCommand, "@Email", DbType.String, user.Email);
-                    db.AddInParameter(dbCommand, "@ProfileId", DbType.Int32, user.UserRoleId);
-                    db.AddInParameter(dbCommand, "@createdBy", DbType.Int32, createdBy);
-                    db.AddOutParameter(dbCommand, "@UserId", DbType.Int32, 4);
-                    // Execute the query
-                    db.ExecuteNonQuery(dbCommand);
-                     
-                    var retValue = Convert.ToInt32(db.GetParameterValue(dbCommand, "@UserId"));
+                user.CreatedBy = "admin"; //dimension.InspectorName;
+                 user.CreatedDate = DateTime.Now;
+                 user.UpdatedBy = "admin"; //dimension.InspectorName;
+                 user.UpdatedDate = DateTime.Now;
+                var connString = DatabaseFactory.GetDbConnString("CMRS");
+                var insertQuery =
+                    "INSERT INTO dbo.[User](FirstName,MiddleName,LastName,Email,UserRoleId,LastAccess,IsActive,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate) OUTPUT INSERTED.UserId VALUES (@FirstName,@MiddleName,@LastName,@Email,@UserRoleId,@LastAccess,@IsActive,@CreatedBy,@CreatedDate,@UpdatedBy,@UpdatedDate)";
 
-                    // Execute the query
-                    ret = retValue > 0;
-                }
-                if (AppCache.Users != null)
-                    AppCache.Users.Clear();
+                using var conn = new SqlConnection(connString);
+                conn.Open();
+                userId = conn.ExecuteScalar<int>(insertQuery, user);
+
+                ret = userId > 0;
+                if(ret)
+                    AppCache.Users.Add(user);
             }
-
+           
             catch (SqlException exception)
             {
                 // Logging.WriteToLog($"Exception in Users.Add() message: {exception.Message}",
                 //     LoggingCategoryEnum.Error, exception);
                 ret = false;
             }
+            //
+            // if (AppCache.Users != null)
+            //         AppCache.Users.Clear();
+            
             return await Task.FromResult(ret);
-
         }
         public async Task<int> Update(User user, int updatedBy)
         {
@@ -215,12 +215,31 @@ namespace ManufacturingManager.Core.Repositories
             int recordUpdated = await conn.ExecuteAsync(sql, user);
             
             if(recordUpdated > 0)
-                UpdateCache(user);
+                UpdateCache(user, "UPDATE");
             
             return recordUpdated;
-
         }
 
+        public async Task<int> Delete(User user)
+        {
+            // user.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            const string query = @"Update dbo.[User] SET IsActive = 0 WHERE UserId = @userId";
+
+            await using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordDeleted = await conn.ExecuteAsync(query, new
+            {
+               user.UserId
+            });
+
+            if(recordDeleted > 0)
+                UpdateCache(user, "DELETE");
+            
+            return recordDeleted; 
+        }
+        
         public async Task<bool> UpdateLoginDate(int userId)
         {
             bool ret;
@@ -250,7 +269,6 @@ namespace ManufacturingManager.Core.Repositories
                 r.FirstName = dr["FirstName"].ToString();
                 r.MiddleName = dr["MInitial"].ToString();
                 r.LastName = dr["LastName"].ToString();
-                r.LoginName = dr["VaLogon"].ToString();
                 r.Email = dr["Email"].ToString();
                 r.UserRoleId = Convert.ToInt32(dr["ProfileId"]);
                 r.LastAccess = DataUtil.GetNullableDateTime(dr, "LastAccess");

@@ -79,10 +79,11 @@ namespace ManufacturingManager.Core.Repositories
         
         public CurrentFTCConfiguration InsertCurrentFTCConfiguration(CurrentFTCConfiguration currentFtcConfiguration)
         {
+            currentFtcConfiguration.CreatedBy = "system";
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             var insertQuery =
-                "INSERT INTO dbo.CurrentFTCConfiguration(PartNumber, AssemblyConfiguration, Height,Length, Thickness, IsActive, StartDateTime, EndDateTime, CreatedBy)" +
-                "VALUES (@PartNumber, @AssemblyConfiguration, @Height, @Length, @Thickness, @IsActive, @StartDateTime, @EndDateTime, @CreatedBy); SELECT SCOPE_IDENTITY();";
+                "INSERT INTO dbo.CurrentFTCConfiguration(PartNumber, AssemblyConfiguration, Height,Length, Thickness, IsActive, EndDateTime, CreatedBy)" +
+                "VALUES (@PartNumber, @AssemblyConfiguration, @Height, @Length, @Thickness, @IsActive, @EndDateTime, @CreatedBy); SELECT SCOPE_IDENTITY();";
                 
 
             using var conn = new SqlConnection(connString);
@@ -117,6 +118,82 @@ namespace ManufacturingManager.Core.Repositories
             }
 
             return clampsPositionings;
+        }
+        
+        public ClampsPositioning GetClampsPositioningById(int clampsPositioningId)
+        {
+            ClampsPositioning clampsPositioning = new ClampsPositioning();
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            try
+            {
+                //string connString = Configuration.ChangeManagementConnectionString();
+                using SqlConnection conn = new SqlConnection(connString);
+
+                string strSelectCmd =
+                    $"SELECT TOP 1 ClampsPositioningId,CXPX,CX,Clamp1,Clamp2,PX,Clamp3,Clamp4,HoleSetDrilled FROM dbo.ClampsPositioning WHERE ClampsPositioningId=@clampsPositioningId";
+    
+                conn.Open();
+                clampsPositioning =  conn.QueryAsync<ClampsPositioning>(strSelectCmd, new{clampsPositioningId = clampsPositioningId}).Result.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return clampsPositioning;
+        }
+
+       public async Task<int> UpdateClampsPositioning(ClampsPositioning clampsPositioning)
+        {
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            // colorCodeMatrix.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            string sql =
+                "UPDATE dbo.ClampsPositioning SET " +
+                "CXPX = @CXPX, CX = @CX, Clamp1 = @Clamp1, Clamp2 = @Clamp2, PX = @PX, Clamp3 = @Clamp3,Clamp4 = @Clamp4, HoleSetDrilled = @HoleSetDrilled " +
+                " WHERE ClampsPositioningId = @ClampsPositioningId";
+
+            using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordsUpdated = await conn.ExecuteAsync(sql, clampsPositioning);
+            
+            return recordsUpdated;
+        }
+
+        public async Task<int> InsertClampsPositioning(ClampsPositioning clampsPositioning)
+        {
+            // dimension.CreatedBy = dimension.InspectorName;
+            // dimension.CreatedDate = DateTime.Now;
+            // dimension.UpdatedBy = dimension.InspectorName; dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            var insertQuery =
+                "INSERT INTO dbo.ClampsPositioning(ClampsPositioningId,CXPX,CX,Clamp1,Clamp2,PX,Clamp3,Clamp4,HoleSetDrilled) VALUES (@ClampsPositioningId,@CXPX,@CX,@Clamp1,@Clamp2,@PX,@Clamp3,@Clamp4,@HoleSetDrilled)";
+
+            using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
+            conn.Open();
+            var clampsPositioningId = conn.ExecuteScalar<int>(insertQuery, clampsPositioning);
+
+            return await Task.FromResult(clampsPositioningId);
+        }
+        
+        public async Task<int> DeleteClampsPositioning(ClampsPositioning clampsPositioning)
+        {
+            // user.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            const string query = @"DELETE from dbo.[ClampsPositioning] WHERE ClampsPositioningId = @ClampsPositioningId";
+
+            await using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordDeleted = await conn.ExecuteAsync(query, new
+            {
+                clampsPositioning.ClampsPositioningId
+            });
+
+            // if(recordDeleted > 0)
+            //     UpdateCache(user, "DELETE");
+            //
+            return recordDeleted; 
         }
 
         public IEnumerable<ColorCodeMatrix> GetColorCodeMatrix()
@@ -175,27 +252,61 @@ namespace ManufacturingManager.Core.Repositories
                 "UPDATE dbo.ColorCodeMatrix SET " +
                 "Color = @Color, HexColorCode = @HexColorCode, PantoneColor = @PantoneColor, RALColorCode = @RALColorCode" +
                 " WHERE ColorCodeMatrixId = @ColorCodeMatrixId";
+            try
+            {
+                using SqlConnection conn = new(connString);
+                conn.Open();
+                conn.ExecuteAsync(sql, colorCodeMatrix);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
-            using SqlConnection conn = new(connString);
-            conn.Open();
-            conn.ExecuteAsync(sql, colorCodeMatrix);
             return await Task.FromResult(true);
         }
         
         public async Task<int> InsertColorCode(ColorCodeMatrix colorCodeMatrix)
         {
+            int colorCodeMatrixId = 0;
             // dimension.CreatedBy = dimension.InspectorName;
             // dimension.CreatedDate = DateTime.Now;
             // dimension.UpdatedBy = dimension.InspectorName; dimension.UpdatedDate = DateTime.Now;
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             var insertQuery =
-                "INSERT INTO dbo.ColorCodeMatrix(Color, HexColorCode, PantoneColor,RALColorCode) VALUES (@Color,@HexColorCode,@PantoneColor,@RALColorCode)";
-
-            using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
-            conn.Open();
-            var colorCodeMatrixId = conn.ExecuteScalar<int>(insertQuery, colorCodeMatrix);
+                "INSERT INTO dbo.ColorCodeMatrix(Color, HexColorCode, PantoneColor,RALColorCode)  OUTPUT INSERTED.ColorCodeMatrixId VALUES (@Color,@HexColorCode,@PantoneColor,@RALColorCode)";
+            try
+            {
+                using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
+                conn.Open();
+                colorCodeMatrixId = conn.QuerySingle<int>(insertQuery, colorCodeMatrix);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return await Task.FromResult(colorCodeMatrixId);
+        }
+        
+        public async Task<int> DeleteColorCode(ColorCodeMatrix colorCodeMatrix)
+        {
+            // user.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            const string query = @"Delete from dbo.[ColorCodeMatrix] WHERE ColorCodeMatrixId = @ColorCodeMatrixId";
+
+            await using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordDeleted = await conn.ExecuteAsync(query, new
+            {
+                colorCodeMatrix.ColorCodeMatrixId,
+            });
+
+            // if(recordDeleted > 0)
+            //     UpdateCache(user, "DELETE");
+            
+            return recordDeleted; 
         }
 
         public IEnumerable<MidRailConfiguration> GetMidRailConfiguration()
@@ -252,7 +363,7 @@ namespace ManufacturingManager.Core.Repositories
             // dimension.UpdatedDate = DateTime.Now;
             string sql =
                 "UPDATE dbo.MidRailConfiguration SET " +
-                "PartNumber = @PartNumber, Height = @Height, Thickness = @Thickness, Length = @Length" +
+                "PartNumber = @PartNumber, Height = @Height, Thickness = @Thickness, Length = @Length, RailWeight=@RailWeight" +
                 " WHERE MidRailConfigurationId = @MidRailConfigurationId";
 
             using SqlConnection conn = new(connString);
@@ -263,18 +374,45 @@ namespace ManufacturingManager.Core.Repositories
 
         public async Task<int> InsertMidRailConfiguration(MidRailConfiguration midRailConfiguration)
         {
+            int midRailConfigurationId = 0;
             // dimension.CreatedBy = dimension.InspectorName;
             // dimension.CreatedDate = DateTime.Now;
             // dimension.UpdatedBy = dimension.InspectorName; dimension.UpdatedDate = DateTime.Now;
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             var insertQuery =
-                "INSERT INTO dbo.MidRailConfiguration(PartNumber, Height, Thickness, Length) VALUES (@PartNumber,@Height,@Thickness,@Length)";
-
-            using var conn = new SqlConnection(connString);
-            conn.Open();
-            var midRailConfigurationId = conn.ExecuteScalar<int>(insertQuery, midRailConfiguration);
+                "INSERT INTO dbo.MidRailConfiguration(PartNumber, Height, Thickness, Length, RailWeight) OUTPUT INSERTED.MidRailConfigurationId VALUES (@PartNumber,@Height,@Thickness,@Length, @RailWeight)";
+            try
+            {
+                using var conn = new SqlConnection(connString);
+                conn.Open();
+                midRailConfigurationId = conn.QuerySingle<int>(insertQuery, midRailConfiguration);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return await Task.FromResult(midRailConfigurationId);
+        }
+        
+        public async Task<int> DeleteMidRailConfiguration(MidRailConfiguration midRailConfiguration)
+        {
+            // user.UpdatedBy = dimension.InspectorName;
+            // dimension.UpdatedDate = DateTime.Now;
+            var connString = DatabaseFactory.GetDbConnString("CMRS");
+            const string query = @"DELETE from dbo.[MidRailConfiguration] WHERE MidRailConfigurationId = @MidRailConfigurationId";
+
+            await using SqlConnection conn = new(connString);
+            conn.Open();
+            int recordDeleted = await conn.ExecuteAsync(query, new
+            {
+                midRailConfiguration.MidRailConfigurationId
+            });
+
+            // if(recordDeleted > 0)
+            //     UpdateCache(user, "DELETE");
+            //
+            return recordDeleted; 
         }
         
         public async Task<IEnumerable<Dimension>> GetDimensionsDataView()
@@ -413,7 +551,7 @@ namespace ManufacturingManager.Core.Repositories
             dimension.UpdatedBy = dimension.InspectorName; dimension.UpdatedDate = DateTime.Now;
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             var insertQuery =
-                "INSERT INTO dbo.Dimension(InspectorName, TubeThickness26, ClampThickness, RailTubeHeight23, RailTubeWidth22, TubeWeldSeamLocation24, TubeLength2, PaintIdentification, TubeCornerRadius2Clock25,TubeCornerRadius4Clock25,TubeCornerRadius8Clock25,TubeCornerRadius10Clock25, EndOfTubeCLDistance, TorquePerNote2, TorquePerNote3, TorqueMarking, TubePreGalvCoatingThickness, ClampPreCoatingThickness, TotalNoOfHolesBottom3, PartMarking, RivetPresence, Appearance, CreatedBy, CreatedDate, UpdatedBy, UpdatedDate) VALUES (@InspectorName,@TubeThickness26,@ClampThickness,@RailTubeHeight23,@RailTubeWidth22,@TubeWeldSeamLocation24,@TubeLength2,@PaintIdentification,@TubeCornerRadius2Clock25,@TubeCornerRadius4Clock25,@TubeCornerRadius8Clock25,@TubeCornerRadius10Clock25,@EndOfTubeToCLDistance,@TorquePerNote2,@TorquePerNote3,@TorqueMarking,@TubePreGalvCoatingThickness,@ClampPreCoatingThickness,@TotalNoOfHolesBottom3,@PartMarking,@RivetPresence,@Appearance, @CreatedBy, @CreatedDate, @UpdatedBy,@UpdatedDate)";
+                "INSERT INTO dbo.Dimension(InspectorName, PartName, TubeThickness26, ClampThickness, RailTubeHeight23, RailTubeWidth22, TubeWeldSeamLocation24, TubeLength2, PaintIdentification, TubeCornerRadius2Clock25,TubeCornerRadius4Clock25,TubeCornerRadius8Clock25,TubeCornerRadius10Clock25, EndOfTubeCLDistance, TorquePerNote2, TorquePerNote3, TorqueMarking, TubePreGalvCoatingThickness, ClampPreCoatingThickness, TotalNoOfHolesBottom3, PartMarking, RivetPresence, Appearance, CreatedBy, CreatedDate, UpdatedBy, UpdatedDate) VALUES (@InspectorName, @PartName, @TubeThickness26,@ClampThickness,@RailTubeHeight23,@RailTubeWidth22,@TubeWeldSeamLocation24,@TubeLength2,@PaintIdentification,@TubeCornerRadius2Clock25,@TubeCornerRadius4Clock25,@TubeCornerRadius8Clock25,@TubeCornerRadius10Clock25,@EndOfTubeToCLDistance,@TorquePerNote2,@TorquePerNote3,@TorqueMarking,@TubePreGalvCoatingThickness,@ClampPreCoatingThickness,@TotalNoOfHolesBottom3,@PartMarking,@RivetPresence,@Appearance, @CreatedBy, @CreatedDate, @UpdatedBy,@UpdatedDate)";
 
             using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
             conn.Open();
@@ -563,12 +701,9 @@ namespace ManufacturingManager.Core.Repositories
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             try
             {
-                //string connString = Configuration.ChangeManagementConnectionString();
                 await using SqlConnection conn = new SqlConnection(connString);
-
                 string strSelectCmd =
-                    $"SELECT TOP (1000) [FinalInspectionId],[InspectorName],[TubeThickness],[MidHangerClampThickness],[RailTubeHeight],[RailTubeWidth],[TubeWeldSeamLocation],[TubeLength],[TubeCornerRadius4Places],[EndOfTubeToCLDistance],[EndOfTubeToClamp1Bolt_2Places],[Clamp1BoltToClamp2BoltDistance_2Places],[EndOfTubeToClamp3Bolt_2Places],[Clamp3BoltToClamp4BoltDistance_2Places],[TorqueClamp1_2Places],[TorqueClamp2_2Places],[TorqueClamp3_2Places],[TorqueClamp4_2Places],[TorqueMarking],[PartMarking],[RivetPresence],[MidHangerHolesAlign],[WasherPlatePresence6Locations],[ColorCode],[Appearance],[CreatedBy],[CreatedDate],[UpdatedBy],[UpdatedDate]FROM [QualityAssuranceManager].[dbo].[FinalInspection]";
-
+                    $"SELECT TOP (1000) [FinalInspectionId],[InspectorName],[PartName],[TubeThickness],[MidHangerClampThickness],[RailTubeHeight],[RailTubeWidth],[TubeWeldSeamLocation],[TubeLength],[TubeCornerRadius4Places],[EndOfTubeToCLDistance],[EndOfTubeToClamp1Bolt_2Places],[Clamp1BoltToClamp2BoltDistance_2Places],[EndOfTubeToClamp3Bolt_2Places],[Clamp3BoltToClamp4BoltDistance_2Places],[TorqueClamp1_2Places],[TorqueClamp2_2Places],[TorqueClamp3_2Places],[TorqueClamp4_2Places],[TorqueMarking],[PartMarking],[RivetPresence],[MidHangerHolesAlign],[WasherPlatePresence6Locations],[ColorCode],[Appearance],[CreatedBy],[CreatedDate],[UpdatedBy],[UpdatedDate]FROM [QualityAssuranceManager].[dbo].[FinalInspection]";
                 conn.Open();
 
                 finalInspectionRecords =  conn.QueryAsync<FinalInspection>(strSelectCmd).Result;
@@ -589,7 +724,7 @@ namespace ManufacturingManager.Core.Repositories
             {
                 using (SqlConnection conn = new SqlConnection(connString))
                 {
-                    string query = $"SELECT TOP (1000) [FinalInspectionId],[InspectorName],[TubeThickness],[MidHangerClampThickness],[RailTubeHeight],[RailTubeWidth],[TubeWeldSeamLocation],[TubeLength],[TubeCornerRadius4Places],[EndOfTubeToCLDistance],[EndOfTubeToClamp1Bolt_2Places],[Clamp1BoltToClamp2BoltDistance_2Places],[EndOfTubeToClamp3Bolt_2Places],[Clamp3BoltToClamp4BoltDistance_2Places],[TorqueClamp1_2Places],[TorqueClamp2_2Places],[TorqueClamp3_2Places],[TorqueClamp4_2Places],[TorqueMarking],[PartMarking],[RivetPresence],[MidHangerHolesAlign],[WasherPlatePresence6Locations],[ColorCode],[Appearance],[CreatedBy],[CreatedDate],[UpdatedBy],[UpdatedDate]FROM [QualityAssuranceManager].[dbo].[FinalInspection] WHERE FinalInspectionId = @finalInspectionId";
+                    string query = $"SELECT TOP (1000) [FinalInspectionId],[InspectorName],[PartName],[TubeThickness],[MidHangerClampThickness],[RailTubeHeight],[RailTubeWidth],[TubeWeldSeamLocation],[TubeLength],[TubeCornerRadius4Places],[EndOfTubeToCLDistance],[EndOfTubeToClamp1Bolt_2Places],[Clamp1BoltToClamp2BoltDistance_2Places],[EndOfTubeToClamp3Bolt_2Places],[Clamp3BoltToClamp4BoltDistance_2Places],[TorqueClamp1_2Places],[TorqueClamp2_2Places],[TorqueClamp3_2Places],[TorqueClamp4_2Places],[TorqueMarking],[PartMarking],[RivetPresence],[MidHangerHolesAlign],[WasherPlatePresence6Locations],[ColorCode],[Appearance],[CreatedBy],[CreatedDate],[UpdatedBy],[UpdatedDate]FROM [QualityAssuranceManager].[dbo].[FinalInspection] WHERE FinalInspectionId = @finalInspectionId";
 
                     conn.Open();
 
@@ -638,7 +773,7 @@ namespace ManufacturingManager.Core.Repositories
             finalInspection.UpdatedDate = DateTime.Now;
             var connString = DatabaseFactory.GetDbConnString("CMRS");
             var insertQuery =
-                "INSERT INTO dbo.FinalInspection(InspectorName,TubeThickness,MidHangerClampThickness,RailTubeHeight,RailTubeWidth,TubeWeldSeamLocation,TubeLength,TubeCornerRadius4Places,EndOfTubeToCLDistance,EndOfTubeToClamp1Bolt_2Places,Clamp1BoltToClamp2BoltDistance_2Places,EndOfTubeToClamp3Bolt_2Places,Clamp3BoltToClamp4BoltDistance_2Places,TorqueClamp1_2Places,TorqueClamp2_2Places,TorqueClamp3_2Places,TorqueClamp4_2Places,TorqueMarking,PartMarking,RivetPresence,MidHangerHolesAlign,WasherPlatePresence6Locations,ColorCode,Appearance,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate) VALUES (@InspectorName,@TubeThickness,@MidHangerClampThickness,@RailTubeHeight,@RailTubeWidth,@TubeWeldSeamLocation,@TubeLength,@TubeCornerRadius4Places,@EndOfTubeToCLDistance,@EndOfTubeToClamp1Bolt_2Places,@Clamp1BoltToClamp2BoltDistance_2Places,@EndOfTubeToClamp3Bolt_2Places,@Clamp3BoltToClamp4BoltDistance_2Places,@TorqueClamp1_2Places,@TorqueClamp2_2Places,@TorqueClamp3_2Places,@TorqueClamp4_2Places,@TorqueMarking,@PartMarking,@RivetPresence,@MidHangerHolesAlign,@WasherPlatePresence6Locations,@ColorCode,@Appearance,@CreatedBy,@CreatedDate,@UpdatedBy,@UpdatedDate)";
+                "INSERT INTO [QualityAssuranceManager].[dbo].[FinalInspection](InspectorName,PartName,TubeThickness,MidHangerClampThickness,RailTubeHeight,RailTubeWidth,TubeWeldSeamLocation,TubeLength,TubeCornerRadius4Places,EndOfTubeToCLDistance,EndOfTubeToClamp1Bolt_2Places,Clamp1BoltToClamp2BoltDistance_2Places,EndOfTubeToClamp3Bolt_2Places,Clamp3BoltToClamp4BoltDistance_2Places,TorqueClamp1_2Places,TorqueClamp2_2Places,TorqueClamp3_2Places,TorqueClamp4_2Places,TorqueMarking,PartMarking,RivetPresence,MidHangerHolesAlign,WasherPlatePresence6Locations,ColorCode,Appearance,CreatedBy,CreatedDate,UpdatedBy,UpdatedDate) VALUES (@InspectorName,@PartName,@TubeThickness,@MidHangerClampThickness,@RailTubeHeight,@RailTubeWidth,@TubeWeldSeamLocation,@TubeLength,@TubeCornerRadius4Places,@EndOfTubeToCLDistance,@EndOfTubeToClamp1Bolt_2Places,@Clamp1BoltToClamp2BoltDistance_2Places,@EndOfTubeToClamp3Bolt_2Places,@Clamp3BoltToClamp4BoltDistance_2Places,@TorqueClamp1_2Places,@TorqueClamp2_2Places,@TorqueClamp3_2Places,@TorqueClamp4_2Places,@TorqueMarking,@PartMarking,@RivetPresence,@MidHangerHolesAlign,@WasherPlatePresence6Locations,@ColorCode,@Appearance,@CreatedBy,@CreatedDate,@UpdatedBy,@UpdatedDate)";
 
             using var conn = new Microsoft.Data.SqlClient.SqlConnection(connString);
             conn.Open();

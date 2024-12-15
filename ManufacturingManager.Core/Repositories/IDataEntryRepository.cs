@@ -10,15 +10,20 @@ namespace ManufacturingManager.Core.Repositories
         int InvalidateAllFTCConfigurations();
         CurrentFTCConfiguration InsertCurrentFTCConfiguration(CurrentFTCConfiguration currentFtcConfiguration);
         IEnumerable<ClampsPositioning> GetClampsPositioning();
+        ClampsPositioning GetClampsPositioningById(int clampsPositioningId);
+        Task<int> UpdateClampsPositioning(ClampsPositioning clampsPositioning);
+        Task<int> InsertClampsPositioning(ClampsPositioning clampsPositioning);
+        Task<int> DeleteClampsPositioning(ClampsPositioning clampsPositioning);
         IEnumerable<ColorCodeMatrix> GetColorCodeMatrix();
         ColorCodeMatrix GetColorCodeMatrixById(int colorCodeMatrixId);
         Task<bool> UpdateColorCode(ColorCodeMatrix colorCodeMatrix);
         Task<int> InsertColorCode(ColorCodeMatrix colorCodeMatrix);
+        Task<int> DeleteColorCode(ColorCodeMatrix colorCodeMatrix);
         IEnumerable<MidRailConfiguration> GetMidRailConfiguration();
         MidRailConfiguration GetMidRailConfigurationById(int midRailConfigurationId);
         Task<int> UpdateMidRailConfiguration(MidRailConfiguration midRailConfiguration);
         Task<int> InsertMidRailConfiguration(MidRailConfiguration midRailConfiguration);
-        
+        Task<int> DeleteMidRailConfiguration(MidRailConfiguration midRailConfiguration);
         Task<IEnumerable<Dimension>> GetDimensionsDataView();
         Task<Dimension> GetDimensionById(int id);
         Task<bool> UpdateDimension(Dimension dimension);

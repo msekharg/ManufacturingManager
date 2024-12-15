@@ -20,11 +20,9 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
         protected override async Task OnInitializedAsync()
         {
             _editContext = new EditContext(_colorCodeMatrix);
-            //_category.Active = true;
             var id = await SessionStorage.GetAsync<int>("ColorCodeMatrixId");
             if (id.Value != 0)
             {
-
                 Core.Models.ColorCodeMatrix codeMatrix = _dataEntryRepository.GetColorCodeMatrixById(id.Value);
                _colorCodeMatrix.ColorCodeMatrixId = codeMatrix.ColorCodeMatrixId;
                _colorCodeMatrix.Color = codeMatrix.Color;
@@ -34,8 +32,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
                 
                 _addEditTitle = $"Edit ColorCode {_colorCodeMatrix.Color}";
             }
-
-
         }
         private void MessageBoxClose()
         {
@@ -44,7 +40,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
         }
         protected async Task Save()
         {
-
             AppCache.ColorCodeMatrices = null;
             Core.Models.ColorCodeMatrix colorCodeMatrix = new()
             {
@@ -54,28 +49,27 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
                 PantoneColor = _colorCodeMatrix.PantoneColor,
                 RALColorCode = _colorCodeMatrix.RALColorCode
             };
+            
             bool retval;
             int id;
             //var currentUserId = CurrentUser.UserId;
             _messageBoxParameters.Title = colorCodeMatrix.ColorCodeMatrixId == 0 ? "New Color Code added." : "Color Code Updated";
-            _messageBoxParameters.PageToRedirect = @"/CategoryList";
+            _messageBoxParameters.PageToRedirect = @"/ColorCodeList";
             _messageBoxParameters.IsErrorMessage = false;
             if (colorCodeMatrix.ColorCodeMatrixId != 0)
                 retval = await _dataEntryRepository.UpdateColorCode(colorCodeMatrix);
             else
             {
-               
                 id = await _dataEntryRepository.InsertColorCode(colorCodeMatrix);
                 if (id > 0) 
                     retval = true;
                 else 
                     retval = false;
-                
             }
-
+            
             if (retval)
             {
-                var successMessage = $"Priority {colorCodeMatrix.Color} ";
+                var successMessage = $"Color {colorCodeMatrix.Color} ";
                 successMessage += colorCodeMatrix.ColorCodeMatrixId != 0 ? " updated." : " created.";
                 _messageBoxParameters.Message = successMessage;
             }
@@ -89,13 +83,12 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.ColorCodeMatrix
 
             }
             _showMessageBox = true;
-
-            StateHasChanged();
+            // StateHasChanged();
         }
 
         protected Task ReturnToList()
         {
-            NavigationManager.NavigateTo("/CategoryList", false, true);
+            NavigationManager.NavigateTo("/ColorCodeList", false, true);
             return Task.CompletedTask;
         }
         private async Task FocusFirstError()

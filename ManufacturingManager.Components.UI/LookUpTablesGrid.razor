@@ -15,8 +15,8 @@ else
        <table class="table table-bordered table-striped light-blue-header" id="@Args.TableName" role="grid" aria-describedby="lookUpTable_info">
            @*I don't show the caption because it is the same as the page title, but it is needed for 508*@
            <caption class="caption-top text-center text-white">@Caption</caption>
-           <thead class="table-primary" style="color:#0dcaf0; font-size: 1.75rem;">
-           <tr>
+           <thead class="table-primary light-blue-header" style=" font-size: 1.75rem;">
+           <tr class="light-blue-header">
                @Columns?.Invoke(default(TItem)!)
            </tr>
            </thead>

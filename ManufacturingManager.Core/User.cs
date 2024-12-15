@@ -28,12 +28,6 @@ namespace ManufacturingManager.Core
         [RegularExpression(RegExValidation.RegExInvalidCharacters, ErrorMessage = RegExValidation.RegExInvalidCharactersMessage)]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Login Name is required")]
-        [DisplayName("Login Name")]
-        [StringLength(50)]
-        [RegularExpression(RegExValidation.RegExInvalidCharacters, ErrorMessage = RegExValidation.RegExInvalidCharactersMessage)]
-        public string LoginName { get; set; }
-
         [Required(ErrorMessage = "Email address is required")]
         [StringLength(150)]
         [RegularExpression(RegExValidation.RegExValidEmail, ErrorMessage = "Invalid Email address")]
@@ -51,6 +45,11 @@ namespace ManufacturingManager.Core
         public string PhoneNumber { get; set; }
         
         public bool IsActive { get; set; }
+        
+        public string CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public string UpdatedBy { get; set; }
+        public DateTime UpdatedDate { get; set; }
         
         public string UserRoleDescription
         {

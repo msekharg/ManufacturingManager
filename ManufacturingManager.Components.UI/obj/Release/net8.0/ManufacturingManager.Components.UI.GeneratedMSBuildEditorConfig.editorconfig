@@ -9,47 +9,47 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows,browser
 build_property.RootNamespace = ManufacturingManager.Components.UI
 build_property.RootNamespace = ManufacturingManager.Components.UI
-build_property.ProjectDir = /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/
+build_property.ProjectDir = /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI
+build_property.MSBuildProjectDirectory = /Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/Chart/Chart.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/Chart/Chart.razor]
 build_metadata.AdditionalFiles.TargetPath = Q2hhcnQvQ2hhcnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/Chart/ChartMulitLines.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/Chart/ChartMulitLines.razor]
 build_metadata.AdditionalFiles.TargetPath = Q2hhcnQvQ2hhcnRNdWxpdExpbmVzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/CheckBoxList/CheckBoxList.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/CheckBoxList/CheckBoxList.razor]
 build_metadata.AdditionalFiles.TargetPath = Q2hlY2tCb3hMaXN0L0NoZWNrQm94TGlzdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/ErrorSuccessMessage.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/ErrorSuccessMessage.razor]
 build_metadata.AdditionalFiles.TargetPath = RXJyb3JTdWNjZXNzTWVzc2FnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/LookUpTablesGrid.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/LookUpTablesGrid.razor]
 build_metadata.AdditionalFiles.TargetPath = TG9va1VwVGFibGVzR3JpZC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/LookUpTablesGridColumn.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/LookUpTablesGridColumn.razor]
 build_metadata.AdditionalFiles.TargetPath = TG9va1VwVGFibGVzR3JpZENvbHVtbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/_Imports.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/MessageBox/MessageBox.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/MessageBox/MessageBox.razor]
 build_metadata.AdditionalFiles.TargetPath = TWVzc2FnZUJveC9NZXNzYWdlQm94LnJhem9y
 build_metadata.AdditionalFiles.CssScope = b-61p2l2bfcd
 
-[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/ManufacturingManager/ManufacturingManager.Components.UI/Pagination.razor]
+[/Users/manisekharganti/Projects/Personal Projects/ManufacturingManager/src/ManufacturingManager.Components.UI/Pagination.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnaW5hdGlvbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-xpbj56hlua

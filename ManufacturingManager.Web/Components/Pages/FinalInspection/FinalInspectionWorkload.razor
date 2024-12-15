@@ -3,6 +3,7 @@
 @using ManufacturingManager.Core.Repositories
 @using ManufacturingManager.Core
 @using ManufacturingManager.Components.UI
+@using ManufacturingManager.Core.Models
 @using ManufacturingManager.Core.Services
 @using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
 @inject ProtectedSessionStorage SessionStorage
@@ -17,22 +18,29 @@
 <div class="card border">
     <div class="card-header">
         <div class="row">
-            <div class="col-6" tabindex="0">
-                <h2 class="text-primary" id="startContent">Final Inspection Report Workload</h2>
+            <div class="col-4" tabindex="0">
+                <h2 class="text-primary text-black" id="startContent">Final Inspection Report Workload</h2>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-4" tabindex="1">
+                <h2 class="text-primary text-black" id="startContent">Current Part Configuration:
+                    <text style="color: blue">@PartConfiguration</text>
+                </h2>
+            </div>
+            <div class="col-4 text-right align-right">
+                <AuthorizeView Roles="Administrator">
+                    <Authorized>
+                        <button class="btn btn-primary  btn-lg" @onclick="() => AddNewRecord()" title="Add Final Inspection Record"
+                                role="button" aria-pressed="false">
+                            <i class="bi-plus-circle-fill me-2"></i>Add Record
+                            @*<i class="bi-pencil"></i>*@
+                        </button>
+                    </Authorized>
+                </AuthorizeView>
             </div>
         </div>
 
     </div>
     <br/>
-    <div class="col-8" tabindex="0">
-        <button class="btn btn-success mx-4 btn-lg" @onclick="() => AddNewRecord()" title="Add Final Inspection Record"
-                role="button" aria-pressed="false">
-            Add Record
-            @*<i class="bi-pencil"></i>*@
-        </button>
-    </div>
 
     <div class="card-body">
         <LookUpTablesGrid Items="_listofFinalInspections" TItem="FinalInspection" JqueryFileName="DatatableFinalInspectionWorkload" Args="@Args" SpinningNoRecords="false" ReloadTable="true" Caption="FinalInspectionWorkload">
@@ -47,118 +55,123 @@
                         @context.InspectorName
                     </div>
                 </LookUpTablesGridColumn>
-                <LookUpTablesGridColumn Name="MidHangerClampThickness" Label="Mid Hanger Clamp Thickness">
+                <LookUpTablesGridColumn Name="Part Name" Label="Part Name">
                     <div tabindex="2">
+                        @context.PartName
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Name="MidHangerClampThickness" Label="Mid Hanger Clamp Thickness">
+                    <div tabindex="3">
                         @context.MidHangerClampThickness
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="RailTubeHeight" Label="Rail Tube Height">
-                    <div tabindex="3">
+                    <div tabindex="4">
                         @context.RailTubeHeight
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="RailTubeWidth" Label="Rail Tube Width">
-                    <div tabindex="4">
+                    <div tabindex="5">
                         @context.RailTubeWidth
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TubeWeldSeamLocation" Label="Tube Weld Seam Location">
-                    <div tabindex="5">
+                    <div tabindex="6">
                         @context.TubeWeldSeamLocation
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TubeLength" Label="Tube Length">
-                    <div tabindex="6">
+                    <div tabindex="7">
                         @context.TubeLength
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TubeCornerRadius4Places" Label="Tube Corner Radius 4 Places">
-                    <div tabindex="7">
+                    <div tabindex="8">
                         @context.TubeCornerRadius4Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="EndOfTubeToCLDistance" Label="End of Tube to CL Distance">
-                    <div tabindex="8">
+                    <div tabindex="9">
                         @context.EndOfTubeToCLDistance
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="EndOfTubeToClamp1Bolt_2Places" Label="End of Tube to Clamp 1 Bolt 2 Places">
-                    <div tabindex="9">
+                    <div tabindex="10">
                         @context.EndOfTubeToClamp1Bolt_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="Clamp1BoltToClamp2BoltDistance_2Places" Label="Clamp 1 Bolt to Clamp 2 Bolt Distance 2 Places">
-                    <div tabindex="10">
+                    <div tabindex="11">
                         @context.Clamp1BoltToClamp2BoltDistance_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="EndOfTubeToClamp3Bolt_2Places" Label="End of Tube to Clamp 3 Bolt Distance 2 Places">
-                    <div tabindex="11">
+                    <div tabindex="12">
                         @context.EndOfTubeToClamp3Bolt_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="Clamp3BoltToClamp4BoltDistance_2Places" Label="Clamp 3 Bolt to Clamp 4 Bolt Distance 2 Places">
-                    <div tabindex="12">
+                    <div tabindex="13">
                         @context.Clamp3BoltToClamp4BoltDistance_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TorqueClamp1_2Places" Label="Torque(Clamp 1) 2 Places">
-                    <div tabindex="13">
+                    <div tabindex="14">
                         @context.TorqueClamp1_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TorqueClamp2_2Places" Label="Torque(Clamp 2) 2 Places">
-                    <div tabindex="14">
+                    <div tabindex="15">
                         @context.TorqueClamp2_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TorqueClamp3_2Places" Label="Torque(Clamp 3) 2 Places">
-                    <div tabindex="15">
+                    <div tabindex="16">
                         @context.TorqueClamp3_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TorqueClamp4_2Places" Label="Torque(Clamp 4) 2 Places">
-                    <div tabindex="16">
+                    <div tabindex="17">
                         @context.TorqueClamp4_2Places
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="TorqueMarking" Label="Torque Marking">
-                    <div tabindex="17">
+                    <div tabindex="18">
                         @context.TorqueMarkingString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="PartMarking" Label="Part marking">
-                    <div tabindex="18">
+                    <div tabindex="19">
                         @context.PartMarkingString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="RivetPresence" Label="Rivet Presence Qty=2">
-                    <div tabindex="19">
+                    <div tabindex="20">
                         @context.RivetPresenceString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="MidHangerHolesAlign" Label="Mid Hanger Holes Align">
-                    <div tabindex="20">
+                    <div tabindex="21">
                         @context.MidHangerHolesAlignString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="WasherPlatePresence6Locations" Label="Washer plate presence 6 locations">
-                    <div tabindex="21">
+                    <div tabindex="22">
                         @context.WasherPlatePresence6LocationsString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="ColorCode" Label="Color Code">
-                    <div tabindex="22">
+                    <div tabindex="23">
                         @context.ColorCodeString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="Appearance" Label="Appearance">
-                    <div tabindex="23">
+                    <div tabindex="24">
                         @context.AppearanceString
                     </div>
                 </LookUpTablesGridColumn>
                 <LookUpTablesGridColumn Name="CreatedDate" Label="Created Date">
-                    <div tabindex="24">
+                    <div tabindex="25">
                         @context.CreatedDate.ToString("yyyy/MM/dd HH:mm:ss")
                     </div>
                 </LookUpTablesGridColumn>
@@ -199,12 +212,14 @@
 @code{
 
     public IList<FinalInspection> _listofFinalInspections = new List<FinalInspection>();
+    private CurrentFTCConfiguration _currentFtcConfiguration;
     public string? LogTitle { get; set; }
     public int RecordId { get; set; }
     private bool ShowDialogOpen { get; set; }
     private LookUpTableArgs Args { get; set; }
     public LookUpTableArgs ArgsView { get; set; }
     private IList<Decision>? _okNokList;
+    private string PartConfiguration { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -216,7 +231,17 @@
         };
 
         _okNokList = DropDownCategories.GetDecisions();
+        if (AppCache.CurrentFTCConfigurations != null && AppCache.CurrentFTCConfigurations.Any())
+            _currentFtcConfiguration = AppCache.CurrentFTCConfigurations.FirstOrDefault();
+        else
+        {
+            _currentFtcConfiguration = DataEntryRepository.GetCurrentFTCConfiguration(true).FirstOrDefault();
+        }
 
+        PartConfiguration = $"{_currentFtcConfiguration.PartNumber}-{_currentFtcConfiguration.Height}-{_currentFtcConfiguration.Thickness}" +
+                            $"-{_currentFtcConfiguration.Length}-80-1-{_currentFtcConfiguration.AssemblyConfiguration}" +
+                            $"-A-{_currentFtcConfiguration.StartDateTime.ToString("yyyy-MM-dd")}";
+        
         _listofFinalInspections = (IList<FinalInspection>)await DataEntryRepository.GetFinalInspectionsDataView();
         foreach (var finalInspection in _listofFinalInspections)
         {

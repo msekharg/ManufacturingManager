@@ -20,6 +20,7 @@
       <PackageReference Include="MicroKnights.Log4NetAdoNetAppender" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.5.24306.7" />
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="8.0.0" />
       <PackageReference Include="Microsoft.Identity.Web" Version="2.19.1" />
       <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.19.1" />
     </ItemGroup>
@@ -2223,10 +2224,15 @@
       <_ContentIncludedByDefault Remove="Components\Pages\Admin\ResolutionType\ResolutionTypeList.razor" />
       <_ContentIncludedByDefault Remove="Components\Pages\Admin\User\UserEdit.razor" />
       <_ContentIncludedByDefault Remove="Components\Pages\Admin\User\UserList.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\InprocessCheck\InprocessCheckAdd.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\InprocessCheck\InprocessCheckEdit.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\InprocessCheck\InprocessCheckWorkload.razor" />
     </ItemGroup>
 
     <ItemGroup>
       <Compile Include="Components\Layout\NavMenuHorizontal.razor.cs" />
+      <Compile Include="Components\Pages\Admin\ClampsPositioning\ClampsPositioningList.razor.cs" />
+      <Compile Include="Components\Pages\Admin\ClampsPositioning\ClampsPositioningEdit.razor.cs" />
       <Compile Include="Components\Pages\Admin\ColorCodeMatrix\ColorCodeMatrixEdit.razor.cs" />
       <Compile Include="Components\Pages\Admin\ColorCodeMatrix\ColorCodeMatrixList.razor.cs" />
       <Compile Include="Components\Pages\Admin\MidRailConfiguration\MidRailConfigurationEdit.razor.cs" />
@@ -2315,6 +2321,10 @@
       <None Remove="Components\Pages\Admin\Priority\**" />
       <None Remove="Components\Pages\Admin\QuestionSource\**" />
       <None Remove="Components\Pages\Admin\ResolutionType\**" />
+      <Content Remove="log4net.config" />
+      <None Include="log4net.config">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -2328,9 +2338,6 @@
       <AdditionalFiles Include="Components\Pages\FinalInspection\FinalInspectionAdd.razor" />
       <AdditionalFiles Include="Components\Pages\FinalInspection\FinalInspectionEdit.razor" />
       <AdditionalFiles Include="Components\Pages\FinalInspection\FinalInspectionWorkload.razor" />
-      <AdditionalFiles Include="Components\Pages\InprocessCheck\InprocessCheckAdd.razor" />
-      <AdditionalFiles Include="Components\Pages\InprocessCheck\InprocessCheckEdit.razor" />
-      <AdditionalFiles Include="Components\Pages\InprocessCheck\InprocessCheckWorkload.razor" />
       <AdditionalFiles Include="Components\Pages\Solar\AddNewSolarInspection.razor" />
       <AdditionalFiles Include="Components\Pages\Solar\SolarInspectionAdd.razor" />
       <AdditionalFiles Include="Components\Pages\Solar\SolarInspectionEdit.razor" />

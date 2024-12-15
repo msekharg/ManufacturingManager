@@ -1,0 +1,4 @@
+insert into [qualityassurancemanager].[dbo].[userrole] ( [UserRoleId] , [UserRoleName] , [IsActive] ) 
+values ( /* UserRoleId */ 1 ,/* UserRoleName */ 'Administrator' ,/* IsActive */ 1  ), 
+( /* UserRoleId */ 2 ,/* UserRoleName */ 'User' ,/* IsActive */ 1  ), 
+( /* UserRoleId */ 3 ,/* UserRoleName */ 'Viewer' ,/* IsActive */ 1  );

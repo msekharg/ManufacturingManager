@@ -1,5 +1,7 @@
 using System.Reflection;
 using FluentValidation.AspNetCore;
+using log4net;
+using log4net.Config;
 using ManufacturingManager.Core;
 using ManufacturingManager.Core.Repositories;
 using ManufacturingManager.Web.Components;
@@ -13,6 +15,8 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 // Console.WriteLine($"Environment:{builder.Environment.EnvironmentName}");
@@ -21,28 +25,37 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appsettings.json", optional: false);
 builder.Logging.AddConsole();
+var logRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
+XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+builder.Services
+    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
 
+// builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+
+// builder.Services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+// {
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         NameClaimType = "preferred_username", // Map to the appropriate claim
+//         RoleClaimType = "roles"
+//     };
+// });
+
+builder.Services.AddControllersWithViews().AddMicrosoftIdentityUI();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpContextAccessor();
-builder.Services
-    .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
-builder.Services.AddControllersWithViews();
 
 builder.Services
     .AddAuthorization(policy => policy.FallbackPolicy = policy.DefaultPolicy);
 
-// builder.Services
-//     .AddControllersWithViews()
-//     .AddMicrosoftIdentityUI();
-// builder.Services.AddControllers();
-// builder.Logging.AddLog4Net("log4net.config", true);
-
-//builder.Services.AddControllers()
-  //  .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.Load("ManufacturingManager.Core")));
+builder.Services.AddLogging(logging =>
+{
+    logging.AddLog4Net("log4net.config", true);
+});
 
 builder.Services.AddServerSideBlazor().AddCircuitOptions(options =>
 {
@@ -67,6 +80,7 @@ builder.Services.AddSession(options =>
 // builder.Services.AddRazorPages();
 builder.Services.AddSingleton<AppCache>();
 builder.Services.AddScoped<UserLogged>();
+builder.Services.AddScoped<ILoggingService, LoggingService>();
 builder.Services.AddScoped<IdentityInformation>();
 builder.Services.AddTransient<IDataEntryRepository, DataEntryRepository>();
 builder.Services.AddScoped<LookUpTable>();
@@ -74,8 +88,12 @@ builder.Services.AddScoped<LookUpTable>();
 builder.Services.AddSingleton<AppSettings>();
 builder.Services.AddTransient<IUsersRepository, UsersRepository>();
 builder.Services.AddTransient<IUserRoleRepository, UserRoleRepository>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -90,23 +108,27 @@ else
     app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+
 app.UseCookiePolicy(
     new CookiePolicyOptions
     {
         Secure = CookieSecurePolicy.Always
     });
-app.UseSession();
+
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+});
+app.UseHttpsRedirection();
 app.UseStaticFiles();
-// app.UseForwardedHeaders(new ForwardedHeadersOptions
-// {
-//     ForwardedHeaders = ForwardedHeaders.XForwardedProto
-// });
+app.UseSession();
 app.UseRouting();
- app.UseAntiforgery();
+  app.UseAntiforgery();
 app.UseAuthentication();
 app.UseAuthorization();
-// app.MapControllers();
+// app.MapBlazorHub();
+ app.MapControllers();
 // app.MapFallbackToPage("/_Host");
 
 app.MapRazorComponents<App>()

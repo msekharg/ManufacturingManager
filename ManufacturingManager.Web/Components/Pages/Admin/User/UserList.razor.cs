@@ -1,5 +1,6 @@
 ﻿
 using ManufacturingManager.Components.UI;
+using Microsoft.JSInterop;
 
 namespace ManufacturingManager.Web.Components.Pages.Admin.User
 {
@@ -27,14 +28,12 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             Users = (IList<Core.User>)await UserRepository.GetUserList(false);
         }
 
-        protected void ReditectToEditPage(int recordId)
+        protected void RedirectToEditPage(int recordId)
         {
             SessionStorage.SetAsync("UserId", recordId);
             NavigationManager.NavigateTo("/EditUser");
         }
-
-
-
+        
         protected void ViewLog(int id, string desc)
         {
             ArgsView = new()
@@ -51,27 +50,25 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             StateHasChanged();
         }
 
-        //protected async Task DeleteRecord(int id, string description)
-        //{
-        //    var message = "Please confirm deletion of user " + description;
-
-
-        //    bool confirmation = await _jsRuntime.InvokeAsync<bool>("confirm", message);
-        //    if (confirmation)
-        //    {
-        //        bool retvalue = await _userRepository. .Delete(id, _currentUser.UserId);
-        //        if (retvalue)
-        //        {
-        //            _priorities = await _priorityRepository.GetPriorityList(true,false);
-        //            StateHasChanged();
-        //        }
-        //        else
-        //        {
-        //            await _jsRuntime.InvokeVoidAsync("alert", "Unable to delete this record");
-
-        //        }
-        //    }
-        //}
+        protected async Task DeleteRecord(Core.User user, string description)
+        {
+            var message = "Please confirm deletion of user " + description;
+            
+            bool confirmation = await JsRuntime.InvokeAsync<bool>("confirm", message);
+            if (confirmation)
+            {
+                int retvalue = await UserRepository.Delete(user);
+                if (retvalue > 0)
+                {
+                    Users = (IList<Core.User>)await UserRepository.GetUserList(false);
+                    StateHasChanged();
+                }
+                else
+                {
+                    await JsRuntime.InvokeVoidAsync("alert", "Unable to delete this record");
+                }
+            }
+        }
     }
 }
 

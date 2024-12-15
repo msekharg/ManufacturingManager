@@ -21,7 +21,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
         //FocusFirstError() after validation fails. The idea is to set focus in the first invalid input element
         private InputSelect<int> _inputProfile = null!;
         private InputText _inputEmail = null!;
-        private InputText _inputVaLogon = null!;
         private InputText _inputFirstName = null!;
         private InputText _inputLastName = null!;
 
@@ -29,6 +28,8 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
         {
             _showActiveDirectorySearch = false;
             _editContext = new EditContext(_user);
+            var id = await SessionStorage.GetAsync<int>("UserId");
+
             _profileList = new List<UserRole>( UserRoleRepository.GetUserRoleList());
 
             if (_profileList.Count > 0)
@@ -41,7 +42,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
                 _profileList.Insert(0, profile);
 
             }
-            var id = await SessionStorage.GetAsync<int>("UserId");
             await SessionStorage.SetAsync("UserId", 0);
             if (id.Value != 0)
             {
@@ -54,7 +54,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
                 _user.MiddleName = p.MiddleName;
                 _user.UserRoleId = p.UserRoleId;
                 _user.IsActive = p.IsActive;
-                _user.LoginName = p.LoginName;
                 _addEditTitle = $"Edit User {p.FirstName} {p.LastName}";
 
             }
@@ -76,11 +75,11 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             _messageBoxParameters.PageToRedirect = @"/UserList";
             _messageBoxParameters.IsErrorMessage = false;
             //Check if user already exists
-            Core.User uExist = Repository.Users(_user.LoginName);
+            Core.User uExist = Repository.Users(_user.Email);
             string successMessage;
             if (uExist != null && uExist.UserId != _user.UserId)
             {
-                successMessage = "There is an existing user for Account: " + _user.LoginName;
+                successMessage = "There is an existing user for Account: " + _user.Email;
                 _messageBoxParameters.Message = successMessage;
                 _messageBoxParameters.IsErrorMessage = true;
                 _messageBoxParameters.PageToRedirect = @"";
@@ -113,7 +112,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
                     _messageBoxParameters.Message = _errorMessage;
                     _messageBoxParameters.IsErrorMessage = true;
                     _messageBoxParameters.PageToRedirect = @"";
-
                 }
             }
 
@@ -127,10 +125,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
             if (_editContext.GetValidationMessages(() => _user.Email).Any())
             {
                 await _inputEmail.Element!.Value.FocusAsync();
-            }
-            else if (_editContext.GetValidationMessages(() => _user.LoginName).Any())
-            {
-                await _inputVaLogon.Element!.Value.FocusAsync();
             }
             else if (_editContext.GetValidationMessages(() => _user.FirstName).Any())
             {
@@ -161,7 +155,6 @@ namespace ManufacturingManager.Web.Components.Pages.Admin.User
                 _user.FirstName = _userFromAdSearch.FirstName;
                 _user.LastName = _userFromAdSearch.LastName;
                 _user.MiddleName = _userFromAdSearch.MiddleName;
-                _user.LoginName = _userFromAdSearch.LoginName;
                 _user.PhoneNumber = _userFromAdSearch.PhoneNumber;
             }
 

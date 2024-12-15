@@ -1,4 +1,5 @@
 .display-modal[b-61p2l2bfcd] {
     display: block;
+    /*z-index: 1050;  !* Bootstrap modal default z-index *!*/
   /*  background-color: rgb(10, 10, 10, .4);*/
 }

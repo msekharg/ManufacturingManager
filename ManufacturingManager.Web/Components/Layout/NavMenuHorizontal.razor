@@ -20,15 +20,16 @@
     </NotAuthorized>
 
 </AuthorizeView>
-<div class="fsc-brand horizontal-nav">
+@* <div class="fsc-brand horizontal-nav"> *@
     <div>
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header main-nav">
                     <div class="brand-container">
-                        <a class="navbar-brand va-logo-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="/images/Unimacts.png" class="va-logo" alt="Unimacts Logo" /></a>
-                        <a class="navbar-brand fsc-logo-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="/images/FSC-Logo-White-SVG.svg" class="Unimacts-logo" alt="FSC Logo" /> </a> 
+                        @* <a class="navbar-brand va-logo-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="/images/Unimacts.png" class="va-logo" alt="Unimacts Logo" /></a> *@
+                        <a class="navbar-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="images/Unimacts.png" class="va-logo" alt="Unimacts Logo" /></a>
+                        @* <a class="navbar-brand fsc-logo-brand" href="/" title="Go to application home"><span class="home-text">Home</span><img src="/images/FSC-Logo-White-SVG.svg" class="Unimacts-logo" alt="FSC Logo" /> </a>  *@
                         </div>
                     <AuthorizeView>
                         <Authorized>
@@ -58,7 +59,7 @@
                     </AuthorizeView>
                     <div class="title-container">
                         <div class="title-skew">
-                            <div class="title-left-skew">
+                            <div class="title-middle-skew">
                                 <div class="title-text">
                                     Quality Assurance Manager
                                 </div>
@@ -98,7 +99,7 @@
                         @*     </Authorized> *@
                         @* </AuthorizeView> *@
 
-                        <AuthorizeView Roles="Administrator, User">
+                        <AuthorizeView Roles="Administrator">
                             <Authorized>
                                 <div class="nav-link dropdown  " role="presentation">
                                     <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" role="button">
@@ -108,11 +109,8 @@
                                     <div class="dropdown-menu">
                                         <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Users" href="/UserList" Match="NavLinkMatch.Prefix">Users</NavLink>
                                         <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Categories" href="/ColorCodeList" Match="NavLinkMatch.Prefix">Colors</NavLink>
+                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of ClampsPositioning" href="/ClampsPositioningList" Match="NavLinkMatch.Prefix">ClampsPositioning</NavLink>
                                         <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of MidRailConfigurations" href="/MidRailConfigurationList" Match="NavLinkMatch.Prefix">MidRailConfigurations</NavLink>
-                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Type of Contact with customer" href="/ContactTypeList" Match="NavLinkMatch.Prefix">Contact Types </NavLink>
-                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Source of Questions" href="/QuestionSourceList" Match="NavLinkMatch.Prefix">Question Sources</NavLink>
-                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Reasons for Pending Resolution of a case" href="/PendingResolutionReasonList" Match="NavLinkMatch.Prefix">Pending Resolution Reasons</NavLink>
-                                        <NavLink class="dropdown-item " data-bs-toggle="tooltip" data-bs-pacement="right" title="List of Type of Resolutions" href="/ResolutionTypeList" Match="NavLinkMatch.Prefix">Resolution Types</NavLink>
                                     </div>
                                 </div>
                             </Authorized>
@@ -124,5 +122,5 @@
 
         <!-- END WRAPPER -->
     </div>
-</div>
+@* </div> *@
 

@@ -1,0 +1,126 @@
+﻿ @page "/ClampsPositioningList"
+@using ManufacturingManager.Core.Repositories
+@using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage
+@using ManufacturingManager.Components.UI
+@using ManufacturingManager.Core.Models
+@using ManufacturingManager.Web.Data
+@using ManufacturingManager.Web.Services
+@inject IDataEntryRepository _DataEntryRepository
+@inject ProtectedSessionStorage SessionStorage
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+@inject UserLogged CurrentUser 
+@rendermode InteractiveServer
+
+<PageTitle>List of Clamps Positioning Configurations</PageTitle>
+
+@attribute [Authorize(Roles = "Administrator")]
+<div class="card border">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-6" tabindex="0">
+                <h2 class="text-primary text-black" id="startContent">List of Clamps Positions</h2>
+            </div>
+            <div class="col-6 text-right align-middle">
+                <AuthorizeView Roles="Administrator">
+                    <Authorized>
+                        <button class="btn btn-primary  btn-lg" @onclick="() => RedirectToEditPage(0)" title="Add Category">
+                            <i class="bi-plus-circle-fill me-2"></i>Add Clamps Positions
+                        </button>
+                    </Authorized>
+                </AuthorizeView>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <LookUpTablesGrid Items="ClampsPositioningsList" TItem="ClampsPositioning" JqueryFileName="DatatableLookup2Col" Args="@Args" Caption="List of Clamps Positions Configurations">
+            <Columns>
+                <LookUpTablesGridColumn Label="CXPX">
+                    <div tabindex="0">
+                        @context.CXPX
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="CX">
+                    <div tabindex="1">
+                        @context.CX
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="Clamp1">
+                    <div tabindex="2">
+                        @context.Clamp1
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="Clamp2">
+                    <div tabindex="3">
+                        @context.Clamp2
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="PX">
+                    <div tabindex="4">
+                        @context.PX
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="Clamp3">
+                    <div tabindex="5">
+                        @context.Clamp3
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="Clamp4">
+                    <div tabindex="6">
+                        @context.Clamp4
+                    </div>
+                </LookUpTablesGridColumn>
+                <LookUpTablesGridColumn Label="HoleSetDrilled">
+                    <div tabindex="7">
+                        @context.HoleSetDrilled
+                    </div>
+                </LookUpTablesGridColumn>
+                @* <LookUpTablesGridColumn Name="Active" Label="Active"> *@
+                @*     <div class="text-center" tabindex="0"> *@
+                @*         @if (context.Active) *@
+                @*         { *@
+                @*             <i class="bi bi-check-circle-fill" role="img" aria-label="Category @context.Description is Active" Title="Active" style="font-size: 1.5rem; color: green;"></i> *@
+                @*         } *@
+                @*         else *@
+                @*         { *@
+                @*             <i class="bi bi-x-circle-fill" role="img" aria-label="Category @context.Description is Inactive" Title="Inactive" style="font-size: 1.5rem; color: red;"></i> *@
+                @*         } *@
+                @*     </div> *@
+                @* </LookUpTablesGridColumn> *@
+                @* <LookUpTablesGridColumn Label="# Times Used"> *@
+                @*     <div tabindex="0"> *@
+                @*         @context.TimesUsed *@
+                @*     </div> *@
+                @* </LookUpTablesGridColumn> *@
+                <LookUpTablesGridColumn Name="" Label="Action">
+                    @{
+                        var id = context.ClampsPositioningId;
+                        var cxpx = context.CXPX;
+                        if (CurrentUser.Role == "Administrator")
+                        {
+                            <button class="btn btn-success mx-4" value="" @onclick="() => RedirectToEditPage(id)" title=" Edit configuration @context.CXPX" role="button" aria-pressed="false">
+                                <i class="bi-pencil bi-pencil-blue"></i>
+                            </button>
+                        }
+                        <button class="btn btn-secondary text-white mx-4" value="" @onclick="() => ViewLog(id, cxpx)" title=" View log information for configuration @context.CXPX" role="button" aria-pressed="false">
+                            <i class="bi-binoculars"></i> 
+                        </button> 
+                        if (CurrentUser.Role == "Administrator")
+                        {
+                            <button class="btn btn-danger text-white mx-4" value="" @onclick="() => DeleteRecord(context, cxpx)" title=" Delete configuration @context.CXPX">
+                                <i class="bi-trash"></i>
+                            </button>
+                        }
+                    }
+
+                </LookUpTablesGridColumn>
+            </Columns>
+        </LookUpTablesGrid>
+        @if (ShowDialogOpen)
+        {
+            <ViewModalLogs Title="@LogTitle" TableName="lookuptableslog" LookuptableslogColumnName="Category" RecordId="@RecordId" OnClose="@OnDeleteDialogClose" Args="@ArgsView"></ViewModalLogs>
+        }
+    </div>
+</div>
+
+

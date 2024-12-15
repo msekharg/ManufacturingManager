@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ManufacturingManager.Components.UI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f158bd62161522c7496e40ebc3c8dfd7bb7d467")]
 [assembly: System.Reflection.AssemblyProductAttribute("ManufacturingManager.Components.UI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ManufacturingManager.Components.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
